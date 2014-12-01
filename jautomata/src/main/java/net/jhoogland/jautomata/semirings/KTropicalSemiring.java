@@ -9,7 +9,6 @@ import java.util.Arrays;
  * 
  * @author Jasper Hoogland
  *
- * @param <T>
  */
 
 public class KTropicalSemiring implements Semiring<BestPathWeights> 
@@ -28,7 +27,6 @@ public class KTropicalSemiring implements Semiring<BestPathWeights>
 		this.storePath = storePath;
 	}
 
-	@SuppressWarnings("unchecked")
 	public BestPathWeights multiply(BestPathWeights x1, BestPathWeights x2) 
 	{
 		PathWeight[] x = new PathWeight[k * k];
@@ -43,7 +41,6 @@ public class KTropicalSemiring implements Semiring<BestPathWeights>
 		return new BestPathWeights(y);		
 	}
 
-	@SuppressWarnings("unchecked")
 	public BestPathWeights add(BestPathWeights x1, BestPathWeights x2) 
 	{
 		PathWeight[] x = new PathWeight[2 * k];
@@ -55,7 +52,6 @@ public class KTropicalSemiring implements Semiring<BestPathWeights>
 		return new BestPathWeights(y);
 	}
 
-	@SuppressWarnings("unchecked")
 	public BestPathWeights one() 
 	{
 		PathWeight[] mi = new PathWeight[k];
@@ -64,7 +60,6 @@ public class KTropicalSemiring implements Semiring<BestPathWeights>
 		return new BestPathWeights(mi);
 	}
 
-	@SuppressWarnings("unchecked")
 	public BestPathWeights zero() 
 	{
 		PathWeight[] mi = new PathWeight[k];
