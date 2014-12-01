@@ -3,7 +3,12 @@ JAutomata
 
 This is a Java library for (weighted) finite state automata. 
 The automata are generic with respect to label type and semiring.
-This allows generic algorithms to be performed on any type of (weighted) finite state automata, such as acceptors, transducers, and multi-tape automata.
+This allows generic algorithms to be performed on any type of (weighted) finite state automata, such as
+<ul>
+<li>acceptors</li>
+<li>transducers</li>
+<li>multi-tape automata</li>
+</ul>
 The library contains algorithms to create automata in Java code and to import them from files.
 It contains algorithms to compute properties of automata, including
 <ul>
