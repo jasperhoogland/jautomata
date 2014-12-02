@@ -37,9 +37,8 @@ public class Automata
 {
 	public static void main(String[] args) 
 	{
-		SinglePathAutomaton<Character, Boolean> a1 = createSinglePathAutomaton(new BooleanSemiring(), "test");
+		SinglePathAutomaton<Character, Boolean> a1 = createSinglePathAutomaton(new BooleanSemiring(), "haha");
 		SinglePathAutomaton<Character, Boolean> a2 = createSinglePathAutomaton(new BooleanSemiring(), "hallo");
-		SinglePathAutomaton<Character, Boolean> a3 = createSinglePathAutomaton(new BooleanSemiring(), "hallo");
 //		for (Object state : states(a1))
 //			System.out.println(state);
 		
@@ -49,12 +48,12 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Boolean> union = Operations.union(a1, a2, a3);
+		Automaton<Character, Boolean> union = Operations.determinizeER(Operations.union(a1, a2, Operations.reverse(a1), Operations.reverse(a2)));
 		System.out.println(Automata.states(union));
 		System.out.println(stringWeight(union, ""));
 		System.out.println(stringWeight(union, "tes"));
-		System.out.println(":) " + stringWeight(union, "test"));
 		System.out.println(":) " + stringWeight(union, "hallo"));
+		System.out.println(":) " + stringWeight(union, "haha"));
 		System.out.println(stringWeight(union, "hall"));
 		
 		List<Path<Character, Double>> ps = bestStrings(union, 4);
@@ -202,6 +201,23 @@ public class Automata
 		return sdMap;
 	}
 	
+	public static <L, K> Map<Object, K> shortestDistancesToFinalStates(Automaton<L, K> automaton, SingleSourceShortestDistancesInterface<K> sssd)
+	{
+		Automaton<L, K> rev = Operations.reverse((ReverselyAccessibleAutomaton<L, K>) automaton);
+		SingleInitialStateOperation<L, K> sisAutomaton = new SingleInitialStateOperation<L, K>(rev);		
+		Map<Object, K> sisMap = sssd.computeShortestDistances(sisAutomaton, sisAutomaton.initialState());
+		
+		HashMap<Object, K> sdMap = new HashMap<Object, K>();
+		for (Entry<Object, K> e : sisMap.entrySet()) 
+		{	
+			SingleInitialStateOperation<L, K>.SISState s = (SingleInitialStateOperation<L, K>.SISState) e.getKey();
+			if (s.operandState != null) 
+				sdMap.put(s.operandState, e.getValue());
+		}
+		
+		return sdMap;
+	}
+
 	public static <L, K> K shortestCompleteDistances(Automaton<L, K> automaton, SingleSourceShortestDistances<K> shortestDistanceAlgorithm)
 	{
 		Semiring<K> sr = automaton.semiring();

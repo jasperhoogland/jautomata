@@ -16,7 +16,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * @param <K>
  */
 
-public class SinglePathAutomaton<L, K> extends AbstractAutomaton<L, K>  
+public class SinglePathAutomaton<L, K> extends AbstractAutomaton<L, K> implements ReverselyAccessibleAutomaton<L, K>  
 {
 	List<L> list;
 
@@ -103,5 +103,20 @@ public class SinglePathAutomaton<L, K> extends AbstractAutomaton<L, K>
 							semiring().one() : semiring().zero();
 		}
 		return semiring().zero();
+	}
+
+	public Collection<Object> finalStates() 
+	{		
+		return Arrays.asList((Object) list.size());
+	}
+
+	public Collection<Object> transitionsIn(Object state) 
+	{		
+		if (state != null && state instanceof Integer)
+		{
+			Integer stateInt = (Integer) state;
+			return stateInt >= 1 && stateInt <= list.size() ? Arrays.asList((Object) (stateInt - 1)) : Collections.emptyList(); 
+		}
+		return Collections.emptyList();
 	}
 }

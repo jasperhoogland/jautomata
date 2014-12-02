@@ -2,7 +2,9 @@ package net.jhoogland.jautomata.operations;
 
 import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.ExactConvergence;
+import net.jhoogland.jautomata.ReverselyAccessibleAutomaton;
 import net.jhoogland.jautomata.SingleSourceShortestDistances;
+import net.jhoogland.jautomata.SingleSourceShortestDistancesInterface;
 import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
@@ -64,6 +66,23 @@ public class Operations
 	{
 		return determinize(epsilonRemoval(operand));
 	}
+	
+	public static <L, K> Automaton<L, K> push(Automaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd)
+	{
+		return new Push<L, K>(operand, sssd);
+	}
+
+	public static <L, K> Automaton<L, K> push(Automaton<L, K> operand)
+	{
+		return push(operand, new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>()));
+	}
+
+	public static <L, K> Automaton<L, K> reverse(ReverselyAccessibleAutomaton<L, K> operand)
+	{
+		return new ReversedAutomaton<L, K>(operand);
+	}
+
+	
 
 	/**
 	 * Computes the union of the specified automata.
