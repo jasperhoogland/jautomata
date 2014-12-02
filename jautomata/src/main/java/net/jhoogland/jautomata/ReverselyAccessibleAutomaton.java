@@ -22,4 +22,6 @@ public interface ReverselyAccessibleAutomaton<L, K> extends Automaton<L, K>
 	 */
 	
 	public Collection<Object> transitionsIn(Object state);
+	
+	public boolean isReverselyAccessible();
 }

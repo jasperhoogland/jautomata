@@ -135,6 +135,11 @@ public class ArrayAutomaton<L, K> extends AbstractAutomaton<L, K> implements Rev
 	{
 		return finalStates;
 	}
+	
+	public boolean isReverselyAccessible() 
+	{		
+		return true;
+	}
 
 	public Collection<Object> transitionsIn(Object state)
 	{		

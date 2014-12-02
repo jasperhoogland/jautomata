@@ -119,4 +119,9 @@ public class SinglePathAutomaton<L, K> extends AbstractAutomaton<L, K> implement
 		}
 		return Collections.emptyList();
 	}
+	
+	public boolean isReverselyAccessible() 
+	{		
+		return true;
+	}
 }

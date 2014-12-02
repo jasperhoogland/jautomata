@@ -67,4 +67,9 @@ public class ReversedAutomaton<L, K> extends UnaryOperation<L, L, K, K> implemen
 	{		
 		return operand.transitionsOut(state);
 	}
+	
+	public boolean isReverselyAccessible() 
+	{		
+		return true;
+	}
 }
