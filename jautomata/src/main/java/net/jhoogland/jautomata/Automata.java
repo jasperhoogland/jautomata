@@ -27,7 +27,8 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
  *
- * This class contains static methods for creating various types of finite state automata.
+ * This class contains static methods for computing properties of automata 
+ * and creating various types of automata.
  * 
  * @author Jasper Hoogland
  *
@@ -65,13 +66,14 @@ public class Automata
 		
 		
 	}
-	
+
 	/**
 	 * 
-	 * This method returns a Collection containing all states of the specified {@link Automaton}.
+	 * @return
+	 * a {@link Collection} containing all states of the specified automaton.
 	 * 
 	 */
-	
+
 	public static <L, K> Collection<Object> states(Automaton<L, K> automaton)
 	{
 		ArrayList<Object> states = new ArrayList<Object>();
@@ -97,6 +99,13 @@ public class Automata
 		}
 		return states;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 * a {@link Collection} containing all transitions of the specified automaton.
+	 * 
+	 */
 	
 	public static <L, K> Collection<Object> transitions(Automaton<L, K> automaton)
 	{
@@ -124,10 +133,24 @@ public class Automata
 		return transitions;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * true if and only if the specified state is an initial state of the specified automaton
+	 * 
+	 */
+	
 	public static <L, K> boolean isInitialState(Automaton<L, K> automaton, Object state)
 	{
 		return ! automaton.semiring().zero().equals(automaton.initialWeight(state));
 	}
+	
+	/**
+	 * 
+	 * @return
+	 * true if and only if the specified state is an final state of the specified automaton
+	 * 
+	 */
 	
 	public static <L, K> boolean isFinalState(Automaton<L, K> automaton, Object state)
 	{
