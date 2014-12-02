@@ -50,7 +50,7 @@ public class Automata
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
 		Automaton<Character, Boolean> union0 = /*Operations.determinizeER(*/Operations.union(a1, a2)/*)*/;
-		Automaton<Character, Boolean> union = Operations.kleeneStar(union0);
+		Automaton<Character, Boolean> union = Operations.closure(union0);
 		
 		System.out.println(stringWeight(union, ""));
 		System.out.println(stringWeight(union, "tes"));

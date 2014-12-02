@@ -8,9 +8,24 @@ import java.util.Comparator;
 import net.jhoogland.jautomata.Automata;
 import net.jhoogland.jautomata.Automaton;
 
-public class KleeneStar<L, K> extends UnaryOperation<L, L, K, K> 
+/**
+ * 
+ * Implementation of the Kleene closure.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @param <K>
+ * The type of elements of the semiring over which the automaton is defined 
+ * (Boolean for regular automata and Double for weighted automata)
+ * 
+ */
+
+public class Closure<L, K> extends UnaryOperation<L, L, K, K> 
 {
-	public KleeneStar(Automaton<L, K> operand)
+	public Closure(Automaton<L, K> operand)
 	{
 		super(operand, operand.semiring());
 	}
@@ -100,7 +115,7 @@ public class KleeneStar<L, K> extends UnaryOperation<L, L, K, K>
 		public State(Object opState) 
 		{
 			this.opState = opState;
-			if (opState instanceof KleeneStar.State)
+			if (opState instanceof Closure.State)
 				throw new RuntimeException();
 		}
 		
@@ -139,7 +154,7 @@ public class KleeneStar<L, K> extends UnaryOperation<L, L, K, K>
 		public Transition(Object opTransition) 
 		{
 			this.opTransition = opTransition;
-			if (opTransition instanceof KleeneStar.Transition)
+			if (opTransition instanceof Closure.Transition)
 				throw new RuntimeException();
 		}
 		
@@ -147,7 +162,7 @@ public class KleeneStar<L, K> extends UnaryOperation<L, L, K, K>
 		{
 			this.opState = opState;
 			this.fromInitialState = fromInitialState;
-			if (opState instanceof KleeneStar.State)
+			if (opState instanceof Closure.State)
 				throw new RuntimeException();
 		}
 		

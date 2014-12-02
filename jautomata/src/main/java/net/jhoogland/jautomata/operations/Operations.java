@@ -95,10 +95,17 @@ public class Operations
 	{
 		return new Union<L, K>(operands);
 	}
+	
+	/**
+	 *  
+	 * @return
+	 * the Kleene closure of the specified automaton
+	 * 
+	 */
 
-	public static <L, K> Automaton<L, K> kleeneStar(Automaton<L, K> operand)
+	public static <L, K> Automaton<L, K> closure(Automaton<L, K> operand)
 	{
-		return new KleeneStar<L, K>(operand);
+		return new Closure<L, K>(operand);
 	}
 
 	/**
