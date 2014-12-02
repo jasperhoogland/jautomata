@@ -29,23 +29,13 @@ public abstract class LabelConversion<L1, L2, K> extends UnaryOperation<L1, L2, 
 	}
 	
 	@Override
-	public Collection<L2> labelsOut(Object state) 
-	{
-		Collection<L1> ls1 = operand.labelsOut(state);
-		Collection<L2> ls2 = new HashSet<L2>();
-		for (L1 l1 : ls1) ls2.add(newLabel(l1));
-		return ls2;
-	}
-	
-	@Override
-	public Collection<Object> transitionsOut(Object state, L2 label) 
+	public Collection<Object> transitionsOut(Object state) 
 	{		
-		return operand.transitionsOut(state, oldLabel(label));
+		return super.transitionsOut(state);
 	}
 	
 	public abstract L2 newLabel(L1 label);
-	public abstract L1 oldLabel(L2 label);
-
+	
 	public K transitionWeight(Object transition) 
 	{		
 		return operand.transitionWeight(transition);
