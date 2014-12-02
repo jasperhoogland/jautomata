@@ -1,5 +1,11 @@
 package net.jhoogland.jautomata.semirings;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import net.jhoogland.jautomata.Automaton;
+import net.jhoogland.jautomata.Path;
+
 public class PathWeight implements Comparable<PathWeight> 
 {
 	public PathWeight previous;
@@ -16,6 +22,19 @@ public class PathWeight implements Comparable<PathWeight>
 	{
 		this(previous, weight);
 		this.transition = transition; 
+	}
+	
+	public <L> Path<L, Double> path(Automaton<L, Double> automaton) 
+	{
+		LinkedList<Object> transitions = new LinkedList<Object>();
+		PathWeight cur = this;
+		while (cur != null)
+		{
+			Object t = cur.transition;
+			if (t != null) transitions.addFirst(t);
+			cur = cur.previous;
+		}
+		return new Path<L, Double>(transitions, weight, automaton);
 	}
 
 	public int compareTo(PathWeight o) 

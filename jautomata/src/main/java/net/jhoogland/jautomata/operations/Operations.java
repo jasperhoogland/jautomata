@@ -6,6 +6,7 @@ import net.jhoogland.jautomata.SingleSourceShortestDistances;
 import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
+import net.jhoogland.jautomata.semirings.BestPathWeights;
 
 /**
  * 
@@ -59,6 +60,11 @@ public class Operations
 		return new Determinization<L, K>(operand);
 	}
 
+	public static <L, K> Automaton<L, K> determinizeER(Automaton<L, K> operand)
+	{
+		return determinize(epsilonRemoval(operand));
+	}
+
 	/**
 	 * Computes the union of the specified automata.
 	 * The automata must have the same label type.
@@ -80,5 +86,14 @@ public class Operations
 	public static <L, K> Automaton<L, K> singleInitialState(Automaton<L, K> a)
 	{
 		return new SingleInitialStateOperation<L, K>(a);
+	}
+	
+	public static <L, K> Automaton<L, BestPathWeights> toKTropicalSemiring(Automaton<L, K> a, int k)
+	{
+		if (a.semiring().zero().equals(false))
+			return new BooleanToKTropical<L>((Automaton<L, Boolean>) a, k);
+		else if (a.semiring().zero().equals(0.0))
+			return new RealToKTropical<L>((Automaton<L, Double>) a, k);
+		else return null;
 	}
 }

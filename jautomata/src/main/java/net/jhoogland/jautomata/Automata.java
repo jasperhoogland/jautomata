@@ -1,6 +1,7 @@
 package net.jhoogland.jautomata;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,7 +19,10 @@ import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.operations.SingleInitialStateOperation;
 import net.jhoogland.jautomata.operations.Union;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
+import net.jhoogland.jautomata.queues.KTropicalQueueFactory;
+import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
+import net.jhoogland.jautomata.semirings.KTropicalSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
@@ -35,33 +39,28 @@ public class Automata
 	{
 		SinglePathAutomaton<Character, Boolean> a1 = createSinglePathAutomaton(new BooleanSemiring(), "test");
 		SinglePathAutomaton<Character, Boolean> a2 = createSinglePathAutomaton(new BooleanSemiring(), "hallo");
+		SinglePathAutomaton<Character, Boolean> a3 = createSinglePathAutomaton(new BooleanSemiring(), "hallo");
 //		for (Object state : states(a1))
 //			System.out.println(state);
 		
-		SingleSourceShortestDistances<Boolean> sssp = new SingleSourceShortestDistances<Boolean>(new DefaultQueueFactory<Boolean>(), new ExactConvergence<Boolean>());
+//		SingleSourceShortestDistances<Boolean> sssp = new SingleSourceShortestDistances<Boolean>(new DefaultQueueFactory<Boolean>(), new ExactConvergence<Boolean>());
 		
 //		System.out.println(sssp.computeShortestDistances(automaton, 0));
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Boolean> union = Operations.determinize(Operations.epsilonRemoval(Operations.union(a1, a2)));
+		Automaton<Character, Boolean> union = Operations.union(a1, a2, a3);
 		System.out.println(Automata.states(union));
 		System.out.println(stringWeight(union, ""));
-		System.out.println(stringWeight(union, "t"));
-		System.out.println(stringWeight(union, "te"));
 		System.out.println(stringWeight(union, "tes"));
 		System.out.println(":) " + stringWeight(union, "test"));
 		System.out.println(":) " + stringWeight(union, "hallo"));
 		System.out.println(stringWeight(union, "hall"));
-		System.out.println(stringWeight(union, "llo"));
-		System.out.println(stringWeight(union, "teha"));
-		System.out.println(stringWeight(union, "thallo"));
-		System.out.println(stringWeight(union, "hallotest"));
-		System.out.println(stringWeight(union, "esta"));
-		System.out.println(stringWeight(union, "ta"));
-		System.out.println(stringWeight(union, "st"));
 		
+		List<Path<Character, Double>> ps = bestStrings(union, 4);
 		
+		for (Path<Character, Double> p : ps)
+			System.out.println(toString(p.label));
 		
 		
 	}
@@ -108,6 +107,24 @@ public class Automata
 		return ! automaton.semiring().zero().equals(automaton.finalWeight(state));
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * the label of the specified path
+	 * 
+	 */
+
+	public static <L, K> List<L> pathLabel(Iterable<Object> path, Automaton<L, K> automaton)
+	{
+		ArrayList<L> pathLabel = new ArrayList<L>();
+		for (Object transition : path) 
+		{
+			L label = automaton.label(transition);
+			if (label != null) pathLabel.add(label);				
+		}				
+		return pathLabel;
+	}
+	
 	public static <L, K> SinglePathAutomaton<L, K> createSinglePathAutomaton(Semiring<K> semiring, List<L> list)
 	{
 		return new SinglePathAutomaton<L, K>(semiring, list);
@@ -134,6 +151,39 @@ public class Automata
 		SinglePathAutomaton<L, K> stringAutomaton = new SinglePathAutomaton<L, K>(automaton.semiring(), string);
 		AcceptorIntersection<L, K> intersection = new AcceptorIntersection<L, K>(automaton, stringAutomaton);
 		return shortestCompleteDistances(intersection, sssd);
+	}
+	
+	public static <L, K> List<Path<L, Double>> shortestPaths(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<BestPathWeights> sssd)
+	{
+		Automaton<L, BestPathWeights> kT = Operations.toKTropicalSemiring(automaton, numPaths);
+		
+		BestPathWeights w = shortestCompleteDistances(kT, sssd);
+		ArrayList<Path<L, Double>> paths = new ArrayList<Path<L, Double>>();
+		for (int i = 0; i < w.pathWeights.length; i++) if (w.pathWeights[i].weight != Double.POSITIVE_INFINITY)
+		{
+			Path<L, Double> path = (Path<L, Double>) w.pathWeights[i].path((net.jhoogland.jautomata.Automaton<L, Double>) automaton);
+			path.weight = Math.exp(-path.weight);
+			paths.add(path);
+		}
+		return paths;
+	}
+	
+	public static <L, K> List<Path<L, Double>> shortestPaths(Automaton<L, K> automaton, int numPaths)
+	{
+		SingleSourceShortestDistances<BestPathWeights> sssd = new SingleSourceShortestDistances<BestPathWeights>(new KTropicalQueueFactory(), new ExactConvergence<BestPathWeights>());
+		return shortestPaths(automaton, numPaths, sssd);
+	}
+	
+	public static <L, K> List<Path<L, Double>> bestStrings(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<BestPathWeights> sssd)
+	{
+		Automaton<L, K> det = Operations.determinizeER(automaton);
+		return shortestPaths(det, numPaths, sssd);
+	}
+	
+	public static <L, K> List<Path<L, Double>> bestStrings(Automaton<L, K> automaton, int numPaths)
+	{
+		Automaton<L, K> det = Operations.determinizeER(automaton);
+		return shortestPaths(det, numPaths);
 	}
 	
 	public static <L, K> Map<Object, K> shortestDistancesFromInitialStates(Automaton<L, K> automaton, SingleSourceShortestDistancesInterface<K> sssd)
@@ -164,7 +214,7 @@ public class Automata
 		return weight;
 	}
 	
-	static List<Character> toCharacterList(String str)
+	public static List<Character> toCharacterList(String str)
 	{
 		List<Character> characterList = new ArrayList<Character>(str.length());
 		for (int i = 0; i < str.length(); i++)
@@ -172,7 +222,7 @@ public class Automata
 		return characterList;
 	}
 	
-	static String toString(List<Character> characterList)
+	public static String toString(List<Character> characterList)
 	{
 		String str = "";
 		for (Character c : characterList)
