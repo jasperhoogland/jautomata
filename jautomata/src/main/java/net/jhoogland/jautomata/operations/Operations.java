@@ -96,6 +96,11 @@ public class Operations
 		return new Union<L, K>(operands);
 	}
 
+	public static <L, K> Automaton<L, K> kleeneStar(Automaton<L, K> operand)
+	{
+		return new KleeneStar<L, K>(operand);
+	}
+
 	/**
 	 * @return
 	 * an instance of {@link SingleInitialStateOperation}, 

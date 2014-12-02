@@ -38,7 +38,7 @@ public class Automata
 {
 	public static void main(String[] args) 
 	{
-		SinglePathAutomaton<Character, Boolean> a1 = createSinglePathAutomaton(new BooleanSemiring(), "haha");
+		SinglePathAutomaton<Character, Boolean> a1 = createSinglePathAutomaton(new BooleanSemiring(), "ha");
 		SinglePathAutomaton<Character, Boolean> a2 = createSinglePathAutomaton(new BooleanSemiring(), "hallo");
 //		for (Object state : states(a1))
 //			System.out.println(state);
@@ -49,15 +49,14 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Boolean> union0 = Operations.determinizeER(Operations.union(a1, a2, Operations.reverse(a1), Operations.reverse(a2)));
-		Automaton<Character, Boolean> union = new ArrayAutomaton<Character, Boolean>(union0);
+		Automaton<Character, Boolean> union0 = /*Operations.determinizeER(*/Operations.union(a1, a2)/*)*/;
+		Automaton<Character, Boolean> union = Operations.kleeneStar(union0);
 		
-		System.out.println(Automata.states(union));
 		System.out.println(stringWeight(union, ""));
 		System.out.println(stringWeight(union, "tes"));
-		System.out.println(":) " + stringWeight(union, "hallo"));
-		System.out.println(":) " + stringWeight(union, "haha"));
-		System.out.println(stringWeight(union, "hall"));
+		System.out.println(":) " + stringWeight(union, "hallohahallo"));
+		System.out.println(":) " + stringWeight(union, "hahahallo"));
+		System.out.println(stringWeight(union, "hah"));
 		
 		List<Path<Character, Double>> ps = bestStrings(union, 4);
 		
