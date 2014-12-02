@@ -24,6 +24,7 @@ It also contains methods to manipulate automata, such as
 <li>determinization</li>
 <li>union</li>
 <li>Kleene closure</li>
+<li>conversion between acceptors, transducers, and multi-tape automata</li>
 <li>label conversion</li>
 <li>semiring conversion</li>
 </ul>
