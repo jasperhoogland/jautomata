@@ -23,6 +23,7 @@ It also contains methods to manipulate automata, such as
 <li>epsilon removal</li>
 <li>determinization</li>
 <li>union</li>
+<li>Kleene closure</li>
 <li>label conversion</li>
 <li>semiring conversion</li>
 </ul>
