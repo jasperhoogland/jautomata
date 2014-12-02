@@ -48,7 +48,9 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Boolean> union = Operations.determinizeER(Operations.union(a1, a2, Operations.reverse(a1), Operations.reverse(a2)));
+		Automaton<Character, Boolean> union0 = Operations.determinizeER(Operations.union(a1, a2, Operations.reverse(a1), Operations.reverse(a2)));
+		Automaton<Character, Boolean> union = new ArrayAutomaton<Character, Boolean>(union0);
+		
 		System.out.println(Automata.states(union));
 		System.out.println(stringWeight(union, ""));
 		System.out.println(stringWeight(union, "tes"));
@@ -94,6 +96,32 @@ public class Automata
 			}
 		}
 		return states;
+	}
+	
+	public static <L, K> Collection<Object> transitions(Automaton<L, K> automaton)
+	{
+		ArrayList<Object> transitions = new ArrayList<Object>();
+		Set<Object> processed = new HashSet<Object>();
+		Comparator<Object> order = automaton.topologicalOrder();
+		Queue<Object> front = order == null ? new LinkedList<Object>() : new PriorityQueue<Object>(11, order);
+		front.addAll(automaton.initialStates());
+		processed.addAll(front);
+		
+		while (! front.isEmpty())
+		{
+			Object state = front.poll();
+			for (Object transition : automaton.transitionsOut(state))
+			{
+				transitions.add(transition);
+				Object next = automaton.nextState(transition);
+				if (! processed.contains(next))
+				{
+					front.add(next);
+					processed.add(next);
+				}
+			}
+		}
+		return transitions;
 	}
 	
 	public static <L, K> boolean isInitialState(Automaton<L, K> automaton, Object state)
