@@ -1,9 +1,9 @@
 package net.jhoogland.jautomata;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,8 +24,8 @@ import net.jhoogland.jautomata.queues.KTropicalQueueFactory;
 import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
 import net.jhoogland.jautomata.semirings.KTropicalSemiring;
+import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
-
 import static net.jhoogland.jautomata.operations.Operations.concat;
 import static net.jhoogland.jautomata.operations.Operations.union;
 
@@ -42,8 +42,8 @@ public class Automata
 {
 	public static void main(String[] args) 
 	{
-		SinglePathAutomaton<Character, Boolean> a1 = createSinglePathAutomaton(new BooleanSemiring(), "ha");
-		SinglePathAutomaton<Character, Boolean> a2 = createSinglePathAutomaton(new BooleanSemiring(), "hallo");
+		SinglePathAutomaton<Character, Double> a1 = createSinglePathAutomaton(new RealSemiring(), "a");
+		SinglePathAutomaton<Character, Double> a2 = createSinglePathAutomaton(new RealSemiring(), "b");
 //		for (Object state : states(a1))
 //			System.out.println(state);
 		
@@ -53,18 +53,18 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Boolean> complex = concat(union(a1, a2), union(a1, a2));
+		Automaton<Character, Double> complex = Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.8);
 
-		System.out.println(stringWeight(complex, "ha"));
-		System.out.println(stringWeight(complex, "hallo"));
-		System.out.println(stringWeight(complex, "hahallo"));
-		System.out.println(stringWeight(complex, "hahaha"));
 		System.out.println(stringWeight(complex, ""));
-		
+		System.out.println(stringWeight(complex, "a"));
+		System.out.println(stringWeight(complex, "aa"));
+		System.out.println(stringWeight(complex, "aaa"));
+		System.out.println(stringWeight(complex, "aaaa"));
+		System.out.println();
 		List<Path<Character, Double>> ps = bestStrings(complex, 5);
 		
 		for (Path<Character, Double> p : ps)
-			System.out.println(toString(p.label));
+			System.out.println(p.weight + ": " + toString(p.label));
 		
 		
 	}
@@ -177,6 +177,11 @@ public class Automata
 		return pathLabel;
 	}
 	
+	public static <L, K> SinglePathAutomaton<L, K> emptyStringAutomaton(Semiring<K> semiring)
+	{
+		return createSinglePathAutomaton(semiring, new ArrayList<L>(0));
+	}
+		
 	public static <L, K> SinglePathAutomaton<L, K> createSinglePathAutomaton(Semiring<K> semiring, List<L> list)
 	{
 		return new SinglePathAutomaton<L, K>(semiring, list);

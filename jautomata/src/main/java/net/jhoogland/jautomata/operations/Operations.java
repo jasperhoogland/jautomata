@@ -3,6 +3,7 @@ package net.jhoogland.jautomata.operations;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.jhoogland.jautomata.Automata;
 import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.ExactConvergence;
 import net.jhoogland.jautomata.MTAutomaton;
@@ -14,6 +15,7 @@ import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
 import net.jhoogland.jautomata.semirings.BestPathWeights;
+import net.jhoogland.jautomata.semirings.Semifield;
 
 /**
  * 
@@ -124,11 +126,33 @@ public class Operations
 		return new Union<L, K>(operands);
 	}
 	
+	public static <L> Automaton<L, Double> weightedUnion(Automaton<L, Double>[] operands, final double[] weights)
+	{
+		return new Union<L, Double>(operands)
+		{
+			@Override
+			public Double initialWeight(Object state) 
+			{				
+				UnionElement s = (Union<L, Double>.UnionElement) state;
+				return operands[s.index].semiring().multiply(weights[s.index], super.initialWeight(state));
+			}
+		};
+	}
+	
+	public static <L> Automaton<L, Double> weightedUnion(Automaton<L, Double>... operands)
+	{
+		double[] weights = new double[operands.length];
+		double p = 1.0 / operands.length;
+		for (int i = 0; i < weights.length; i++) weights[i] = p;
+		return weightedUnion(operands, weights);
+	}
+	
 	public static <L, K> Automaton<L, K> concat(Automaton<L, K>... operands)
 	{
 		return new Concatenation<L, K>(operands);
 	}
-		/**
+	
+	/**
 	 *  
 	 * @return
 	 * the Kleene closure of the specified automaton
@@ -138,6 +162,53 @@ public class Operations
 	public static <L, K> Automaton<L, K> closure(Automaton<L, K> operand)
 	{
 		return new Closure<L, K>(operand);
+	}
+
+	public static <L, K> Automaton<L, Double> weightedClosure(Automaton<L, Double> operand, final double lambda)
+	{
+		return new Closure<L, Double>(operand)
+		{
+			@Override
+			public Double initialWeight(Object state) 
+			{				
+				return lambda * super.initialWeight(state);
+			}
+			
+			@Override
+			public Double transitionWeight(Object transition) 
+			{
+				Closure<L, K>.Transition t = (Closure<L, K>.Transition) transition;
+				if (t.opState != null && t.fromInitialState)
+					return (1 - lambda) * super.transitionWeight(transition);
+				else 
+					return super.transitionWeight(transition);
+			}
+		};
+	}
+
+	public static <L, K> Automaton<L, K> kleenePlus(Automaton<L, K> operand)
+	{
+		return union(operand, closure(operand));
+	}
+	
+	public static <L> Automaton<L, Double> weightedKleenePlus(Automaton<L, Double> operand, double lambda)
+	{
+		return weightedUnion(new Automaton[] { operand, closure(operand) }, new double[] { lambda, 1 - lambda } );
+	}
+	
+	public static <L, K> Automaton<L, K> optional(Automaton<L, K> operand)
+	{
+		return union(operand, (Automaton<L, K>) Automata.emptyStringAutomaton(operand.semiring()));
+	}
+
+	public static <L, K> Automaton<L, K> weightedOptional(Automaton<L, K> operand, double weightOperand, double weightEmptyString)
+	{
+		return weightedUnion(new Automaton[] { operand, (Automaton<L, K>) Automata.emptyStringAutomaton(operand.semiring()) }, new double[] { weightOperand, weightEmptyString} );
+	}
+
+	public static <L, K> Automaton<L, K> weightedOptional(Automaton<L, K> operand, double weightOperand)
+	{
+		return weightedOptional(operand, weightOperand, 1.0 - weightOperand);
 	}
 
 	/**
