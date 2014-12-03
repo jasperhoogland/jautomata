@@ -1,5 +1,6 @@
 package net.jhoogland.jautomata;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class HashMTLabel<I, L> implements MTLabel<I, L> 
@@ -14,5 +15,10 @@ public class HashMTLabel<I, L> implements MTLabel<I, L>
 	public L tapeLabel(I tape) 
 	{		
 		return map == null ? null : map.get(tape);
+	}
+	
+	public Collection<I> tapes() 
+	{		
+		return map.keySet();
 	}
 }
