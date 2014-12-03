@@ -1,6 +1,7 @@
 package net.jhoogland.jautomata;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -24,6 +25,9 @@ import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
 import net.jhoogland.jautomata.semirings.KTropicalSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
+
+import static net.jhoogland.jautomata.operations.Operations.concat;
+import static net.jhoogland.jautomata.operations.Operations.union;
 
 /**
  *
@@ -49,16 +53,15 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Boolean> union0 = /*Operations.determinizeER(*/Operations.union(a1, a2)/*)*/;
-		Automaton<Character, Boolean> union = Operations.closure(union0);
+		Automaton<Character, Boolean> complex = concat(union(a1, a2), union(a1, a2));
+
+		System.out.println(stringWeight(complex, "ha"));
+		System.out.println(stringWeight(complex, "hallo"));
+		System.out.println(stringWeight(complex, "hahallo"));
+		System.out.println(stringWeight(complex, "hahaha"));
+		System.out.println(stringWeight(complex, ""));
 		
-		System.out.println(stringWeight(union, ""));
-		System.out.println(stringWeight(union, "tes"));
-		System.out.println(":) " + stringWeight(union, "hallohahallo"));
-		System.out.println(":) " + stringWeight(union, "hahahallo"));
-		System.out.println(stringWeight(union, "hah"));
-		
-		List<Path<Character, Double>> ps = bestStrings(union, 4);
+		List<Path<Character, Double>> ps = bestStrings(complex, 5);
 		
 		for (Path<Character, Double> p : ps)
 			System.out.println(toString(p.label));

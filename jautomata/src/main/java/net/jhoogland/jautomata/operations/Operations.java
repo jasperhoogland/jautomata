@@ -124,7 +124,11 @@ public class Operations
 		return new Union<L, K>(operands);
 	}
 	
-	/**
+	public static <L, K> Automaton<L, K> concat(Automaton<L, K>... operands)
+	{
+		return new Concatenation<L, K>(operands);
+	}
+		/**
 	 *  
 	 * @return
 	 * the Kleene closure of the specified automaton
