@@ -147,7 +147,9 @@ public class Operations
 	public static <L> Automaton<L, Double> weightedUnion(Automaton<L, Double>... operands)
 	{
 		double[] weights = new double[operands.length];
-		double p = 1.0 / operands.length;
+		Semifield<Double> sf = (Semifield<Double>) operands[0].semiring();
+		double l = sf.one().equals(1.0) ? operands.length : -Math.log(operands.length);
+		double p = sf.inverse(l);
 		for (int i = 0; i < weights.length; i++) weights[i] = p;
 		return weightedUnion(operands, weights);
 	}
