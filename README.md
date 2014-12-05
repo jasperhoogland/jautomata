@@ -22,8 +22,10 @@ It also contains methods to manipulate automata, such as
 <li>transducer composition</li>
 <li>epsilon removal</li>
 <li>determinization</li>
+<li>concatenation</li>
 <li>union</li>
 <li>Kleene closure</li>
+<li>reversal</li>
 <li>conversion between acceptors, transducers, and multi-tape automata</li>
 <li>label conversion</li>
 <li>semiring conversion</li>

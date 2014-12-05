@@ -15,7 +15,12 @@ import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
 import net.jhoogland.jautomata.semirings.BestPathWeights;
+import net.jhoogland.jautomata.semirings.BooleanSemiring;
+import net.jhoogland.jautomata.semirings.LogSemiring;
+import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semifield;
+import net.jhoogland.jautomata.semirings.Semiring;
+import net.jhoogland.jautomata.semirings.TropicalSemiring;
 
 /**
  * 
@@ -142,7 +147,9 @@ public class Operations
 	public static <L> Automaton<L, Double> weightedUnion(Automaton<L, Double>... operands)
 	{
 		double[] weights = new double[operands.length];
-		double p = 1.0 / operands.length;
+		Semifield<Double> sf = (Semifield<Double>) operands[0].semiring();
+		double l = sf.one().equals(1.0) ? operands.length : -Math.log(operands.length);
+		double p = sf.inverse(l);
 		for (int i = 0; i < weights.length; i++) weights[i] = p;
 		return weightedUnion(operands, weights);
 	}
@@ -222,12 +229,87 @@ public class Operations
 		return new SingleInitialStateOperation<L, K>(a);
 	}
 	
+	public static <L> Automaton<L, Double> toWeightedAutomaton(Automaton<L, Boolean> a)
+	{
+		final RealSemiring sr = new RealSemiring();
+		return new SemiringConversion<L, Boolean, Double>(a, sr) 
+		{
+			@Override
+			public Double convertWeight(Boolean weight) 
+			{				
+				return weight ? sr.one() : sr.zero();
+			}
+		};
+	}
+	
+	public static <L> Automaton<L, Boolean> toUnweightedAutomaton(Automaton<L, Double> a)
+	{
+		final Semiring<Double> sr = a.semiring();
+		return new SemiringConversion<L, Double, Boolean>(a, new BooleanSemiring()) 
+		{
+			@Override
+			public Boolean convertWeight(Double weight) 
+			{				
+				return ! sr.zero().equals(weight);
+			}
+		};
+	}
+	
+	public static <L> Automaton<L, Double> logToRealSemiring(Automaton<L, Double> a)
+	{
+		return new SemiringConversion<L, Double, Double>(a, new RealSemiring())
+		{
+			@Override
+			public Double convertWeight(Double weight) 
+			{
+				return Math.exp(-weight);
+			}			
+		};		
+	}
+	
+	public static <L> Automaton<L, Double> realToLogSemiring(Automaton<L, Double> a)
+	{
+		return realToLogSemiring(a, new LogSemiring());
+	}
+	
+	public static <L> Automaton<L, Double> realToTropicalSemiring(Automaton<L, Double> a)
+	{
+		return realToLogSemiring(a, new TropicalSemiring());
+	}
+	
+	private static <L> Automaton<L, Double> realToLogSemiring(Automaton<L, Double> a, Semiring<Double> semiring)
+	{
+		return new SemiringConversion<L, Double, Double>(a, semiring)
+		{
+			@Override
+			public Double convertWeight(Double weight) 
+			{
+				return -Math.log(weight);
+			}			
+		};		
+	}
+	
 	public static <L, K> Automaton<L, BestPathWeights> toKTropicalSemiring(Automaton<L, K> a, int k)
 	{
 		if (a.semiring().zero().equals(false))
-			return new BooleanToKTropical<L>((Automaton<L, Boolean>) a, k);
+			return new KTropicalSemiringConversion<Boolean, L>((Automaton<L, Boolean>) a, k)
+			{
+				@Override
+				public double convert(Boolean weight) 
+				{
+					return weight ? 0.0 : Double.POSITIVE_INFINITY;
+				}
+				
+			};
 		else if (a.semiring().zero().equals(0.0))
-			return new RealToKTropical<L>((Automaton<L, Double>) a, k);
+			return new KTropicalSemiringConversion<Double, L>((Automaton<L, Double>) a, k)
+			{
+				@Override
+				public double convert(Double weight) 
+				{					
+					return -Math.log(weight);
+				}
+			};
 		else return null;
 	}
 }

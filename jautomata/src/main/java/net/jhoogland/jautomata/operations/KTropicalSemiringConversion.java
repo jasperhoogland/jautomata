@@ -5,9 +5,9 @@ import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.KTropicalSemiring;
 import net.jhoogland.jautomata.semirings.PathWeight;
 
-public class BooleanToKTropical<L> extends SemiringConversion<L, Boolean, BestPathWeights>
+public abstract class KTropicalSemiringConversion<K, L> extends SemiringConversion<L, K, BestPathWeights>
 {
-	public BooleanToKTropical(Automaton<L, Boolean> operand, int k)
+	public KTropicalSemiringConversion(Automaton<L, K> operand, int k)
 	{
 		super(operand, new KTropicalSemiring(k));
 	}
@@ -21,11 +21,13 @@ public class BooleanToKTropical<L> extends SemiringConversion<L, Boolean, BestPa
 	}
 	
 	@Override
-	public BestPathWeights convertWeight(Boolean weight)
+	public BestPathWeights convertWeight(K weight)
 	{
 		PathWeight[] p = new PathWeight[((KTropicalSemiring) semiring()).k];
-		p[0] = new PathWeight(null, weight ? 0.0 : Double.POSITIVE_INFINITY, null);
+		p[0] = new PathWeight(null, convert(weight), null);
 		for (int i = 1; i < p.length; i++) p[i] = new PathWeight(null, Double.POSITIVE_INFINITY, null);
 		return new BestPathWeights(p);
 	}
+	
+	public abstract double convert(K weight);
 }
