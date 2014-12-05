@@ -1,5 +1,7 @@
 package net.jhoogland.jautomata;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,6 +17,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import net.jhoogland.jautomata.io.CharacterFormat;
+import net.jhoogland.jautomata.io.IO;
 import net.jhoogland.jautomata.operations.AcceptorIntersection;
 import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.operations.SingleInitialStateOperation;
@@ -40,7 +44,7 @@ import static net.jhoogland.jautomata.operations.Operations.union;
 
 public class Automata 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws IOException 
 	{
 		SinglePathAutomaton<Character, Double> a1 = createSinglePathAutomaton(new RealSemiring(), "a");
 		SinglePathAutomaton<Character, Double> a2 = createSinglePathAutomaton(new RealSemiring(), "b");
@@ -53,11 +57,18 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Double> complex = Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.8);
+//		Automaton<Character, Double> complex = new HashAutomaton<Character, Double>(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.8));
+		
+		File f = new File("C:\\Users\\Jasper\\Documents\\ta.txt");
+		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
 
 		System.out.println(stringWeight(complex, ""));
 		System.out.println(stringWeight(complex, "a"));
+		System.out.println(stringWeight(complex, "b"));
 		System.out.println(stringWeight(complex, "aa"));
+		System.out.println(stringWeight(complex, "ab"));
+		System.out.println(stringWeight(complex, "ba"));
+		System.out.println(stringWeight(complex, "bb"));
 		System.out.println(stringWeight(complex, "aaa"));
 		System.out.println(stringWeight(complex, "aaaa"));
 		System.out.println();

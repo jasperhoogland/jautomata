@@ -2,14 +2,14 @@ package net.jhoogland.jautomata;
 
 import java.util.Collection;
 
-public class AAState<K> 
+public class BasicState<K> 
 {
 	private Collection<Object> transitionsOut;
 	private Collection<Object> transitionsIn;
 	private K initialWeight;
 	private K finalWeight;
 	
-	public AAState(K initialWeight, K finalWeight, Collection<Object> transitionsOut, Collection<Object> transitionsIn) 
+	public BasicState(K initialWeight, K finalWeight, Collection<Object> transitionsOut, Collection<Object> transitionsIn) 
 	{
 		this.initialWeight = initialWeight;
 		this.finalWeight = finalWeight;

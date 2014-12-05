@@ -1,13 +1,13 @@
 package net.jhoogland.jautomata;
 
-public class AATransition<L, K>
+public class BasicTransition<L, K>
 {
-	private int previousState;
-	private int nextState;
+	private Object previousState;
+	private Object nextState;
 	private L label;
 	private K weight;
 	
-	public AATransition(int previousState, L label, K weight, int nextState) 
+	public BasicTransition(Object previousState, L label, K weight, Object nextState) 
 	{
 		this.previousState = previousState;
 		this.label = label;
@@ -15,7 +15,7 @@ public class AATransition<L, K>
 		this.nextState = nextState;
 	}
 	
-	public int previousState() 
+	public Object previousState() 
 	{
 		return previousState;
 	}
@@ -30,7 +30,7 @@ public class AATransition<L, K>
 		return weight;
 	}
 	
-	public int nextState() 
+	public Object nextState() 
 	{
 		return nextState;
 	}
