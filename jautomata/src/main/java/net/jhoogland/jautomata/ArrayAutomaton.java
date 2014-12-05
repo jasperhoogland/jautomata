@@ -10,7 +10,9 @@ import net.jhoogland.jautomata.semirings.Semiring;
 /**
  * 
  * Implementation of {@link Automaton} that is backed up by arrays of states and transitions.
- * 
+ * Each state and transition is identified by an integer, 
+ * and all information (outgoing transitions of states, next and previous states of transitions, labels, weights, etc)
+ * is explicitly stored in arrays.
  * 
  * @author Jasper Hoogland
  *

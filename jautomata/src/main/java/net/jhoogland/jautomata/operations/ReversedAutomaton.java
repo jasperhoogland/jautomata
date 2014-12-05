@@ -4,6 +4,26 @@ import java.util.Collection;
 
 import net.jhoogland.jautomata.ReverselyAccessibleAutomaton;
 
+/**
+ * 
+ * Implementation of automaton reversal. 
+ * Instances of this class are the reverse automaton of an operand automaton.
+ * 
+ * 
+ * This operation requires the operand automaton to be reversely accessible, 
+ * i.e. it must implement the {@link ReverselyAccessibleAutomaton} interface 
+ * and the isReverselyAccessible() method must yield <code>true</code>.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @param <K>
+ * The type of elements of the semiring over which the automaton is defined 
+ * (Boolean for regular automata and Double for weighted automata)
+ */
+
 public class ReversedAutomaton<L, K> extends UnaryOperation<L, L, K, K> implements ReverselyAccessibleAutomaton<L, K> 
 {
 	public ReversedAutomaton(ReverselyAccessibleAutomaton<L, K> operand) 
