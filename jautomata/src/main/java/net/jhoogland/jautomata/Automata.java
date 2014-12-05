@@ -57,10 +57,13 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-//		Automaton<Character, Double> complex = new HashAutomaton<Character, Double>(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.8));
+		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6));
 		
 		File f = new File("C:\\Users\\Jasper\\Documents\\ta.txt");
-		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
+		File f2 = new File("C:\\Users\\Jasper\\Documents\\ta2.txt");
+//		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
+		
+		IO.saveAutomaton(complex, f2, "att");
 
 		System.out.println(stringWeight(complex, ""));
 		System.out.println(stringWeight(complex, "a"));

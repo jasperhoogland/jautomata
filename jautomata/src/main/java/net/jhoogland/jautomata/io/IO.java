@@ -2,8 +2,10 @@ package net.jhoogland.jautomata.io;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,10 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.jhoogland.jautomata.AbstractAutomaton;
+import net.jhoogland.jautomata.ArrayAutomaton;
+import net.jhoogland.jautomata.Automata;
 import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.BasicState;
 import net.jhoogland.jautomata.BasicTransition;
 import net.jhoogland.jautomata.HashAutomaton;
+import net.jhoogland.jautomata.ReverselyAccessibleAutomaton;
+import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
 import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
@@ -51,6 +57,33 @@ public class IO
 	public static Automaton<Character, Double> loadWeightedAcceptor(File file, String format) throws IOException
 	{
 		return loadWeightedAcceptor(file, format, new CharacterFormat());		
+	}
+	
+	public static <L, K> void saveAutomaton(Automaton<L, K> automaton, File file, String format, Format<L> labelFormat) throws FileNotFoundException
+	{
+		ReverselyAccessibleAutomaton<L, K> a = new ArrayAutomaton<L, K>(automaton.initialStates().size() > 1 ? Operations.singleInitialState(automaton) : automaton);	
+		PrintWriter pw = new PrintWriter(file);
+		K one = automaton.semiring().one();
+		for (Object t : Automata.transitions(a))
+		{
+			String from = a.previousState(t).toString();
+			String label = labelFormat.format(a.label(t));
+			K weight = a.transitionWeight(t);
+			String weightStr = weight.equals(one) ? "" : " " + weight;
+			String to = a.nextState(t).toString();
+			pw.println(from + " " + to + " " + label + weightStr);
+		}
+		for (Object s : a.finalStates())
+		{
+			K weight = a.finalWeight(s);
+			pw.println(s + (weight.equals(one) ? "" : " " + weight));
+		}		
+		pw.close();
+	}
+	
+	public static <K> void saveAutomaton(Automaton<Character, K> automaton, File file, String format) throws FileNotFoundException
+	{
+		saveAutomaton(automaton, file, format, new CharacterFormat());
 	}
 	
 	private static <L, K> Automaton<L, K> loadAcceptorATT(File file, Semiring<K> semiring, Format<L> labelFormat) throws IOException
