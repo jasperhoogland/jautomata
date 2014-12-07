@@ -3,6 +3,7 @@ package net.jhoogland.jautomata;
 /**
  * 
  * Implements an input/output label pair for transducers.
+ * 
  *  
  * @author Jasper Hoogland
  *

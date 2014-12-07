@@ -3,6 +3,20 @@ package net.jhoogland.jautomata;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
+/**
+ *
+ * Implementation of a multi-tape label type.
+ * Tapes are indicated by indices (starting at zero) and tape labels are stored in an array.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @see
+ */
+
 public class ArrayMTLabel<L> implements MTLabel<Integer, L> 
 {
 	L[] tLabels;

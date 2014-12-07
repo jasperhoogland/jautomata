@@ -20,58 +20,58 @@ import net.jhoogland.jautomata.operations.MTLabelConversion;
 
 public class MTAutomata 
 {
-	public static <I, L, K> Automaton<L, K> toAcceptor(Automaton<MTLabel<I, L>, K> mtAutomaton, final I tape)
+	public static <T, L, K> Automaton<L, K> toAcceptor(Automaton<MTLabel<T, L>, K> mtAutomaton, final T tape)
 	{
-		return new LabelConversion<MTLabel<I, L>, L, K>(mtAutomaton) 
+		return new LabelConversion<MTLabel<T, L>, L, K>(mtAutomaton) 
 		{
 			@Override
-			public L newLabel(MTLabel<I, L> label) 
+			public L newLabel(MTLabel<T, L> label) 
 			{
 				return label == null ? null : label.tapeLabel(tape);
 			}
 		};
 	}
 	
-	public static <I, L, K> Transducer<L, L, K> toTransducer(Automaton<MTLabel<I, L>, K> mtAutomaton, final I inputTape, final I outputTape)
+	public static <T, L, K> Transducer<L, L, K> toTransducer(Automaton<MTLabel<T, L>, K> mtAutomaton, final T inputTape, final T outputTape)
 	{
-		return new TransducerLabelConversion<MTLabel<I, L>, L, L, K>(mtAutomaton) 
+		return new TransducerLabelConversion<MTLabel<T, L>, L, L, K>(mtAutomaton) 
 		{
 			@Override
-			public TLabel<L, L> newLabel(MTLabel<I, L> label)
+			public TLabel<L, L> newLabel(MTLabel<T, L> label)
 			{				
 				return label == null ? null : new TLabel<L, L>(label.tapeLabel(inputTape), label.tapeLabel(outputTape));
 			}
 		};
 	}	
 	
-	public static <I, L, K> MTAutomaton<I, L, K> acceptorToHashMT(Automaton<L, K> acceptor, final I tape)
+	public static <T, L, K> MTAutomaton<T, L, K> acceptorToHashMT(Automaton<L, K> acceptor, final T tape)
 	{
-		return new MTLabelConversion<L, I, L, K>(acceptor, Arrays.asList(tape))
+		return new MTLabelConversion<L, T, L, K>(acceptor, Arrays.asList(tape))
 		{
 			@Override
-			public MTLabel<I, L> newLabel(L label) 
+			public MTLabel<T, L> newLabel(L label) 
 			{
-				Map<I, L> mtLabel = new HashMap<I, L>();
+				Map<T, L> mtLabel = new HashMap<T, L>();
 				mtLabel.put(tape, label);
-				return new HashMTLabel<I, L>(mtLabel);
+				return new HashMTLabel<T, L>(mtLabel);
 			}
 		}; 
 	}
 	
-	public static <I, L, K> MTAutomaton<I, L, K> transducerToHashMT(Automaton<TLabel<L, L>, K> transducer, final I tape1, final I tape2)
+	public static <T, L, K> MTAutomaton<T, L, K> transducerToHashMT(Automaton<TLabel<L, L>, K> transducer, final T tape1, final T tape2)
 	{
-		return new MTLabelConversion<TLabel<L, L>, I, L, K>(transducer, Arrays.asList(tape1, tape2))
+		return new MTLabelConversion<TLabel<L, L>, T, L, K>(transducer, Arrays.asList(tape1, tape2))
 		{
 			@Override
-			public MTLabel<I, L> newLabel(TLabel<L, L> label) 
+			public MTLabel<T, L> newLabel(TLabel<L, L> label) 
 			{
-				Map<I, L> mtLabel = new HashMap<I, L>();
+				Map<T, L> mtLabel = new HashMap<T, L>();
 				if (label != null)
 				{
 					mtLabel.put(tape1, label.in());
 					mtLabel.put(tape2, label.out());					
 				}
-				return new HashMTLabel<I, L>(mtLabel);
+				return new HashMTLabel<T, L>(mtLabel);
 			}			
 		}; 
 	}
@@ -101,17 +101,17 @@ public class MTAutomata
 		}; 
 	}
 		
-	public static <I, L, K> MTAutomaton<I, L, K> projectHashMT(Automaton<MTLabel<I, L>, K> mta, final Collection<I> tapes)
+	public static <T, L, K> MTAutomaton<T, L, K> projectHashMT(Automaton<MTLabel<T, L>, K> mta, final Collection<T> tapes)
 	{
-		return new MTLabelConversion<MTLabel<I, L>, I, L, K>(mta, tapes)
+		return new MTLabelConversion<MTLabel<T, L>, T, L, K>(mta, tapes)
 		{
 			@Override
-			public MTLabel<I, L> newLabel(MTLabel<I, L> label) 
+			public MTLabel<T, L> newLabel(MTLabel<T, L> label) 
 			{				
-				Map<I, L> projection = new HashMap<I, L>();
+				Map<T, L> projection = new HashMap<T, L>();
 				if (label != null)
-					for (I tape : tapes) projection.put(tape, label.tapeLabel(tape));															
-				return new HashMTLabel<I, L>(projection);
+					for (T tape : tapes) projection.put(tape, label.tapeLabel(tape));															
+				return new HashMTLabel<T, L>(projection);
 			}
 		}; 
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 
- * Instances of this class contain a path, together with its label and weight. 
+ * Instances of this class contain a path, its label and its weight. 
  * The path is stored as a list of transitions.
  * 
  * @author Jasper Hoogland

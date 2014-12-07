@@ -11,7 +11,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
 /**
  * 
  * Abstract class that implements some basic methods of the {@link Automaton} interface.
- * Most automata are a subclass of {@link AbstractAutomaton}, though this is not required. 
+ * Most automaton types are a subclass of {@link AbstractAutomaton}, though this is not required. 
  * 
  * This class provides implementations of labelsOut(state), transitionsOut(state, label), and transitionsOut(state).
  * Subclasses of this class must override either (I) labelsOut(state) and transitionsOut(state, label) 
@@ -20,10 +20,10 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * @author Jasper Hoogland
  *
  * @param <L>
- * The label type
+ * label type
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  * 
  */

@@ -57,7 +57,7 @@ public class Automata
 		
 //		System.out.println(shortestCompleteDistances(automaton, sssp));
 		
-		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6));
+		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.singleInitialState(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6)));
 		
 		File f = new File("C:\\Users\\Jasper\\Documents\\ta.txt");
 		File f2 = new File("C:\\Users\\Jasper\\Documents\\ta2.txt");

@@ -1,5 +1,16 @@
 package net.jhoogland.jautomata;
 
+/**
+ * Instances of this class contain information of a transition, such as previous and next state,
+ * label, and weight.
+ * This class is used by automaton types that explicitly store information of transitions, such as
+ * {@link ArrayAutomaton} and {@link HashAutomaton}. 
+ * It can also be used by custom automaton types.
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * @param <K>
+ */
 public class BasicTransition<L, K>
 {
 	private Object previousState;

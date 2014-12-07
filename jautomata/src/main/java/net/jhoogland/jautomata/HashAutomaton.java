@@ -8,6 +8,19 @@ import java.util.Map.Entry;
 
 import net.jhoogland.jautomata.semirings.Semiring;
 
+/**
+ * Implementation of {@link Automaton} that is backed up by {@link HashMap}s that contain information of
+ * states and transitions.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @param <K>
+ * weight type
+ */
+
 public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K> 
 {
 	private Map<Object, BasicState<K>> states;
