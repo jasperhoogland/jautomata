@@ -1,5 +1,13 @@
 package net.jhoogland.jautomata.semirings;
 
+/**
+ * 
+ * Implementation of the log semiring.
+ * 
+ * 
+ * @author Jasper Hoogland
+ *
+ */
 public class LogSemiring implements Semifield<Double> 
 {
 	public Double multiply(Double x1, Double x2) 

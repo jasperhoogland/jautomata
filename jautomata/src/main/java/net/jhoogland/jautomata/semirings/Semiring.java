@@ -2,11 +2,16 @@ package net.jhoogland.jautomata.semirings;
 
 /**
  * 
- * Classes that represent semirings implement this interface.
+ * Semirings must implement this interface.
+ * A semiring is defined by the methods <tt>multiply(x1, x2)</tt>, <tt>add(x1, x2)</tt>,
+ * <tt>one()</tt> and <tt>zero()</tt>.
+ * The methods <tt>isIdempotent()</tt>, <tt>isCommutative()</tt>, 
+ * and <tt>isKClosed(int k)</tt> specify properties of the semiring.
  * 
  * @author Jasper Hoogland
  *
  * @param <K>
+ * the type of the elements of the semiring.
  */
 
 public interface Semiring<K>
@@ -14,15 +19,6 @@ public interface Semiring<K>
 	// Definition
 	
 	/**
-	 * 
-	 * Defines the multiplication operation for this semiring.
-	 * 
-	 * @param x1
-	 * the first operand of the multiplication operation
-	 * 
-	 * @param x2
-	 * the second operand of the multiplication operation
-	 * 
 	 * @return
 	 * the product of the specified weights
 	 * 
@@ -32,14 +28,6 @@ public interface Semiring<K>
 	
 	/**
 	 * 
-	 * Defines the addition operation for this semiring.
-	 * 
-	 * @param x1
-	 * the first operand of the addition operation
-	 * 
-	 * @param x2
-	 * the second operand of the addition operation
-	 * 
 	 * @return
 	 * the sum of the specified weights
 	 * 
@@ -48,10 +36,6 @@ public interface Semiring<K>
 	public K add(K x1, K x2);
 	
 	/**
-	 * 
-	 * Defines the multiplication identity of this semiring. For any <tt>a</tt> of type <tt>K</tt> it holds that 
-	 * <tt>multiply(multiplicationId(), a)</tt>=<tt>multiply(a, multiplicationId())</tt>=<tt>a</tt>.
-	 * 
 	 * @return
 	 * the multiplication identity of this semiring
 	 * 
@@ -60,13 +44,8 @@ public interface Semiring<K>
 	public K one();
 	
 	/**
-	 * 
-	 * Defines the addition identity of this semiring. For any <tt>a</tt> of type <tt>K</tt> it must  that 
-	 * <tt>add(additionId(), a)</tt>=<tt>add(a, additionId())</tt>=<tt>a</tt>.
-	 * 
 	 * @return
 	 * the addition identity of this semiring
-	 * 
 	 */
 	
 	public K zero();

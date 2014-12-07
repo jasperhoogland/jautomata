@@ -4,7 +4,7 @@ package net.jhoogland.jautomata.semirings;
  * 
  * An implementation of the real semiring. 
  * The real semiring is defined over the set of real numbers, which are represented by 
- * <tt>double</tt> values in this implementation. 
+ * <code>double</code> values in this implementation. 
  * Summation is the addition operation and product is the mulitiplication 
  * operation. 
  * 0 is the addition identity and 1 is the multiplication identity. 
@@ -48,6 +48,10 @@ public class RealSemiring implements Semifield<Double>
 		return arg0 instanceof RealSemiring;
 	}
 
+	/**
+	 * @return
+	 * <code>false</code>
+	 */
 	public boolean isIdempotent() 
 	{
 		return false;
@@ -56,7 +60,7 @@ public class RealSemiring implements Semifield<Double>
 	/**
 	 * 
 	 * @return
-	 * <tt>true</tt>
+	 * <code>true</code>
 	 */
 	
 	public boolean isCommutative() 
@@ -66,7 +70,8 @@ public class RealSemiring implements Semifield<Double>
 
 	/**
 	 * 
-	 * The real semiring is not k-closed for any k.
+	 * @return
+	 * <code>false</code>
 	 */
 	
 	public boolean isKClosed(int k) 

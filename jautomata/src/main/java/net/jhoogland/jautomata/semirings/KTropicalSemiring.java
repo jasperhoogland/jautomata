@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 /**
  * 
- * This semiring is used by the shortest distance algorithm to determine the n shortest distances to a state. If the storePath
- * field has value true, then the paths are stored that led to the n shortest distances. 
+ * This semiring is used by the shortest distance algorithm to determine the n shortest distances to a state. 
+ * If the storePath field has value true, then the paths are stored that led to the n shortest distances. 
  * 
  * @author Jasper Hoogland
  *
