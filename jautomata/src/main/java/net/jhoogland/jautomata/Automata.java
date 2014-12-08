@@ -2,6 +2,7 @@ package net.jhoogland.jautomata;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -63,7 +64,8 @@ public class Automata
 		File f2 = new File("C:\\Users\\Jasper\\Documents\\ta2.txt");
 //		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
 		
-		IO.writeAutomaton(complex, f2, "att");
+		PrintWriter writer = new PrintWriter(f2);
+		IO.writeAutomaton(complex, writer, "att");
 
 		System.out.println(stringWeight(complex, ""));
 		System.out.println(stringWeight(complex, "a"));
