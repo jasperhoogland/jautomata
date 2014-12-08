@@ -30,7 +30,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
  * 
- * This class contains static methods to load and save (weighted) automata.
+ * This class contains static methods to load and save (weighted) acceptors.
  * 
  * @author Jasper Hoogland
  *
