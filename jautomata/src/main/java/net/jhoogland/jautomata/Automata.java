@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.jhoogland.jautomata.io.CharacterFormat;
-import net.jhoogland.jautomata.io.IO;
+import net.jhoogland.jautomata.io.AcceptorIO;
 import net.jhoogland.jautomata.operations.AcceptorIntersection;
 import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.operations.SingleInitialStateOperation;
@@ -65,7 +65,7 @@ public class Automata
 //		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
 		
 		PrintWriter writer = new PrintWriter(f2);
-		IO.writeAutomaton(complex, writer, "att");
+		AcceptorIO.write(complex, writer, "att");
 
 		System.out.println(stringWeight(complex, ""));
 		System.out.println(stringWeight(complex, "a"));
