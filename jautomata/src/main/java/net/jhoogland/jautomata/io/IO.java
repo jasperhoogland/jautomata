@@ -26,40 +26,48 @@ import net.jhoogland.jautomata.semirings.BooleanSemiring;
 import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
 
+/**
+ * 
+ * This class contains static methods to load and save (weighted) automata.
+ * 
+ * @author Jasper Hoogland
+ *
+ */
+
 public class IO 
 {
-	public static <L, K> Automaton<L, K> loadAcceptor(File file, String format, Semiring<K> semiring, Format<L> labelFormat) throws IOException
+	public static <L, K> Automaton<L, K> readAcceptor(File file, String format, Semiring<K> semiring, Format<L> labelFormat) throws IOException
 	{
-		if (format.toLowerCase().equals("att")) return loadAcceptorATT(file, semiring, labelFormat);
+		if (format.toLowerCase().equals("att")) return readAcceptorATT(file, semiring, labelFormat);
 		else return null;
 	}
 
-	public static <K> Automaton<Character, K> loadAcceptor(File file, Semiring<K> semiring, String format) throws IOException
+	public static <K> Automaton<Character, K> readAcceptor(File file, Semiring<K> semiring, String format) throws IOException
 	{
-		return loadAcceptor(file, format, semiring, new CharacterFormat());
+		return readAcceptor(file, format, semiring, new CharacterFormat());
 	}
 
-	public static <L> Automaton<L, Boolean> loadUnweightedAcceptor(File file, String format, Format<L> labelFormat) throws IOException
+	public static <L> Automaton<L, Boolean> readUnweightedAcceptor(File file, String format, Format<L> labelFormat) throws IOException
 	{
-		return loadAcceptor(file, format, new BooleanSemiring(), labelFormat);
+		return readAcceptor(file, format, new BooleanSemiring(), labelFormat);
 	}
 
-	public static Automaton<Character, Boolean> loadUnweightedAcceptor(File file, String format) throws IOException
+	public static Automaton<Character, Boolean> readUnweightedAcceptor(File file, String format) throws IOException
 	{
-		return loadUnweightedAcceptor(file, format, new CharacterFormat());		
+		return readUnweightedAcceptor(file, format, new CharacterFormat());		
 	}
 	
-	public static <L> Automaton<L, Double> loadWeightedAcceptor(File file, String format, Format<L> labelFormat) throws IOException
+	public static <L> Automaton<L, Double> readWeightedAcceptor(File file, String format, Format<L> labelFormat) throws IOException
 	{
-		return loadAcceptor(file, format, new RealSemiring(), labelFormat);
+		return readAcceptor(file, format, new RealSemiring(), labelFormat);
 	}
 
-	public static Automaton<Character, Double> loadWeightedAcceptor(File file, String format) throws IOException
+	public static Automaton<Character, Double> readWeightedAcceptor(File file, String format) throws IOException
 	{
-		return loadWeightedAcceptor(file, format, new CharacterFormat());		
+		return readWeightedAcceptor(file, format, new CharacterFormat());		
 	}
 	
-	public static <L, K> void saveAutomaton(Automaton<L, K> automaton, File file, String format, Format<L> labelFormat) throws FileNotFoundException
+	public static <L, K> void writeAutomaton(Automaton<L, K> automaton, File file, String format, Format<L> labelFormat) throws FileNotFoundException
 	{
 		ReverselyAccessibleAutomaton<L, K> a = new ArrayAutomaton<L, K>(automaton.initialStates().size() > 1 ? Operations.singleInitialState(automaton) : automaton);	
 		PrintWriter pw = new PrintWriter(file);
@@ -81,12 +89,12 @@ public class IO
 		pw.close();
 	}
 	
-	public static <K> void saveAutomaton(Automaton<Character, K> automaton, File file, String format) throws FileNotFoundException
+	public static <K> void writeAutomaton(Automaton<Character, K> automaton, File file, String format) throws FileNotFoundException
 	{
-		saveAutomaton(automaton, file, format, new CharacterFormat());
+		writeAutomaton(automaton, file, format, new CharacterFormat());
 	}
 	
-	private static <L, K> Automaton<L, K> loadAcceptorATT(File file, Semiring<K> semiring, Format<L> labelFormat) throws IOException
+	private static <L, K> Automaton<L, K> readAcceptorATT(File file, Semiring<K> semiring, Format<L> labelFormat) throws IOException
 	{
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line = br.readLine();

@@ -63,7 +63,7 @@ public class Automata
 		File f2 = new File("C:\\Users\\Jasper\\Documents\\ta2.txt");
 //		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
 		
-		IO.saveAutomaton(complex, f2, "att");
+		IO.writeAutomaton(complex, f2, "att");
 
 		System.out.println(stringWeight(complex, ""));
 		System.out.println(stringWeight(complex, "a"));
