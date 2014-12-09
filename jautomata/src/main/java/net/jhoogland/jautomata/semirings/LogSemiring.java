@@ -2,8 +2,10 @@ package net.jhoogland.jautomata.semirings;
 
 /**
  * 
- * Implementation of the log semiring.
- * This is a commutative semifield over the set of nonnegative real numbers.
+ * Implementation of the log semiring, 
+ * which is a semiring of the set of non-negative real numbers
+ * (represented by <code>double</code> values in this implementation).
+ * The log semiring is a commutative semifield.
  * It is not idempotent and it is not k-closed for any k.
  * Its multiplication operation is <code>+</code> with identity <code>0</code>,
  * and its addition operation is <code>-log(exp(-x1)+exp(-x2))</code>

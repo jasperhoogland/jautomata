@@ -1,8 +1,10 @@
 package net.jhoogland.jautomata.semirings;
 
 /**
- * Implementation of the Boolean semiring, over which unweighted automata are defined.
- * This is a commutative semifield over the Boolean values <code>true</code> and <code>false</code>.
+ * Implementation of the Boolean semiring, 
+ * which is a semiring of the Boolean values <code>true</code> and <code>false</code>.
+ * Shortest distance algorithms use this semiring to compute whether unweighted automata have complete paths.
+ * The Boolean semiring is a commutative semifield.
  * It is idempotent and it k-closed for any k > 0.
  * Its multiplication operation is <code>and</code> with identity <code>true</code>,
  * and its addition operation is <code>or</code> 

@@ -4,7 +4,8 @@ package net.jhoogland.jautomata.semirings;
  * 
  * Implementation of the semiring of non-negative real numbers
  * (represented by <code>double</code> values in this implementation).
- * This is a commutative semifield. 
+ * Shortest distance algorithms use this semiring to compute the sum of paths weights of weighted automata.
+ * This semiring is a commutative semifield. 
  * It is not idempotent and it is not k-closed for any k.
  * Its multiplication operation is <code>*</code> with identity <code>1</code>,
  * and its addition operation is <code>+</code> with identity <code>0</code>,
