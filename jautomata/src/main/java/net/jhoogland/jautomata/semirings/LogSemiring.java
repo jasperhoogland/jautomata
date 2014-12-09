@@ -3,7 +3,12 @@ package net.jhoogland.jautomata.semirings;
 /**
  * 
  * Implementation of the log semiring.
- * 
+ * This is a commutative semifield over the set of nonnegative real numbers.
+ * It is not idempotent and it is not k-closed for any k.
+ * Its multiplication operation is <code>+</code> with identity <code>0</code>,
+ * and its addition operation is <code>-log(exp(-x1)+exp(-x2))</code>
+ * with identity <code>infinity</code>.
+ * The multiplicative inverse is <code>-x</code>.
  * 
  * @author Jasper Hoogland
  *

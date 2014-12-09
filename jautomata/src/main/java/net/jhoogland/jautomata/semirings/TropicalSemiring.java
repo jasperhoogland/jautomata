@@ -2,14 +2,12 @@ package net.jhoogland.jautomata.semirings;
 
 /**
  * 
- * An implementation of the tropical semiring. 
- * The tropical semiring is defined over the set of real numbers (and positive 
- * infinity), which are represented by <tt>double</tt> values in this implementation. 
- * <tt>min</tt> is the addition operation 
- * and summation is the multiplication operation. 
- * Positive infinity is the addition identity and 0 is the multiplication identity. 
- * The tropical semiring is commutative (x + y = y + x), idempotent (min(x, x) = x),
- * and k-closed for all k.
+ * Implementation of the tropical semiring.
+ * This is a commutative semifield over the set of nonnegative real numbers and infinity
+ * It is idempotent and k-closed for any k > 0.
+ * Its multiplication operation is + with identity 0,
+ * and its addition operation is min(x1, x2) with identity infinity.
+ * The multiplicative inverse is -x.
  * 
  * @author Jasper Hoogland
  *

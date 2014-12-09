@@ -3,10 +3,10 @@ package net.jhoogland.jautomata.semirings;
 /**
  * 
  * Semirings must implement this interface.
- * A semiring is defined by the methods <tt>multiply(x1, x2)</tt>, <tt>add(x1, x2)</tt>,
- * <tt>one()</tt> and <tt>zero()</tt>.
- * The methods <tt>isIdempotent()</tt>, <tt>isCommutative()</tt>, 
- * and <tt>isKClosed(int k)</tt> specify properties of the semiring.
+ * A semiring is defined by the methods <code>multiply(x1, x2)</code>, <code>add(x1, x2)</code>,
+ * <code>one()</code> and <code>zero()</code>.
+ * The methods <code>isIdempotent()</code>, <code>isCommutative()</code>, 
+ * and <code>isKClosed(int k)</code> specify properties of the semiring.
  * 
  * @author Jasper Hoogland
  *

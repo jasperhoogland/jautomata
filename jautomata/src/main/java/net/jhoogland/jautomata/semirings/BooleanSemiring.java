@@ -1,13 +1,19 @@
 package net.jhoogland.jautomata.semirings;
 
 /**
- * The boolean semiring. This semiring is used for unweighted automata.
+ * Implementation of the Boolean semiring, over which unweighted automata are defined.
+ * This is a commutative semifield over the Boolean values <code>true</code> and <code>false</code>.
+ * It is idempotent and it k-closed for any k > 0.
+ * Its multiplication operation is <code>and</code> with identity <code>true</code>,
+ * and its addition operation is <code>or</code> 
+ * with identity <code>false</code>.
+ * The multiplicative inverse is <code>true</code>.
  * 
  * @author Jasper Hoogland
  *
  */
 
-public class BooleanSemiring implements Semifield<Boolean> 
+public class BooleanSemiring implements Semiring<Boolean> 
 {
 	// Definition
 	
@@ -29,11 +35,6 @@ public class BooleanSemiring implements Semifield<Boolean>
 	public Boolean zero() 
 	{		
 		return false;
-	}
-	
-	public Boolean inverse(Boolean x) 
-	{		
-		return true;
 	}
 	
 	// Properties
