@@ -21,48 +21,84 @@ import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
- * This class contains static methods to load and save (weighted) transducers.
+ * This class contains static methods to read and write (weighted) transducers.
  * 
  * @author Jasper Hoogland
  */
 
 public class TransducerIO 
 {
+	/**
+	 * Creates and returns a transducer from the specified reader.
+	 * The semiring and input and output label formats are specified by the arguments.
+	 */
+	
 	public static <I, O, K> Transducer<I, O, K> read(Reader reader, Semiring<K> semiring, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
 	{
 		return readATT(reader, semiring, inputLabelFormat, outputLabelFormat);
 	}
 
+	/**
+	 * Creates and returns a transducer from the specified reader.
+	 * The semiring is specified by the argument.
+	 * An instance of {@link CharacterFormat} is used as input and output label formats.
+	 */
+	
 	public static <K> Transducer<Character, Character, K> read(Reader reader, Semiring<K> semiring) throws IOException
 	{
 		return read(reader, semiring, new CharacterFormat(), new CharacterFormat());
 	}
 
+	/**
+	 * Creates and returns an unweighted transducer from the specified reader.
+	 * The input and output label formats are specified by the arguments.
+	 */
+	
 	public static <I, O> Transducer<I, O, Boolean> readUnweighted(Reader reader, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
 	{
 		return read(reader, new BooleanSemiring(), inputLabelFormat, outputLabelFormat);
 	}
 
+	/**
+	 * Creates and returns an unweighted transducer from the specified reader.
+	 * An instance of {@link CharacterFormat} is used as input and output label formats.
+	 */
+	
 	public static Transducer<Character, Character, Boolean> readUnweighted(Reader reader, String format) throws IOException
 	{
 		return readUnweighted(reader, new CharacterFormat(), new CharacterFormat());		
 	}
+	
+	/**
+	 * Creates and returns a weighted transducer over the real semiring from the specified reader.
+	 * The input and output label formats are specified by the arguments.
+	 */
 	
 	public static <I, O> Transducer<I, O, Double> readWeighted(Reader reader, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
 	{
 		return read(reader, new RealSemiring(), inputLabelFormat, outputLabelFormat);
 	}
 
+	/**
+	 * Creates and returns a weighted transducer over the real semiring from the specified reader.
+	 * An instance of {@link CharacterFormat} is used as input and output label formats.
+	 */
+	
 	public static Transducer<Character, Character, Double> readWeighted(Reader reader, String format) throws IOException
 	{
 		return readWeighted(reader, new CharacterFormat(), new CharacterFormat());		
 	}
 	
-	public static <I, O, K> void write(Automaton<TLabel<I, O>, K> automaton, Writer writer, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws FileNotFoundException
+	/**
+	 * Writes the specified transducer to the specified writer.
+	 * The input and output label formats are specified by the arguments.
+	 */
+	
+	public static <I, O, K> void write(Automaton<TLabel<I, O>, K> transducer, Writer writer, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws FileNotFoundException
 	{
-		ReverselyAccessibleAutomaton<TLabel<I, O>, K> a = new ArrayAutomaton<TLabel<I, O>, K>(automaton.initialStates().size() > 1 ? Operations.singleInitialState(automaton) : automaton);	
+		ReverselyAccessibleAutomaton<TLabel<I, O>, K> a = new ArrayAutomaton<TLabel<I, O>, K>(transducer.initialStates().size() > 1 ? Operations.singleInitialState(transducer) : transducer);	
 		PrintWriter pw = writer instanceof PrintWriter ? (PrintWriter) writer : new PrintWriter(writer);
-		K one = automaton.semiring().one();
+		K one = transducer.semiring().one();
 		for (Object t : Automata.transitions(a))
 		{
 			String from = a.previousState(t).toString();
@@ -81,9 +117,14 @@ public class TransducerIO
 		pw.close();
 	}
 	
-	public static <K> void write(Automaton<TLabel<Character, Character>, K> automaton, Writer writer, String format) throws FileNotFoundException
+	/**
+	 * Writes the specified transducer to the specified writer.
+	 * An instance of {@link CharacterFormat} is used as input and output label formats.
+	 */	
+	
+	public static <K> void write(Automaton<TLabel<Character, Character>, K> transducer, Writer writer, String format) throws FileNotFoundException
 	{
-		write(automaton, writer, new CharacterFormat(), new CharacterFormat());
+		write(transducer, writer, new CharacterFormat(), new CharacterFormat());
 	}
 	
 	private static <I, O, K> Transducer<I, O, K> readATT(Reader reader, Semiring<K> semiring, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException

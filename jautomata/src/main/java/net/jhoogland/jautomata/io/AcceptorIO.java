@@ -30,7 +30,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
  * 
- * This class contains static methods to load and save (weighted) acceptors.
+ * This class contains static methods to read and write (weighted) acceptors.
  * 
  * @author Jasper Hoogland
  *
@@ -38,35 +38,71 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 public class AcceptorIO 
 {
+	/**
+	 * Creates and returns an automaton from the specified reader.
+	 * The semiring and label format are specified by the arguments.
+	 */
+	
 	public static <L, K> Automaton<L, K> read(Reader reader, Semiring<K> semiring, Format<L> labelFormat) throws IOException
 	{
 		return readATT(reader, semiring, labelFormat);
 	}
 
+	/**
+	 * Creates and returns an automaton from the specified reader.
+	 * The semiring is specified by the argument.
+	 * An instance of {@link CharacterFormat} is used as label format.
+	 */
+	
 	public static <K> Automaton<Character, K> read(Reader reader, Semiring<K> semiring) throws IOException
 	{
 		return read(reader, semiring, new CharacterFormat());
 	}
 
+	/**
+	 * Creates and returns an unweighted automaton from the specified reader.
+	 * The label format is specified by the argument.
+	 */
+	
 	public static <L> Automaton<L, Boolean> readUnweighted(Reader reader, Format<L> labelFormat) throws IOException
 	{
 		return read(reader, new BooleanSemiring(), labelFormat);
 	}
 
-	public static Automaton<Character, Boolean> readUnweighted(Reader reader, String format) throws IOException
+	/**
+	 * Creates and returns an unweighted automaton from the specified reader.
+	 * An instance of {@link CharacterFormat} is used as label format.
+	 */
+	
+	public static Automaton<Character, Boolean> readUnweighted(Reader reader) throws IOException
 	{
 		return readUnweighted(reader, new CharacterFormat());		
 	}
+	
+	/**
+	 * Creates and returns a weighted automaton over the real semiring from the specified reader.
+	 * The label format is specified by the argument.
+	 */
 	
 	public static <L> Automaton<L, Double> readWeighted(Reader reader, Format<L> labelFormat) throws IOException
 	{
 		return read(reader, new RealSemiring(), labelFormat);
 	}
 
-	public static Automaton<Character, Double> readWeighted(Reader reader, String format) throws IOException
+	/**
+	 * Creates and returns a weighted automaton over the real semiring from the specified reader.
+	 * An instance of {@link CharacterFormat} is used as label format.
+	 */
+	
+	public static Automaton<Character, Double> readWeighted(Reader reader) throws IOException
 	{
 		return readWeighted(reader, new CharacterFormat());		
 	}
+	
+	/**
+	 * Writes the specified automaton to the specified writer.
+	 * The label format is specified by the argument.
+	 */
 	
 	public static <L, K> void write(Automaton<L, K> automaton, Writer writer, Format<L> labelFormat) throws FileNotFoundException
 	{
@@ -90,7 +126,12 @@ public class AcceptorIO
 		pw.close();
 	}
 	
-	public static <K> void write(Automaton<Character, K> automaton, Writer writer, String format) throws FileNotFoundException
+	/**
+	 * Writes the specified automaton to the specified writer.
+	 * An instance of {@link CharacterFormat} is used as label format.
+	 */	
+	
+	public static <K> void write(Automaton<Character, K> automaton, Writer writer) throws FileNotFoundException
 	{
 		write(automaton, writer, new CharacterFormat());
 	}
