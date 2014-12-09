@@ -1,13 +1,29 @@
 package net.jhoogland.jautomata.io;
 
+/**
+ * 
+ * Label format for Character labels.
+ * 
+ * @author Jasper Hoogland
+ *
+ */
+
 public class CharacterFormat implements Format<Character> 
 {
 	public String nullString;
+	
+	/**
+	 * Creates a {@link CharacterFormat} instance with the specified null string.
+	 */
 	
 	public CharacterFormat(String nullString) 
 	{
 		this.nullString = nullString;
 	}
+	
+	/**
+	 * Creates a {@link CharacterFormat} instance with null string <tt>--</tt>.
+	 */
 	
 	public CharacterFormat()
 	{

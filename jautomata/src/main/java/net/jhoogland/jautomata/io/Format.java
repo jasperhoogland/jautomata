@@ -12,6 +12,17 @@ package net.jhoogland.jautomata.io;
 
 public interface Format<L> 
 {
+	/**
+	 * @return
+	 * the formatted {@link String} for the specified label according to this label format
+	 */
+	
 	public String format(L e);
+
+	/**
+	 * @return
+	 * the parsed label for the specified label string according to this label format
+	 */
+	
 	public L parse(String str);
 }
