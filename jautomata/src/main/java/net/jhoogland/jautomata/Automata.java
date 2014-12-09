@@ -65,7 +65,7 @@ public class Automata
 //		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
 		
 		PrintWriter writer = new PrintWriter(f2);
-		AcceptorIO.write(complex, writer, "att");
+		AcceptorIO.write(complex, writer);
 
 		System.out.println(stringWeight(complex, ""));
 		System.out.println(stringWeight(complex, "a"));
