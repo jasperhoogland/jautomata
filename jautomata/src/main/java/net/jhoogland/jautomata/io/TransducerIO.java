@@ -28,38 +28,37 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 public class TransducerIO 
 {
-	public static <I, O, K> Transducer<I, O, K> read(Reader reader, String format, Semiring<K> semiring, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
+	public static <I, O, K> Transducer<I, O, K> read(Reader reader, Semiring<K> semiring, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
 	{
-		if (format.toLowerCase().equals("att")) return readATT(reader, semiring, inputLabelFormat, outputLabelFormat);
-		else return null;
+		return readATT(reader, semiring, inputLabelFormat, outputLabelFormat);
 	}
 
-	public static <K> Transducer<Character, Character, K> read(Reader reader, String format, Semiring<K> semiring) throws IOException
+	public static <K> Transducer<Character, Character, K> read(Reader reader, Semiring<K> semiring) throws IOException
 	{
-		return read(reader, format, semiring, new CharacterFormat(), new CharacterFormat());
+		return read(reader, semiring, new CharacterFormat(), new CharacterFormat());
 	}
 
-	public static <I, O> Transducer<I, O, Boolean> readUnweighted(Reader reader, String format, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
+	public static <I, O> Transducer<I, O, Boolean> readUnweighted(Reader reader, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
 	{
-		return read(reader, format, new BooleanSemiring(), inputLabelFormat, outputLabelFormat);
+		return read(reader, new BooleanSemiring(), inputLabelFormat, outputLabelFormat);
 	}
 
 	public static Transducer<Character, Character, Boolean> readUnweighted(Reader reader, String format) throws IOException
 	{
-		return readUnweighted(reader, format, new CharacterFormat(), new CharacterFormat());		
+		return readUnweighted(reader, new CharacterFormat(), new CharacterFormat());		
 	}
 	
-	public static <I, O> Transducer<I, O, Double> readWeighted(Reader reader, String format, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
+	public static <I, O> Transducer<I, O, Double> readWeighted(Reader reader, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException
 	{
-		return read(reader, format, new RealSemiring(), inputLabelFormat, outputLabelFormat);
+		return read(reader, new RealSemiring(), inputLabelFormat, outputLabelFormat);
 	}
 
 	public static Transducer<Character, Character, Double> readWeighted(Reader reader, String format) throws IOException
 	{
-		return readWeighted(reader, format, new CharacterFormat(), new CharacterFormat());		
+		return readWeighted(reader, new CharacterFormat(), new CharacterFormat());		
 	}
 	
-	public static <I, O, K> void write(Automaton<TLabel<I, O>, K> automaton, Writer writer, String format, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws FileNotFoundException
+	public static <I, O, K> void write(Automaton<TLabel<I, O>, K> automaton, Writer writer, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws FileNotFoundException
 	{
 		ReverselyAccessibleAutomaton<TLabel<I, O>, K> a = new ArrayAutomaton<TLabel<I, O>, K>(automaton.initialStates().size() > 1 ? Operations.singleInitialState(automaton) : automaton);	
 		PrintWriter pw = writer instanceof PrintWriter ? (PrintWriter) writer : new PrintWriter(writer);
@@ -84,7 +83,7 @@ public class TransducerIO
 	
 	public static <K> void write(Automaton<TLabel<Character, Character>, K> automaton, Writer writer, String format) throws FileNotFoundException
 	{
-		write(automaton, writer, format, new CharacterFormat(), new CharacterFormat());
+		write(automaton, writer, new CharacterFormat(), new CharacterFormat());
 	}
 	
 	private static <I, O, K> Transducer<I, O, K> readATT(Reader reader, Semiring<K> semiring, Format<I> inputLabelFormat, Format<O> outputLabelFormat) throws IOException

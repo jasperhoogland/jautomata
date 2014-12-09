@@ -38,38 +38,37 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 public class AcceptorIO 
 {
-	public static <L, K> Automaton<L, K> read(Reader reader, String format, Semiring<K> semiring, Format<L> labelFormat) throws IOException
+	public static <L, K> Automaton<L, K> read(Reader reader, Semiring<K> semiring, Format<L> labelFormat) throws IOException
 	{
-		if (format.toLowerCase().equals("att")) return readATT(reader, semiring, labelFormat);
-		else return null;
+		return readATT(reader, semiring, labelFormat);
 	}
 
-	public static <K> Automaton<Character, K> read(Reader reader, String format, Semiring<K> semiring) throws IOException
+	public static <K> Automaton<Character, K> read(Reader reader, Semiring<K> semiring) throws IOException
 	{
-		return read(reader, format, semiring, new CharacterFormat());
+		return read(reader, semiring, new CharacterFormat());
 	}
 
-	public static <L> Automaton<L, Boolean> readUnweighted(Reader reader, String format, Format<L> labelFormat) throws IOException
+	public static <L> Automaton<L, Boolean> readUnweighted(Reader reader, Format<L> labelFormat) throws IOException
 	{
-		return read(reader, format, new BooleanSemiring(), labelFormat);
+		return read(reader, new BooleanSemiring(), labelFormat);
 	}
 
 	public static Automaton<Character, Boolean> readUnweighted(Reader reader, String format) throws IOException
 	{
-		return readUnweighted(reader, format, new CharacterFormat());		
+		return readUnweighted(reader, new CharacterFormat());		
 	}
 	
-	public static <L> Automaton<L, Double> readWeighted(Reader reader, String format, Format<L> labelFormat) throws IOException
+	public static <L> Automaton<L, Double> readWeighted(Reader reader, Format<L> labelFormat) throws IOException
 	{
-		return read(reader, format, new RealSemiring(), labelFormat);
+		return read(reader, new RealSemiring(), labelFormat);
 	}
 
 	public static Automaton<Character, Double> readWeighted(Reader reader, String format) throws IOException
 	{
-		return readWeighted(reader, format, new CharacterFormat());		
+		return readWeighted(reader, new CharacterFormat());		
 	}
 	
-	public static <L, K> void write(Automaton<L, K> automaton, Writer writer, String format, Format<L> labelFormat) throws FileNotFoundException
+	public static <L, K> void write(Automaton<L, K> automaton, Writer writer, Format<L> labelFormat) throws FileNotFoundException
 	{
 		ReverselyAccessibleAutomaton<L, K> a = new ArrayAutomaton<L, K>(automaton.initialStates().size() > 1 ? Operations.singleInitialState(automaton) : automaton);	
 		PrintWriter pw = writer instanceof PrintWriter ? (PrintWriter) writer : new PrintWriter(writer);
@@ -93,7 +92,7 @@ public class AcceptorIO
 	
 	public static <K> void write(Automaton<Character, K> automaton, Writer writer, String format) throws FileNotFoundException
 	{
-		write(automaton, writer, format, new CharacterFormat());
+		write(automaton, writer, new CharacterFormat());
 	}
 	
 	private static <L, K> Automaton<L, K> readATT(Reader reader, Semiring<K> semiring, Format<L> labelFormat) throws IOException
