@@ -43,4 +43,4 @@ This includes the computation of weights of paths and strings, operations such a
 
 <h2>Links</h2>
 
-<a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target"=_blank">Javadocs</a>
+<a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target="_blank">Javadocs</a>
