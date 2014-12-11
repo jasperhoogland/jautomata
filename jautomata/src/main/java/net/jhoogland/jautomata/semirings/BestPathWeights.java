@@ -1,5 +1,13 @@
 package net.jhoogland.jautomata.semirings;
 
+/**
+ * 
+ * This class defines the element type of the k-tropical semiring.
+ * 
+ * @author Jasper Hoogland
+ *
+ */
+
 public class BestPathWeights
 {
 	public PathWeight[] pathWeights;

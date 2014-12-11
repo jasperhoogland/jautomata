@@ -11,6 +11,14 @@ import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.KTropicalSemiring;
 
+/**
+ * 
+ * Implementation of a {@link QueueFactory} that creates queues for the n shortest paths algorithm.
+ * 
+ * @author Jasper Hoogland
+ *
+ */
+
 public class KTropicalQueueFactory implements QueueFactory<BestPathWeights>
 {
 

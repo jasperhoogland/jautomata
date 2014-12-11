@@ -6,6 +6,14 @@ import java.util.List;
 import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.Path;
 
+/**
+ * 
+ * A chain of instances of this class specify a path over an automaton and its weight.
+ * 
+ * @author Jasper Hoogland
+ *
+ */
+
 public class PathWeight implements Comparable<PathWeight> 
 {
 	public PathWeight previous;

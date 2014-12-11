@@ -40,3 +40,7 @@ They can be imported from files or they can be created in an application using J
 
 This library supports several algorithms on automaton.
 This includes the computation of weights of paths and strings, operations such as intersection, union, and conversion of labels and semirings.
+
+<h2>Links</h2>
+
+<a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target="_blank">Javadocs</a>

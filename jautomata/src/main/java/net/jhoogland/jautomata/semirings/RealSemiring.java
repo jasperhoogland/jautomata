@@ -2,15 +2,14 @@ package net.jhoogland.jautomata.semirings;
 
 /**
  * 
- * An implementation of the real semiring. 
- * The real semiring is defined over the set of real numbers, which are represented by 
- * <code>double</code> values in this implementation. 
- * Summation is the addition operation and product is the mulitiplication 
- * operation. 
- * 0 is the addition identity and 1 is the multiplication identity. 
- * The real semiring is commutative (x * y = y * x). 
- * It is not idempotent (x + x != x)
- * and it is not k-closed for any k.
+ * Implementation of the semiring of non-negative real numbers
+ * (represented by <code>double</code> values in this implementation).
+ * Shortest distance algorithms use this semiring to compute the sum of paths weights of weighted automata.
+ * This semiring is a commutative semifield. 
+ * It is not idempotent and it is not k-closed for any k.
+ * Its multiplication operation is <code>*</code> with identity <code>1</code>,
+ * and its addition operation is <code>+</code> with identity <code>0</code>,
+ * The multiplicative inverse is <code>1 / x</code>.
  * 
  * @author Jasper Hoogland
  * 

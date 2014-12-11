@@ -5,8 +5,8 @@ import net.jhoogland.jautomata.operations.Determinization;
 /**
  * 
  * Semifields must implement this interface. 
- * A semifield is a semiring with a multiplicative inverse. 
- * The real semiring and the tropical semiring are examples of semifields. 
+ * A semifield is a semiring with a multiplicative inverse for all non-zero values. 
+ * The Boolean, real, and tropical semirings are examples of semifields. 
  * The multiplicative inverse is used by the {@link Determinization} operation. 
  * 
  * @author Jasper Hoogland

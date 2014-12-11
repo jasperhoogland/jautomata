@@ -2,14 +2,15 @@ package net.jhoogland.jautomata.semirings;
 
 /**
  * 
- * An implementation of the tropical semiring. 
- * The tropical semiring is defined over the set of real numbers (and positive 
- * infinity), which are represented by <tt>double</tt> values in this implementation. 
- * <tt>min</tt> is the addition operation 
- * and summation is the multiplication operation. 
- * Positive infinity is the addition identity and 0 is the multiplication identity. 
- * The tropical semiring is commutative (x + y = y + x), idempotent (min(x, x) = x),
- * and k-closed for all k.
+ * Implementation of the tropical semiring, 
+ * which is a semiring of the set of non-negative real numbers
+ * (represented by <code>double</code> values in this implementation).
+ * Shortest distance algorithms use this semiring to compute the shortest distance of weighted automata.
+ * The tropical semiring is a commutative semifield.
+ * It is idempotent and k-closed for any k > 0.
+ * Its multiplication operation is <code>+</code> with identity <code>0</code>,
+ * and its addition operation is <code>min(x1, x2)</code> with identity <code>infinity</code>.
+ * The multiplicative inverse is <code>-x</code>.
  * 
  * @author Jasper Hoogland
  *
