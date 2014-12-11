@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>JAutomata Documentation</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>Getting Started</h1>
+<p>
+Using the following code, we can load an unweighted automaton from a file:
+<div class="code">
+<ol>
+<li>File file = new File("<i>filename</i>");</li>
+<li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
+<li>Automaton&lt;Character, Boolean&gt; acceptor = Automata.readUnweighted(isr, "att");</li>
+</ol>
+</div>
+</p>
+<p>
+The first two lines create a Reader for a file.
+The third line loads an unweighted acceptor from the file.
+The second parameter of the <span class="icode">Automata.readUnweighted</span> method specifies the file format.
+The value "att" indicates the <a href="http://www2.research.att.com/~fsmtools/fsm/man4/fsm.5.html" target="_NEW">format</a> used by the 
+<a href="http://www2.research.att.com/~fsmtools/fsm/" target="_NEW">AT&T FSM Library</a>.
+Currently, this is the only format supported by JAutomata.
+In the future, more formats will be supported.
+</p>
+</body>
+</html>
