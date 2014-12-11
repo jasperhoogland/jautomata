@@ -52,17 +52,8 @@ public class Automata
 	{
 		SinglePathAutomaton<Character, Double> a1 = createSinglePathAutomaton(new RealSemiring(), "a");
 		SinglePathAutomaton<Character, Double> a2 = createSinglePathAutomaton(new RealSemiring(), "b");
-
 		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.singleInitialState(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6)));
-		
-		File f = new File("C:\\Users\\Jasper\\Documents\\ta.txt");
-		File f2 = new File("C:\\Users\\Jasper\\Documents\\ta2.txt");
-
-		PrintWriter writer = new PrintWriter(f2);
-		AcceptorIO.write(complex, writer);
-		
-		List<Path<Character, Double>> ps = bestStrings(complex, 10);
-		
+		List<Path<Character, Double>> ps = bestStrings(complex, 5);
 		for (Path<Character, Double> p : ps)
 			System.out.println(p.weight + ": " + toString(p.label));
 	}
