@@ -2,6 +2,7 @@ package net.jhoogland.jautomata;
 
 import java.util.List;
 
+import net.jhoogland.jautomata.operations.Concatenation;
 import net.jhoogland.jautomata.operations.LabelConversion;
 import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.operations.TransducerLabelConversion;
@@ -75,5 +76,41 @@ public class Transducers
 				else return new TLabel<L, L>(label, label);
 			}
 		};
-	}	
+	}
+	
+	public static <I, O, K> Transducer<I, O, K> inputTransducer(Automaton<I, K> acceptor)
+	{
+		return new TransducerLabelConversion<I, I, O, K>(acceptor)
+		{
+			@Override
+			public TLabel<I, O> newLabel(I label) 
+			{
+				return new TLabel<I, O>(label, null);
+			}
+		};
+	}
+	
+	public static <I, O, K> Transducer<I, O, K> outputTransducer(Automaton<O, K> acceptor)
+	{
+		return new TransducerLabelConversion<O, I, O, K>(acceptor)
+		{
+			@Override
+			public TLabel<I, O> newLabel(O label) 
+			{
+				return new TLabel<I, O>(null, label);
+			}
+		};
+	}
+	
+	public static <I, O, K> Transducer<I, O, K> concat(final Automaton<TLabel<I, O>, K>... operands)
+	{
+		class TransducerConcatenation extends Concatenation<TLabel<I, O>, K> implements Transducer<I, O, K>
+		{
+			public TransducerConcatenation() 
+			{
+				super(operands);
+			}
+		}		
+		return new TransducerConcatenation();
+	}
 }
