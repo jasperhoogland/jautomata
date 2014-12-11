@@ -87,4 +87,16 @@ public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K>
 	{
 		return transitions.get(transition);
 	}
+	
+	public void addState(Object state, K initialWeight, K finalWeight)
+	{
+		states.put(state, new BasicState<K>(initialWeight, finalWeight));
+	}
+	
+	public void addTransition(Object transition, Object from, Object to, L label, K weight)
+	{
+		if (! states.containsKey(from)) addState(from, semiring().zero(), semiring().zero());
+		if (! states.containsKey(to)) addState(to, semiring().zero(), semiring().zero());
+		transitions.put(transition, new BasicTransition<L, K>(from, label, weight, to));		
+	}
 }
