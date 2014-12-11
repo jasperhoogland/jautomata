@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>JAutomata Documentation</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>Input and Output</h1>
+<p>
+The package <code>io</code> package contains classes for reading from and writing to files.
+JAutomata supports the <a href="http://www2.research.att.com/~fsmtools/fsm/man4/fsm.5.html" target="_blank">AT&amp;T format</a> 
+for weighted and unweighted acceptors and transducers.
+<h2>Reading and Loading Acceptors</h2>
+
+Acceptors are read from and written to files using the AcceptorIO class.
+
+<h3>Label formats</h3>
+<p>
+Label formats are instances of classes that implement the <code>Format</code> interface.
+They convert strings into labels and vice versa.
+Read methods use them to parse labels and write methods use them to format labels.
+JAutomata provides two very simple label formats: <code>CharacterFormat</code> and <code>StringFormat</code>, 
+for <code>Character</code> labels and <code>String</code> labels respectively.
+Both formats allow the null-label to be specified in a constructor.
+The label format can be passed to <code>read</code> and <code>write</code> methods via the <code>labelFormat</code> parameter.
+Methods that don't have this parameter by use <code>CharacterFormat</code> with <code>"--"</code> denoting the null-label as default.
+</p>
+
+
+
+<h3>Reading</h3>
+
+Acceptors are read from a file using the <code>read</code> methods.
+
+
+
+
+<h3>Writing</h3>
+
+
+
+<h2>Reading and Loading Transducers</h2>
+
+
+
+
+
+
+
+Using the following code, we can load an unweighted automaton from a file:
+<div class="code">
+<ol>
+<li>File file = new File("<i>filename</i>");</li>
+<li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
+<li>Automaton&lt;Character, Boolean&gt; acceptor = Automata.readUnweighted(isr, "att");</li>
+</ol>
+</div>
+</p>
+<p>
+The first two lines create a Reader for a file.
+The third line loads an unweighted acceptor from the file.
+The second parameter of the <span class="icode">Automata.readUnweighted</span> method specifies the file format.
+The value "att" indicates the <a href="http://www2.research.att.com/~fsmtools/fsm/man4/fsm.5.html" target="_NEW">format</a> used by the 
+<a href="http://www2.research.att.com/~fsmtools/fsm/" target="_NEW">AT&T FSM Library</a>.
+Currently, this is the only format supported by JAutomata.
+In the future, more formats will be supported.
+</p>
+</body>
+</html>

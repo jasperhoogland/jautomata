@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>JAutomata Documentation</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>Shortest Distances and String weights</h1>
+<p>
+Common uses of automata are computing the weight of a string, computing the <i>n</i> shortest paths, and computing the <i>n</i> best strings.
+All of these can be computed with generic shortest distance algorithms.
+In this case generic applies to the semiring.
+
+
+
+
+
+
+In this section, you can find how to do this.
+</p>
+
+<h2>
+
+Using the following code, we can load an unweighted automaton from a file:
+<div class="code">
+<ol>
+<li>File file = new File("<i>filename</i>");</li>
+<li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
+<li>Automaton&lt;Character, Boolean&gt; acceptor = Automata.readUnweighted(isr, "att");</li>
+</ol>
+</div>
+</p>
+</body>
+</html>
