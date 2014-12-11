@@ -52,42 +52,10 @@ public class Automata
 	{
 		SinglePathAutomaton<Character, Double> a1 = createSinglePathAutomaton(new RealSemiring(), "a");
 		SinglePathAutomaton<Character, Double> a2 = createSinglePathAutomaton(new RealSemiring(), "b");
-//		for (Object state : states(a1))
-//			System.out.println(state);
-		
-//		SingleSourceShortestDistances<Boolean> sssp = new SingleSourceShortestDistances<Boolean>(new DefaultQueueFactory<Boolean>(), new ExactConvergence<Boolean>());
-		
-//		System.out.println(sssp.computeShortestDistances(automaton, 0));
-		
-//		System.out.println(shortestCompleteDistances(automaton, sssp));
-		
 		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.singleInitialState(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6)));
-		
-		File f = new File("C:\\Users\\Jasper\\Documents\\ta.txt");
-		File f2 = new File("C:\\Users\\Jasper\\Documents\\ta2.txt");
-//		Automaton<Character, Double> complex = IO.loadWeightedAcceptor(f, "att");
-		
-		PrintWriter writer = new PrintWriter(f2);
-		AcceptorIO.write(complex, writer);
-		
-		InputStream is = Automata.class.getResourceAsStream("indonesian-prefix-1.txt");
-		
-		Transducer<Character, Character, Boolean> ip1 = TransducerIO.readUnweighted(new InputStreamReader(is, "UTF-8"));
-		Transducer<Character, Character, Boolean> pfMe = Transducers.outputTransducer(Automata.createSinglePathAutomaton(new BooleanSemiring(), "me"));
-		
-		Transducer<Character, Character, Boolean> meWords = Transducers.concat(pfMe, ip1);
-		
-		Automaton<Character, Boolean> r = Transducers.apply(meWords, "s");
-		
-		
-		
-		
-		List<Path<Character, Double>> ps = bestStrings(r, 5);
-		
+		List<Path<Character, Double>> ps = bestStrings(complex, 5);
 		for (Path<Character, Double> p : ps)
 			System.out.println(p.weight + ": " + toString(p.label));
-		
-		
 	}
 
 	/**
