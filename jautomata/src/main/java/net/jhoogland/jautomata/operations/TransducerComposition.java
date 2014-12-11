@@ -25,18 +25,28 @@ public class TransducerComposition<I, L, O, K> extends Intersection<TLabel<I, L>
 	@Override
 	protected Object intersectionLabel1(TLabel<I, L> label) 
 	{		
-		return label.out();
+		return out(label);
 	}
 
 	@Override
 	protected Object intersectionLabel2(TLabel<L, O> label) 
 	{		
-		return label.in();
+		return in(label);
 	}
 
 	@Override
 	protected TLabel<I, O> label(TLabel<I, L> label1, TLabel<L, O> label2) 
 	{		
-		return new TLabel<I, O>(label1.in(), label2.out());
+		return new TLabel<I, O>(in(label1), out(label2));
+	}
+	
+	private <I1, O1> I1 in(TLabel<I1, O1> label)
+	{
+		return label == null ? null : label.in();
+	}
+
+	private <I1, O1> O1 out(TLabel<I1, O1> label)
+	{
+		return label == null ? null : label.out();
 	}
 }
