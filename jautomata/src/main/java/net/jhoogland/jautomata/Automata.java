@@ -2,6 +2,8 @@ package net.jhoogland.jautomata;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,7 @@ import java.util.Map.Entry;
 
 import net.jhoogland.jautomata.io.CharacterFormat;
 import net.jhoogland.jautomata.io.AcceptorIO;
+import net.jhoogland.jautomata.io.TransducerIO;
 import net.jhoogland.jautomata.operations.AcceptorIntersection;
 import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.operations.SingleInitialStateOperation;
@@ -66,18 +69,20 @@ public class Automata
 		
 		PrintWriter writer = new PrintWriter(f2);
 		AcceptorIO.write(complex, writer);
-
-		System.out.println(stringWeight(complex, ""));
-		System.out.println(stringWeight(complex, "a"));
-		System.out.println(stringWeight(complex, "b"));
-		System.out.println(stringWeight(complex, "aa"));
-		System.out.println(stringWeight(complex, "ab"));
-		System.out.println(stringWeight(complex, "ba"));
-		System.out.println(stringWeight(complex, "bb"));
-		System.out.println(stringWeight(complex, "aaa"));
-		System.out.println(stringWeight(complex, "aaaa"));
-		System.out.println();
-		List<Path<Character, Double>> ps = bestStrings(complex, 5);
+		
+		InputStream is = Automata.class.getResourceAsStream("indonesian-prefix-1.txt");
+		
+		Transducer<Character, Character, Boolean> ip1 = TransducerIO.readUnweighted(new InputStreamReader(is, "UTF-8"));
+		Transducer<Character, Character, Boolean> pfMe = Transducers.outputTransducer(Automata.createSinglePathAutomaton(new BooleanSemiring(), "me"));
+		
+		Transducer<Character, Character, Boolean> meWords = Transducers.concat(pfMe, ip1);
+		
+		Automaton<Character, Boolean> r = Transducers.apply(meWords, "s");
+		
+		
+		
+		
+		List<Path<Character, Double>> ps = bestStrings(r, 5);
 		
 		for (Path<Character, Double> p : ps)
 			System.out.println(p.weight + ": " + toString(p.label));
