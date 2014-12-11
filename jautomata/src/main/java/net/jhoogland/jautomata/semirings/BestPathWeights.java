@@ -20,16 +20,16 @@ public class BestPathWeights<K extends Comparable<K>>
 	@Override
 	public boolean equals(Object obj) 
 	{
-		throw new RuntimeException();
-//		if (obj instanceof BestPathWeights)
-//		{
-//			BestPathWeights other = (BestPathWeights) obj;
-//			for (int i = 0; i < this.pathWeights.length; i++)
-//				if (! this.pathWeights[i].equals(other.pathWeights[i])) 
-//					return false;
-//			return true;
-//		}
-//		else return false;
+//		throw new RuntimeException();
+		if (obj instanceof BestPathWeights)
+		{
+			BestPathWeights other = (BestPathWeights) obj;
+			for (int i = 0; i < this.pathWeights.length; i++)
+				if (! this.pathWeights[i].equals(other.pathWeights[i])) 
+					return false;
+			return true;
+		}
+		else return false;
 	}
 }
 

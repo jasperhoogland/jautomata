@@ -36,7 +36,7 @@ public class KTropicalSemiring<K extends Comparable<K>> implements Semiring<Best
 		int p = 0;
 		for (int i = 0; i < k; i++) for (int j = 0; j < k; j++, p++)
 		{
-			x[p] = new PathWeight<K>(storePath ? x1.pathWeights[i] : null, src.multiply(x1.pathWeights[i].weight, x2.pathWeights[j].weight), storePath ? x2.pathWeights[j].transition : null);
+			x[p] = new PathWeight<K>(storePath ? x1.pathWeights[i] : null, src.multiply(x1.pathWeights[i].weight, x2.pathWeights[j].weight), src, storePath ? x2.pathWeights[j].transition : null);
 		}
 		Arrays.sort(x);
 		PathWeight<K>[] y = new PathWeight[k];
@@ -58,15 +58,16 @@ public class KTropicalSemiring<K extends Comparable<K>> implements Semiring<Best
 	public BestPathWeights one() 
 	{
 		PathWeight[] mi = new PathWeight[k];
-		mi[0] = new PathWeight(null, 0.0);
-		for (int i = 1; i < k; i++) mi[i] = new PathWeight(null, Double.POSITIVE_INFINITY);
+//		mi[0] = new PathWeight(null, 0.0);
+		mi[0] = new PathWeight(null, src.one(), src);
+		for (int i = 1; i < k; i++) mi[i] = new PathWeight(null, src.zero(), src);
 		return new BestPathWeights(mi);
 	}
 
 	public BestPathWeights zero() 
 	{
 		PathWeight[] mi = new PathWeight[k];
-		for (int i = 0; i < k; i++) mi[i] = new PathWeight(null, Double.POSITIVE_INFINITY);
+		for (int i = 0; i < k; i++) mi[i] = new PathWeight(null, src.zero(), src);
 		return new BestPathWeights(mi);
 	}
 

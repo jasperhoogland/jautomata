@@ -19,16 +19,18 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 	public PathWeight<K> previous;
 	public Object transition;
 	public K weight;
+	public Semiring<K> src;
 	
-	public PathWeight(PathWeight<K> previous, K weight) 
+	public PathWeight(PathWeight<K> previous, K weight, Semiring<K> src) 
 	{
 		this.previous = previous;
 		this.weight = weight;
+		this.src = src;
 	}
 	
-	public PathWeight(PathWeight<K> previous, K weight, Object transition) 
+	public PathWeight(PathWeight<K> previous, K weight, Semiring<K> src, Object transition) 
 	{
-		this(previous, weight);
+		this(previous, weight, src);
 		this.transition = transition; 
 	}
 	
@@ -48,7 +50,7 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 	public int compareTo(PathWeight<K> o) 
 	{		
 		PathWeight<K> other = (PathWeight<K>) o;
-		return this.weight.compareTo(other.weight);
+		return (src.zero().compareTo(src.one())) * this.weight.compareTo(other.weight);
 //		return (int) Math.signum(this.weight - other.weight);
 	}
 	
@@ -57,7 +59,12 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 	{
 //		PathWeight other = (PathWeight) obj;
 //		return this.previous == other.previous && Math.abs(this.weight - other.weight) < 0.001;
-		throw new RuntimeException();
+		
+//		throw new RuntimeException();
+		
+		PathWeight other = (PathWeight) obj;
+		return this.previous == other.previous && this.weight.equals(other.weight);
+		
 	}
 	
 	boolean equals(Object o1, Object o2)

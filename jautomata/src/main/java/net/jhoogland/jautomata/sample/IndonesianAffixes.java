@@ -13,6 +13,7 @@ import net.jhoogland.jautomata.Path;
 import net.jhoogland.jautomata.Transducer;
 import net.jhoogland.jautomata.Transducers;
 import net.jhoogland.jautomata.io.TransducerIO;
+import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
 
 public class IndonesianAffixes 
@@ -21,12 +22,14 @@ public class IndonesianAffixes
 	{
 		Transducer<Character, Character, Boolean> meWords = meWordsTransducer();
 		Automaton<Character, Boolean> r = Transducers.apply(meWords, "tulis");
+		Automaton<Character, Double> r2 = Operations.toWeightedAutomaton(r);
 		
-		List<Path<Character, Double>> ps = Automata.bestStrings(r, 30);
+		List ps = Automata.bestStrings(r, 30);
 		
-		for (Path<Character, Double> p : ps)
+		for (Path p : (List<Path>) ps)
 			System.out.println(p.weight + ": " + Automata.toString(p.label));
 		
+//		System.out.println(Automata.stringWeight(r, "menulis"));
 	}
 	
 	public static Transducer<Character, Character, Boolean> meWordsTransducer()
