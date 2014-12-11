@@ -14,7 +14,7 @@ import java.util.List;
  * label type
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  * 
  * @see

@@ -12,34 +12,36 @@ import java.util.Arrays;
  *
  */
 
-public class KTropicalSemiring implements Semiring<BestPathWeights> 
+public class KTropicalSemiring<K extends Comparable<K>> implements Semiring<BestPathWeights<K>> 
 {
 	public int k;
 	public boolean storePath;
+	public Semiring<K> src;
 	
-	public KTropicalSemiring(int k)
+	public KTropicalSemiring(int k, Semiring<K> src)
 	{
-		this(k, true);
+		this(k, true, src);
 	}
 	
-	public KTropicalSemiring(int k, boolean storePath) 
+	public KTropicalSemiring(int k, boolean storePath, Semiring<K> src) 
 	{
 		this.k = k;
 		this.storePath = storePath;
+		this.src = src;
 	}
 
-	public BestPathWeights multiply(BestPathWeights x1, BestPathWeights x2) 
+	public BestPathWeights<K> multiply(BestPathWeights<K> x1, BestPathWeights<K> x2) 
 	{
-		PathWeight[] x = new PathWeight[k * k];
+		PathWeight<K>[] x = new PathWeight[k * k];
 		int p = 0;
 		for (int i = 0; i < k; i++) for (int j = 0; j < k; j++, p++)
 		{
-			x[p] = new PathWeight(storePath ? x1.pathWeights[i] : null, x1.pathWeights[i].weight + x2.pathWeights[j].weight, storePath ? x2.pathWeights[j].transition : null);
+			x[p] = new PathWeight<K>(storePath ? x1.pathWeights[i] : null, src.multiply(x1.pathWeights[i].weight, x2.pathWeights[j].weight), storePath ? x2.pathWeights[j].transition : null);
 		}
 		Arrays.sort(x);
-		PathWeight[] y = new PathWeight[k];
+		PathWeight<K>[] y = new PathWeight[k];
 		System.arraycopy(x, 0, y, 0, k);
-		return new BestPathWeights(y);		
+		return new BestPathWeights<K>(y);		
 	}
 
 	public BestPathWeights add(BestPathWeights x1, BestPathWeights x2) 

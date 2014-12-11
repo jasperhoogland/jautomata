@@ -289,27 +289,37 @@ public class Operations
 		};		
 	}
 	
-	public static <L, K> Automaton<L, BestPathWeights> toKTropicalSemiring(Automaton<L, K> a, int k)
+	public static <L, K extends Comparable<K>> Automaton<L, BestPathWeights<K>> toKTropicalSemiring(Automaton<L, K> a, int k)
 	{
-		if (a.semiring().zero().equals(false))
-			return new KTropicalSemiringConversion<Boolean, L>((Automaton<L, Boolean>) a, k)
-			{
-				@Override
-				public double convert(Boolean weight) 
-				{
-					return weight ? 0.0 : Double.POSITIVE_INFINITY;
-				}
-				
-			};
-		else if (a.semiring().zero().equals(0.0))
-			return new KTropicalSemiringConversion<Double, L>((Automaton<L, Double>) a, k)
-			{
-				@Override
-				public double convert(Double weight) 
-				{					
-					return -Math.log(weight);
-				}
-			};
-		else return null;
+//		if (a.semiring().zero().equals(false))
+//			return new KTropicalSemiringConversion<Boolean, L>((Automaton<L, Boolean>) a, k)
+//			{
+//				@Override
+//				public double convert(Boolean weight) 
+//				{
+//					return weight ? 0.0 : Double.POSITIVE_INFINITY;
+//				}
+//				
+//			};
+//		else if (a.semiring().zero().equals(0.0))
+//			return new KTropicalSemiringConversion<Double, L>((Automaton<L, Double>) a, k)
+//			{
+//				@Override
+//				public double convert(Double weight) 
+//				{					
+//					return -Math.log(weight);
+//				}
+//			};
+//		else return null;
+		return new KTropicalSemiringConversion<K, L>((Automaton<L, K>) a, k)
+//		{
+//			@Override
+//			public K convert(K weight) 
+//			{
+//				return weight ? 0.0 : Double.POSITIVE_INFINITY;
+//			}
+//			
+//		}
+		;
 	}
 }

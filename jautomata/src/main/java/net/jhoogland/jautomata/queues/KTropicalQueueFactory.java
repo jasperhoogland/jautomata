@@ -19,10 +19,10 @@ import net.jhoogland.jautomata.semirings.KTropicalSemiring;
  *
  */
 
-public class KTropicalQueueFactory implements QueueFactory<BestPathWeights>
+public class KTropicalQueueFactory<K extends Comparable<K>> implements QueueFactory<BestPathWeights<K>>
 {
 
-	public <L> Queue<Object> createQueue(final Automaton<L, BestPathWeights> automaton, final Map<Object, BestPathWeights> weightMap) 
+	public <L> Queue<Object> createQueue(final Automaton<L, BestPathWeights<K>> automaton, final Map<Object, BestPathWeights<K>> weightMap) 
 	{
 //		if (automaton.topologicalOrder() != null) return new TopologicalQueueFactory<BestPathWeights<Object>>().createQueue(automaton, weightMap);
 		final HashMap<Object, Integer> numExtractions = new HashMap<Object, Integer>();
@@ -30,12 +30,12 @@ public class KTropicalQueueFactory implements QueueFactory<BestPathWeights>
 		{
 			public int compare(Object o1, Object o2) 
 			{				
-				return (int) Math.signum(mu(o1) - mu(o2));
+				return mu(o1).compareTo(mu(o2));
 			}
 			
-			private double mu(Object state)
+			private K mu(Object state)
 			{
-				BestPathWeights w = weightMap.get(state);
+				BestPathWeights<K> w = weightMap.get(state);
 				Integer n = numExtractions.get(state);
 				if (n == null) n = 0;
 				int k = n < w.pathWeights.length ? n : w.pathWeights.length - 1;

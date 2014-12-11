@@ -8,11 +8,11 @@ package net.jhoogland.jautomata.semirings;
  *
  */
 
-public class BestPathWeights
+public class BestPathWeights<K extends Comparable<K>>
 {
-	public PathWeight[] pathWeights;
+	public PathWeight<K>[] pathWeights;
 	
-	public BestPathWeights(PathWeight[] pathWeights) 
+	public BestPathWeights(PathWeight<K>[] pathWeights) 
 	{
 		this.pathWeights = pathWeights;
 	}
@@ -20,15 +20,16 @@ public class BestPathWeights
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if (obj instanceof BestPathWeights)
-		{
-			BestPathWeights other = (BestPathWeights) obj;
-			for (int i = 0; i < this.pathWeights.length; i++)
-				if (! this.pathWeights[i].equals(other.pathWeights[i])) 
-					return false;
-			return true;
-		}
-		else return false;
+		throw new RuntimeException();
+//		if (obj instanceof BestPathWeights)
+//		{
+//			BestPathWeights other = (BestPathWeights) obj;
+//			for (int i = 0; i < this.pathWeights.length; i++)
+//				if (! this.pathWeights[i].equals(other.pathWeights[i])) 
+//					return false;
+//			return true;
+//		}
+//		else return false;
 	}
 }
 
