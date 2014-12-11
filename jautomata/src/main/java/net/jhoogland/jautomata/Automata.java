@@ -29,9 +29,9 @@ import net.jhoogland.jautomata.operations.SingleInitialStateOperation;
 import net.jhoogland.jautomata.operations.Union;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
 import net.jhoogland.jautomata.queues.KTropicalQueueFactory;
-import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
 import net.jhoogland.jautomata.semirings.KTropicalSemiring;
+import net.jhoogland.jautomata.semirings.PathWeight;
 import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
 import static net.jhoogland.jautomata.operations.Operations.concat;
@@ -199,20 +199,21 @@ public class Automata
 		return shortestCompleteDistances(intersection, sssd);
 	}
 	
-	public static <L, K extends Comparable<K>> List<Path<L, K>> shortestPaths(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<BestPathWeights<K>> sssd)
+	public static <L, K extends Comparable<K>> List<Path<L, K>> shortestPaths(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<List<PathWeight<K>>> sssd)
 	{
 		Semiring<K> sr = automaton.semiring();
 		if (sr.zero().equals(0.0))
 			automaton = (Automaton<L, K>) Operations.realToTropicalSemiring((Automaton<L, Double>) automaton);
 		
 		
-		Automaton<L, BestPathWeights<K>> kT = Operations.toKTropicalSemiring(automaton, numPaths);
+		Automaton<L, List<PathWeight<K>>> kT = Operations.toKTropicalSemiring(automaton, numPaths);
 		
-		BestPathWeights<K> w = shortestCompleteDistances(kT, sssd);
+		List<PathWeight<K>> w = shortestCompleteDistances(kT, sssd);
 		ArrayList<Path<L, K>> paths = new ArrayList<Path<L, K>>();
-		for (int i = 0; i < w.pathWeights.length; i++) if (! w.pathWeights[i].weight.equals(automaton.semiring().zero()))
+//		for (int i = 0; i < w.pathWeights.length; i++) if (! w.pathWeights[i].weight.equals(automaton.semiring().zero()))
+		for (PathWeight<K> pw : w) if (! pw.weight.equals(automaton.semiring().zero()))
 		{
-			Path<L, K> path = w.pathWeights[i].path(automaton);
+			Path<L, K> path = pw.path(automaton);
 			if (sr.zero().equals(0.0))
 			{	
 				Double nw = Math.exp(- (Double) path.weight);
@@ -225,11 +226,11 @@ public class Automata
 	
 	public static <L, K extends Comparable<K>> List<Path<L, K>> shortestPaths(Automaton<L, K> automaton, int numPaths)
 	{
-		SingleSourceShortestDistances<BestPathWeights<K>> sssd = new SingleSourceShortestDistances<BestPathWeights<K>>(new KTropicalQueueFactory<K>(), new ExactConvergence<BestPathWeights<K>>());
+		SingleSourceShortestDistances<List<PathWeight<K>>> sssd = new SingleSourceShortestDistances<List<PathWeight<K>>>(new KTropicalQueueFactory<K>(), new ExactConvergence<List<PathWeight<K>>>());
 		return shortestPaths(automaton, numPaths, sssd);
 	}
 	
-	public static <L, K extends Comparable<K>> List<Path<L, K>> bestStrings(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<BestPathWeights<K>> sssd)
+	public static <L, K extends Comparable<K>> List<Path<L, K>> bestStrings(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<List<PathWeight<K>>> sssd)
 	{
 		Automaton<L, K> det = Operations.determinizeER(automaton);
 		return shortestPaths(det, numPaths, sssd);
