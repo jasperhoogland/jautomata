@@ -23,7 +23,7 @@ public class BestPathWeights<K extends Comparable<K>>
 //		throw new RuntimeException();
 		if (obj instanceof BestPathWeights)
 		{
-			BestPathWeights other = (BestPathWeights) obj;
+			BestPathWeights<K> other = (BestPathWeights<K>) obj;
 			for (int i = 0; i < this.pathWeights.length; i++)
 				if (! this.pathWeights[i].equals(other.pathWeights[i])) 
 					return false;

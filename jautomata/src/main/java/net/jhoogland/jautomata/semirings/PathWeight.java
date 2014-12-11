@@ -62,7 +62,7 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 		
 //		throw new RuntimeException();
 		
-		PathWeight other = (PathWeight) obj;
+		PathWeight<K> other = (PathWeight<K>) obj;
 		return this.previous == other.previous && this.weight.equals(other.weight);
 		
 	}

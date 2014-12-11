@@ -44,31 +44,31 @@ public class KTropicalSemiring<K extends Comparable<K>> implements Semiring<Best
 		return new BestPathWeights<K>(y);		
 	}
 
-	public BestPathWeights add(BestPathWeights x1, BestPathWeights x2) 
+	public BestPathWeights<K> add(BestPathWeights<K> x1, BestPathWeights<K> x2) 
 	{
-		PathWeight[] x = new PathWeight[2 * k];
+		PathWeight<K>[] x = new PathWeight[2 * k];
 		System.arraycopy(x1.pathWeights, 0, x, 0, k);
 		System.arraycopy(x2.pathWeights, 0, x, k, k);
 		Arrays.sort(x);
-		PathWeight[] y = new PathWeight[k];
+		PathWeight<K>[] y = new PathWeight[k];
 		System.arraycopy(x, 0, y, 0, k);
-		return new BestPathWeights(y);
+		return new BestPathWeights<K>(y);
 	}
 
-	public BestPathWeights one() 
+	public BestPathWeights<K> one() 
 	{
-		PathWeight[] mi = new PathWeight[k];
+		PathWeight<K>[] mi = new PathWeight[k];
 //		mi[0] = new PathWeight(null, 0.0);
-		mi[0] = new PathWeight(null, src.one(), src);
-		for (int i = 1; i < k; i++) mi[i] = new PathWeight(null, src.zero(), src);
-		return new BestPathWeights(mi);
+		mi[0] = new PathWeight<K>(null, src.one(), src);
+		for (int i = 1; i < k; i++) mi[i] = new PathWeight<K>(null, src.zero(), src);
+		return new BestPathWeights<K>(mi);
 	}
 
-	public BestPathWeights zero() 
+	public BestPathWeights<K> zero() 
 	{
-		PathWeight[] mi = new PathWeight[k];
-		for (int i = 0; i < k; i++) mi[i] = new PathWeight(null, src.zero(), src);
-		return new BestPathWeights(mi);
+		PathWeight<K>[] mi = new PathWeight[k];
+		for (int i = 0; i < k; i++) mi[i] = new PathWeight<K>(null, src.zero(), src);
+		return new BestPathWeights<K>(mi);
 	}
 
 	public boolean isIdempotent() 
