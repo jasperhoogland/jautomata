@@ -3,6 +3,23 @@ import java.util.HashMap;
 
 import net.jhoogland.jautomata.semirings.Semiring;
 
+/**
+ * 
+ * An automaton type that can be edited using the <code>addState</code> and 
+ * <code>addTransition</code> methods.
+ * <code>addState</code> returns the state Id for the added state, 
+ * which can be passed to the <code>addTransition</code> to specify the previous and next
+ * state of the transition.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @param <K>
+ * weight type
+ */
+
 public class EditableAutomaton<L, K> extends HashAutomaton<L, K> 
 {
 	int stateId;
@@ -21,7 +38,7 @@ public class EditableAutomaton<L, K> extends HashAutomaton<L, K>
 		return sid;
 	}
 	
-	public int addTransition(Object from, Object to, L label, K weight) 
+	public int addTransition(int from, int to, L label, K weight) 
 	{
 		int tid = transitionId;		
 		addTransition(tid, from, to, label, weight);
@@ -29,7 +46,7 @@ public class EditableAutomaton<L, K> extends HashAutomaton<L, K>
 		return tid;
 	}
 
-	public int addTransition(Object from, Object to, L label) 
+	public int addTransition(int from, int to, L label) 
 	{
 		return addTransition(from, to, label, semiring().one());		
 	}
