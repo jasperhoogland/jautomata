@@ -38,7 +38,7 @@ public class IndonesianAffixes
 		
 		try {
 			Transducer<Character, Character, Boolean> ip1 = TransducerIO.readUnweighted(new InputStreamReader(is, "UTF-8"));
-			Transducer<Character, Character, Boolean> pfMe = Transducers.outputTransducer(Automata.createSinglePathAutomaton(new BooleanSemiring(), "me"));			
+			Transducer<Character, Character, Boolean> pfMe = Transducers.outputTransducer(Automata.createSingleStringAutomaton(new BooleanSemiring(), "me"));			
 			Transducer<Character, Character, Boolean> stem = stemTransducer();
 			
 			return Transducers.concat(pfMe, ip1, stem);	

@@ -103,12 +103,12 @@ public class Operations
 		return determinize(epsilonRemoval(operand));
 	}
 	
-	public static <L, K> Automaton<L, K> push(Automaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd)
+	public static <L, K> Automaton<L, K> push(ReverselyAccessibleAutomaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd)
 	{
 		return new Push<L, K>(operand, sssd);
 	}
 
-	public static <L, K> Automaton<L, K> push(Automaton<L, K> operand)
+	public static <L, K> Automaton<L, K> push(ReverselyAccessibleAutomaton<L, K> operand)
 	{
 		return push(operand, new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>()));
 	}

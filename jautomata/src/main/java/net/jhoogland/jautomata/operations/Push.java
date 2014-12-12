@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.jhoogland.jautomata.Automata;
 import net.jhoogland.jautomata.Automaton;
+import net.jhoogland.jautomata.ReverselyAccessibleAutomaton;
 import net.jhoogland.jautomata.SingleSourceShortestDistancesInterface;
 
 /**
@@ -29,7 +30,7 @@ public class Push<L, K> extends Reweight<L, K>
 {
 	Map<Object, K> distancesToFinalStates;
 	
-	public Push(Automaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd) 
+	public Push(ReverselyAccessibleAutomaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd) 
 	{
 		super(operand);
 		distancesToFinalStates = Automata.shortestDistancesToFinalStates(operand, sssd);		

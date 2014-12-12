@@ -1,14 +1,8 @@
 package net.jhoogland.jautomata;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,27 +14,19 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import net.jhoogland.jautomata.io.CharacterFormat;
-import net.jhoogland.jautomata.io.AcceptorIO;
-import net.jhoogland.jautomata.io.TransducerIO;
 import net.jhoogland.jautomata.operations.AcceptorIntersection;
 import net.jhoogland.jautomata.operations.Operations;
 import net.jhoogland.jautomata.operations.SingleInitialStateOperation;
-import net.jhoogland.jautomata.operations.Union;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
 import net.jhoogland.jautomata.queues.KTropicalQueueFactory;
-import net.jhoogland.jautomata.semirings.BooleanSemiring;
-import net.jhoogland.jautomata.semirings.KTropicalSemiring;
 import net.jhoogland.jautomata.semirings.PathWeight;
 import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semiring;
-import static net.jhoogland.jautomata.operations.Operations.concat;
-import static net.jhoogland.jautomata.operations.Operations.union;
 
 /**
  *
- * This class contains static methods for computing properties of automata 
- * and creating various types of automata.
+ * This class contains static methods for computing properties of automata,
+ * creating various types of automata, and performing weight computations on automata.
  * 
  * @author Jasper Hoogland
  *
@@ -50,8 +36,8 @@ public class Automata
 {
 	public static void main(String[] args) throws IOException 
 	{
-		SinglePathAutomaton<Character, Double> a1 = createSinglePathAutomaton(new RealSemiring(), "a");
-		SinglePathAutomaton<Character, Double> a2 = createSinglePathAutomaton(new RealSemiring(), "b");
+		SinglePathAutomaton<Character, Double> a1 = createSingleStringAutomaton(new RealSemiring(), "a");
+		SinglePathAutomaton<Character, Double> a2 = createSingleStringAutomaton(new RealSemiring(), "b");
 		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.singleInitialState(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6)));
 		List<Path<Character, Double>> ps = bestStrings(complex, 5);
 		for (Path<Character, Double> p : ps)
@@ -151,11 +137,11 @@ public class Automata
 	/**
 	 * 
 	 * @return
-	 * the label of the specified path
+	 * the label of the specified path as a {@link List} of labels
 	 * 
 	 */
 
-	public static <L, K> List<L> pathLabel(Iterable<Object> path, Automaton<L, K> automaton)
+	public static <L, K> List<L> pathLabel(List<Object> path, Automaton<L, K> automaton)
 	{
 		ArrayList<L> pathLabel = new ArrayList<L>();
 		for (Object transition : path) 
@@ -166,31 +152,61 @@ public class Automata
 		return pathLabel;
 	}
 	
+	/**
+	 * @return
+	 * an automaton that only accepts the empty string
+	 */
+	
 	public static <L, K> SinglePathAutomaton<L, K> emptyStringAutomaton(Semiring<K> semiring)
 	{
-		return createSinglePathAutomaton(semiring, new ArrayList<L>(0));
+		return createSingleStringAutomaton(semiring, new ArrayList<L>(0));
 	}
-		
-	public static <L, K> SinglePathAutomaton<L, K> createSinglePathAutomaton(Semiring<K> semiring, List<L> list)
+	
+	/**
+	 * @return
+	 * an automaton that only accepts the specified string 
+	 */
+	
+	public static <L, K> SinglePathAutomaton<L, K> createSingleStringAutomaton(Semiring<K> semiring, List<L> list)
 	{
 		return new SinglePathAutomaton<L, K>(semiring, list);
 	}
 	
-	public static <K> SinglePathAutomaton<Character, K> createSinglePathAutomaton(Semiring<K> semiring, String str)
+	/**
+	 * @return
+	 * an automaton that only accepts the specified string
+	 */
+	
+	public static <K> SinglePathAutomaton<Character, K> createSingleStringAutomaton(Semiring<K> semiring, String str)
 	{
-		return createSinglePathAutomaton(semiring, toCharacterList(str));
+		return createSingleStringAutomaton(semiring, toCharacterList(str));
 	}
+	
+	/**
+	 * @return
+	 * the weight of the specified string
+	 */
 	
 	public static <K> K stringWeight(Automaton<Character, K> automaton, String str)
 	{
 		return stringWeight(automaton, toCharacterList(str));
 	}
 	
+	/**
+	 * @return
+	 * the weight of the specified string
+	 */
+	
 	public static <L, K> K stringWeight(Automaton<L, K> automaton, List<L> string)
 	{
 		SingleSourceShortestDistances<K> sssd = new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>());
 		return stringWeight(automaton, sssd, string);
 	}
+	
+	/**
+	 * @return
+	 * the weight of the specified string computed by the specified shortest distance algorithm.
+	 */
 	
 	public static <S, T, L, K> K stringWeight(Automaton<L, K> automaton, SingleSourceShortestDistances<K> sssd, List<L> string)
 	{
@@ -199,18 +215,19 @@ public class Automata
 		return shortestCompleteDistances(intersection, sssd);
 	}
 	
+	/**
+	 * @return
+	 * a list with the specified number of shortest paths computed by the specified shortest distance algorithm. 
+	 */
+	
 	public static <L, K extends Comparable<K>> List<Path<L, K>> shortestPaths(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<List<PathWeight<K>>> sssd)
 	{
 		Semiring<K> sr = automaton.semiring();
 		if (sr.zero().equals(0.0))
 			automaton = (Automaton<L, K>) Operations.realToTropicalSemiring((Automaton<L, Double>) automaton);
-		
-		
 		Automaton<L, List<PathWeight<K>>> kT = Operations.toKTropicalSemiring(automaton, numPaths);
-		
 		List<PathWeight<K>> w = shortestCompleteDistances(kT, sssd);
 		ArrayList<Path<L, K>> paths = new ArrayList<Path<L, K>>();
-//		for (int i = 0; i < w.pathWeights.length; i++) if (! w.pathWeights[i].weight.equals(automaton.semiring().zero()))
 		for (PathWeight<K> pw : w) if (! pw.weight.equals(automaton.semiring().zero()))
 		{
 			Path<L, K> path = pw.path(automaton);
@@ -224,23 +241,52 @@ public class Automata
 		return paths;
 	}
 	
+	/**
+	 * @return
+	 * a list with the specified number of shortest paths computed by the specified shortest distance algorithm. 
+	 */
+
 	public static <L, K extends Comparable<K>> List<Path<L, K>> shortestPaths(Automaton<L, K> automaton, int numPaths)
 	{
 		SingleSourceShortestDistances<List<PathWeight<K>>> sssd = new SingleSourceShortestDistances<List<PathWeight<K>>>(new KTropicalQueueFactory<K>(), new ExactConvergence<List<PathWeight<K>>>());
 		return shortestPaths(automaton, numPaths, sssd);
 	}
 	
+	/**
+	 * @return
+	 * a list with the specified number of best strings computed by the specified shortest distance algorithm
+	 */
+	
 	public static <L, K extends Comparable<K>> List<Path<L, K>> bestStrings(Automaton<L, K> automaton, int numPaths, SingleSourceShortestDistances<List<PathWeight<K>>> sssd)
 	{
 		Automaton<L, K> det = Operations.determinizeER(automaton);
 		return shortestPaths(det, numPaths, sssd);
 	}
+
+	/**
+	 * @return
+	 * a list with the specified number of best strings
+	 */
 	
 	public static <L, K extends Comparable<K>> List<Path<L, K>> bestStrings(Automaton<L, K> automaton, int numPaths)
 	{
 		Automaton<L, K> det = Operations.determinizeER(automaton);
 		return shortestPaths(det, numPaths);
 	}
+	
+	/**
+	 * 
+	 * Computes for each state <code>s</code> the shortest distance from the initial states to <code>s</code>.
+	 * 
+	 * @param automaton
+	 * the automaton to perform the operation on 
+	 * 
+	 * @param sssd
+	 * the shortest distance algorithm to use
+	 * 
+	 * @return
+	 * a map that assigns to each state the shortest distance from the initial states to that state
+	 */
 	
 	public static <L, K> Map<Object, K> shortestDistancesFromInitialStates(Automaton<L, K> automaton, SingleSourceShortestDistancesInterface<K> sssd)
 	{
@@ -258,7 +304,21 @@ public class Automata
 		return sdMap;
 	}
 	
-	public static <L, K> Map<Object, K> shortestDistancesToFinalStates(Automaton<L, K> automaton, SingleSourceShortestDistancesInterface<K> sssd)
+	/**
+	 * Computes for each state <code>s</code> the shortest distance from <code>s</code> to the final states.
+	 * The automaton is required to be reversely accessible.
+	 * 
+	 * @param automaton
+	 * the automaton to perform the operation on 
+	 * 
+	 * @param sssd
+	 * the shortest distance algorithm to use
+	 * 
+	 * @return
+	 * a map that assigns to each state the shortest distance from that state to the final states 
+	 */
+	
+	public static <L, K> Map<Object, K> shortestDistancesToFinalStates(ReverselyAccessibleAutomaton<L, K> automaton, SingleSourceShortestDistancesInterface<K> sssd)
 	{
 		Automaton<L, K> rev = Operations.reverse((ReverselyAccessibleAutomaton<L, K>) automaton);
 		SingleInitialStateOperation<L, K> sisAutomaton = new SingleInitialStateOperation<L, K>(rev);		
@@ -274,11 +334,25 @@ public class Automata
 		
 		return sdMap;
 	}
-
-	public static <L, K> K shortestCompleteDistances(Automaton<L, K> automaton, SingleSourceShortestDistances<K> shortestDistanceAlgorithm)
+	
+	
+	/**
+	 * Computes the shortest distance from the initial states to the final states.
+	 * 
+	 * @param automaton
+	 * the automaton to perform the operation on 
+	 * 
+	 * @param sssd
+	 * the shortest distance algorithm to use
+	 * 
+	 * @return
+	 * the shortest distance from the initial states to the final states 
+	 */
+	
+	public static <L, K> K shortestCompleteDistances(Automaton<L, K> automaton, SingleSourceShortestDistances<K> sssd)
 	{
 		Semiring<K> sr = automaton.semiring();
-		Map<Object, K> shortestDistances = shortestDistancesFromInitialStates(automaton, shortestDistanceAlgorithm);
+		Map<Object, K> shortestDistances = shortestDistancesFromInitialStates(automaton, sssd);
 		K weight = sr.zero();
 		for (Entry<Object, K> e : shortestDistances.entrySet()) if (isFinalState(automaton, e.getKey()))
 		{
@@ -287,6 +361,11 @@ public class Automata
 		return weight;
 	}
 	
+	/**
+	 * @return
+	 * the {@link List} of {@link Character}s of the specified {@link String}  
+	 */
+	
 	public static List<Character> toCharacterList(String str)
 	{
 		List<Character> characterList = new ArrayList<Character>(str.length());
@@ -294,6 +373,11 @@ public class Automata
 			characterList.add(str.charAt(i));
 		return characterList;
 	}
+	
+	/**
+	 * @return
+	 * the {@link String} of the specified {@link List} of {@link Character}s
+	 */
 	
 	public static String toString(List<Character> characterList)
 	{

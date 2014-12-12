@@ -19,7 +19,7 @@ public class Transducers
 {
 	public static <I, O, K> Automaton<O, K> apply(Automaton<TLabel<I, O>, K> transducer, List<I> string)
 	{		
-		Automaton<TLabel<I, I>, K> t = identity(Automata.createSinglePathAutomaton(transducer.semiring(), string));
+		Automaton<TLabel<I, I>, K> t = identity(Automata.createSingleStringAutomaton(transducer.semiring(), string));
 		return outputAcceptor(Operations.transducerComposition(t, transducer));
 	}
 	
