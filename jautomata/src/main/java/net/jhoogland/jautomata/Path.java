@@ -18,9 +18,6 @@ import java.util.List;
  * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  * 
- * @see
- * Automata#bestPaths(Automaton, int)
- * 
  */
 
 public class Path<L, K> implements Iterable<Object>

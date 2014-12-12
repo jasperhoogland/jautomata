@@ -15,6 +15,7 @@ import java.util.Collection;
  * label type
  * 
  * @see
+ * MTAutomaton
  */
 
 public class ArrayMTLabel<L> implements MTLabel<Integer, L> 
