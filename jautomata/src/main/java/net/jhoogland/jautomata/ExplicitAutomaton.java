@@ -45,7 +45,6 @@ public abstract class ExplicitAutomaton<L, K> extends AbstractAutomaton<L, K>  i
 		return getState(state).finalWeight();
 	}
 	
-	@Override
 	public Collection<Object> transitionsOut(Object state)
 	{		
 		return getState(state).transitionsOut();

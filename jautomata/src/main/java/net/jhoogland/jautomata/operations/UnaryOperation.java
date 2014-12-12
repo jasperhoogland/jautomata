@@ -37,7 +37,6 @@ public abstract class UnaryOperation<L1, L2, K1, K2> extends AbstractAutomaton<L
 		return operand.initialStates();
 	}
 	
-	@Override
 	public Collection<Object> transitionsOut(Object state) 
 	{		
 		return operand.transitionsOut(state);

@@ -51,7 +51,6 @@ public class SinglePathAutomaton<L, K> extends AbstractAutomaton<L, K> implement
 		return semiring().zero();
 	}
 	
-	@Override
 	public Collection<Object> transitionsOut(Object state) 
 	{		
 		if (state != null && state instanceof Integer)

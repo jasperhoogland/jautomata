@@ -42,7 +42,6 @@ public class Concatenation<L, K> extends AbstractAutomaton<L, K>
 		return initialStates;
 	}
 	
-	@Override
 	public Collection<Object> transitionsOut(Object state) 
 	{
 		Collection<Object> transitionsOut = new ArrayList<Object>();

@@ -57,7 +57,6 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 		return initialStates;
 	}
 
-	@Override
 	public Collection<Object> transitionsOut(Object state) 
 	{
 		IntersectionState s = (IntersectionState) state;
