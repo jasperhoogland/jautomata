@@ -1,6 +1,7 @@
 package net.jhoogland.jautomata.operations;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.jhoogland.jautomata.Automata;
@@ -14,9 +15,9 @@ import net.jhoogland.jautomata.SingleSourceShortestDistancesInterface;
 import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 import net.jhoogland.jautomata.queues.DefaultQueueFactory;
-import net.jhoogland.jautomata.semirings.BestPathWeights;
 import net.jhoogland.jautomata.semirings.BooleanSemiring;
 import net.jhoogland.jautomata.semirings.LogSemiring;
+import net.jhoogland.jautomata.semirings.PathWeight;
 import net.jhoogland.jautomata.semirings.RealSemiring;
 import net.jhoogland.jautomata.semirings.Semifield;
 import net.jhoogland.jautomata.semirings.Semiring;
@@ -102,12 +103,12 @@ public class Operations
 		return determinize(epsilonRemoval(operand));
 	}
 	
-	public static <L, K> Automaton<L, K> push(Automaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd)
+	public static <L, K> Automaton<L, K> push(ReverselyAccessibleAutomaton<L, K> operand, SingleSourceShortestDistancesInterface<K> sssd)
 	{
 		return new Push<L, K>(operand, sssd);
 	}
 
-	public static <L, K> Automaton<L, K> push(Automaton<L, K> operand)
+	public static <L, K> Automaton<L, K> push(ReverselyAccessibleAutomaton<L, K> operand)
 	{
 		return push(operand, new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>()));
 	}
@@ -289,27 +290,37 @@ public class Operations
 		};		
 	}
 	
-	public static <L, K> Automaton<L, BestPathWeights> toKTropicalSemiring(Automaton<L, K> a, int k)
+	public static <L, K extends Comparable<K>> Automaton<L, List<PathWeight<K>>> toKTropicalSemiring(Automaton<L, K> a, int k)
 	{
-		if (a.semiring().zero().equals(false))
-			return new KTropicalSemiringConversion<Boolean, L>((Automaton<L, Boolean>) a, k)
-			{
-				@Override
-				public double convert(Boolean weight) 
-				{
-					return weight ? 0.0 : Double.POSITIVE_INFINITY;
-				}
-				
-			};
-		else if (a.semiring().zero().equals(0.0))
-			return new KTropicalSemiringConversion<Double, L>((Automaton<L, Double>) a, k)
-			{
-				@Override
-				public double convert(Double weight) 
-				{					
-					return -Math.log(weight);
-				}
-			};
-		else return null;
+//		if (a.semiring().zero().equals(false))
+//			return new KTropicalSemiringConversion<Boolean, L>((Automaton<L, Boolean>) a, k)
+//			{
+//				@Override
+//				public double convert(Boolean weight) 
+//				{
+//					return weight ? 0.0 : Double.POSITIVE_INFINITY;
+//				}
+//				
+//			};
+//		else if (a.semiring().zero().equals(0.0))
+//			return new KTropicalSemiringConversion<Double, L>((Automaton<L, Double>) a, k)
+//			{
+//				@Override
+//				public double convert(Double weight) 
+//				{					
+//					return -Math.log(weight);
+//				}
+//			};
+//		else return null;
+		return new KTropicalSemiringConversion<K, L>((Automaton<L, K>) a, k)
+//		{
+//			@Override
+//			public K convert(K weight) 
+//			{
+//				return weight ? 0.0 : Double.POSITIVE_INFINITY;
+//			}
+//			
+//		}
+		;
 	}
 }

@@ -17,8 +17,8 @@ import net.jhoogland.jautomata.semirings.Semifield;
  * label type
  * 
  * @param <K>
- * the type over which the semiring is defined
- * 
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public abstract class Reweight<L, K> extends UnaryOperation<L, L, K, K> 

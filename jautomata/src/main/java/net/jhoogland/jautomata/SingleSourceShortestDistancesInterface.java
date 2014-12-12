@@ -4,16 +4,13 @@ import java.util.Map;
 
 /**
  *
- * Implementations of this class represent single-source shortest distance algorithms.
+ * Implemented by single source shortest distance algorithms.
  * 
  * @author Jasper Hoogland
  *
- * @param <S>
- * state type
- * 
  * @param <K>
- * the type over which the semiring is defined 
- * 
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  **/
 
 public interface SingleSourceShortestDistancesInterface<K>

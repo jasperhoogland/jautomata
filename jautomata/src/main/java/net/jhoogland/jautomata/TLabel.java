@@ -1,14 +1,16 @@
 package net.jhoogland.jautomata;
 
 /**
- * 
  * Implements an input/output label pair for transducers.
- * 
  *  
  * @author Jasper Hoogland
  *
+ * @param <I>
+ * input label type
+ * 
+ * @param <O>
+ * output label type
  */
-
 public class TLabel<I, O> 
 {
 	public I iLabel;

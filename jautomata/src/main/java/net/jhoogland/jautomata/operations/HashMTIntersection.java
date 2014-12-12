@@ -10,6 +10,23 @@ import net.jhoogland.jautomata.HashMTLabel;
 import net.jhoogland.jautomata.MTAutomaton;
 import net.jhoogland.jautomata.MTLabel;
 
+/**
+ * 
+ * Intersection of {@link HashMap}-based multi-tape automata for a single intersection tape.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <I>
+ * tape type
+ * 
+ * @param <L>
+ * tape label type
+ * 
+ * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
+ */
+
 public class HashMTIntersection<I, L, K> extends MTIntersection<I, L, K> 
 {
 	public HashMTIntersection(MTAutomaton<I, L, K> operand1, MTAutomaton<I, L, K> operand2, I intersectionTape1, I intersectionTape2) 

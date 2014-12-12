@@ -208,7 +208,6 @@ public class AcceptorIO
 			return initialStates;
 		}
 		
-		@Override
 		public Collection<Object> transitionsOut(Object state) 
 		{			
 			Collection<Object> ts = transitionsOut.get(state);

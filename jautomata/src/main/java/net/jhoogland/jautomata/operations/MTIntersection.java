@@ -6,6 +6,21 @@ import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.MTAutomaton;
 import net.jhoogland.jautomata.MTLabel;
 
+/**
+ * Abstract class for multi-tape intersection with a single intersection tape.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <I>
+ * tape type
+ * 
+ * @param <L>
+ * tape label type
+ * 
+ * @param <K>
+ * weight type
+ */
+
 public abstract class MTIntersection<I, L, K> extends Intersection<MTLabel<I, L>, MTLabel<I, L>, MTLabel<I, L>, K> implements MTAutomaton<I, L, K> 
 {
 	Collection<I> tapes;

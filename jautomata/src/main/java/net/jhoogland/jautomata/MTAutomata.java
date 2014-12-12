@@ -20,6 +20,12 @@ import net.jhoogland.jautomata.operations.MTLabelConversion;
 
 public class MTAutomata 
 {
+	/**
+	 * @return
+	 * an acceptor that is the projection of the specified multi-tape automaton on the
+	 * specified tape   
+	 */
+	
 	public static <T, L, K> Automaton<L, K> toAcceptor(Automaton<MTLabel<T, L>, K> mtAutomaton, final T tape)
 	{
 		return new LabelConversion<MTLabel<T, L>, L, K>(mtAutomaton) 
@@ -32,6 +38,12 @@ public class MTAutomata
 		};
 	}
 	
+	/**
+	 * @return
+	 * a transducer that is the projection of the specified multi-tape automaton on the
+	 * specified tapes   
+	 */
+	
 	public static <T, L, K> Transducer<L, L, K> toTransducer(Automaton<MTLabel<T, L>, K> mtAutomaton, final T inputTape, final T outputTape)
 	{
 		return new TransducerLabelConversion<MTLabel<T, L>, L, L, K>(mtAutomaton) 
@@ -43,6 +55,11 @@ public class MTAutomata
 			}
 		};
 	}	
+	
+	/**
+	 * @return
+	 * a multi-tape automaton with {@link HashMTLabel}s that has one tape and is equivalent to the specified acceptor.  
+	 */
 	
 	public static <T, L, K> MTAutomaton<T, L, K> acceptorToHashMT(Automaton<L, K> acceptor, final T tape)
 	{
@@ -57,6 +74,11 @@ public class MTAutomata
 			}
 		}; 
 	}
+	
+	/**
+	 * @return
+	 * a multi-tape automaton with {@link HashMTLabel}s that has two tapes and is equivalent to the specified transducer.
+	 */
 	
 	public static <T, L, K> MTAutomaton<T, L, K> transducerToHashMT(Automaton<TLabel<L, L>, K> transducer, final T tape1, final T tape2)
 	{
@@ -76,8 +98,12 @@ public class MTAutomata
 		}; 
 	}
 
-
-	public static <L, K> MTAutomaton<Integer, L, K> acceptorArrayMT(Automaton<L, K> acceptor)
+	/**
+	 * @return
+	 * a multi-tape automaton with {@link ArrayMTLabel}s that has one tape and is equivalent to the specified acceptor.  
+	 */
+	
+	public static <L, K> MTAutomaton<Integer, L, K> acceptorToArrayMT(Automaton<L, K> acceptor)
 	{
 		return new MTLabelConversion<L, Integer, L, K>(acceptor, Arrays.asList(0))
 		{
@@ -88,6 +114,11 @@ public class MTAutomata
 			}
 		}; 
 	}
+	
+	/**
+	 * @return
+	 * a multi-tape automaton with {@link ArrayMTLabel}s that has two tapes and is equivalent to the specified transducer.
+	 */
 	
 	public static <L, K> MTAutomaton<Integer, L, K> transducerToArrayMT(Automaton<TLabel<L, L>, K> transducer)
 	{
@@ -100,6 +131,11 @@ public class MTAutomata
 			}
 		}; 
 	}
+	
+	/**
+	 * @return
+	 * a multi-tape automaton with {@link HashMTLabel}s that is a projection of the specified multi-tape automaton to the specified tapes 
+	 */
 		
 	public static <T, L, K> MTAutomaton<T, L, K> projectHashMT(Automaton<MTLabel<T, L>, K> mta, final Collection<T> tapes)
 	{
@@ -116,6 +152,11 @@ public class MTAutomata
 		}; 
 	}
 	
+	/**
+	 * @return
+	 * a multi-tape automaton with {@link ArrayMTLabel}s that is a projection of the specified multi-tape automaton to the specified tapes 
+	 */
+		
 	public static <L, K> MTAutomaton<Integer, L, K> projectArrayMT(Automaton<MTLabel<Integer, L>, K> mta, final List<Integer> tapes)
 	{
 		return new MTLabelConversion<MTLabel<Integer, L>, Integer, L, K>(mta, tapes)

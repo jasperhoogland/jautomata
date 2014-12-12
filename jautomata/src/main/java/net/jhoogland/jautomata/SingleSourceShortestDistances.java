@@ -10,22 +10,20 @@ import net.jhoogland.jautomata.queues.QueueFactory;
 import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
- * 
- * This class contains implementations of the generic single-source shortest distance
+ * <p>
+ * This class implements the generic single-source shortest distance
  * algorithm described by [1].
- * 
- * 
+ * </p>
+ * <p>
  * [1] M. Mohri. General algebraic frameworks and algorithms for shortest distance 
  *     problems. 1998
- * 
+ * </p>
+ *  
  * @author Jasper Hoogland
  *
- * @param <S>
- * state type
- * 
  * @param <K>
- * the type over which the semiring is defined
- * 
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata) 
  */
 
 public class SingleSourceShortestDistances<K> implements SingleSourceShortestDistancesInterface<K>
@@ -33,38 +31,12 @@ public class SingleSourceShortestDistances<K> implements SingleSourceShortestDis
 	public QueueFactory<K> queueFactory;
 	public WeightConvergenceCondition<K> equalityDef;
 	
-	/**
-	 * 
-	 * The most generic implementation of the single-source shortest distance
-	 * algorithm. 
-	 * 
-	 * @param queueFactory
-	 * Creates the queue used to store states that need to be processed.
-	 * 
-	 * @param equalityDef
-	 * Definition of equality used to determine whether the current approximation of the shortest distance 
-	 * to a state is close enough.
-	 * 
-	 */
-	
 	public SingleSourceShortestDistances(QueueFactory<K> queueFactory, WeightConvergenceCondition<K> equalityDef) 
 	{
 		this.queueFactory = queueFactory;
 		this.equalityDef = equalityDef;
 	}
 
-	/**
-	 *
-	 * @return
-	 * Map that assigns the shortest distance from source to each state that is
-	 * reachable from source.
-	 * 
-	 */
-	
-	public static boolean stopWatchOn = false;
-	public static boolean stopWatchOn2 = false;
-	public static boolean printQueue = false;
-	
 	public <L> Map<Object, K> computeShortestDistances(Automaton<L, K> automaton, Object source) 
 	{
 		Map<Object, K> distances = new HashMap<Object, K>();

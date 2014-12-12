@@ -1,5 +1,6 @@
 package net.jhoogland.jautomata;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Collection;
  *
  * @param <K>
  * weight type
- * 
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class BasicState<K> 
@@ -29,6 +30,11 @@ public class BasicState<K>
 		this.finalWeight = finalWeight;
 		this.transitionsOut = transitionsOut;
 		this.transitionsIn = transitionsIn;
+	}
+	
+	public BasicState(K initialWeight, K finalWeight) 
+	{
+		this(initialWeight, finalWeight, new ArrayList<Object>(), new ArrayList<Object>());
 	}
 	
 	/**

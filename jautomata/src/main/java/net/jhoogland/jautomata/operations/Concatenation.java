@@ -8,6 +8,19 @@ import net.jhoogland.jautomata.AbstractAutomaton;
 import net.jhoogland.jautomata.Automata;
 import net.jhoogland.jautomata.Automaton;
 
+/**
+ * Concatenation of multiple automata.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
+ */
+
 public class Concatenation<L, K> extends AbstractAutomaton<L, K> 
 {
 	Automaton<L, K>[] operands;
@@ -42,7 +55,6 @@ public class Concatenation<L, K> extends AbstractAutomaton<L, K>
 		return initialStates;
 	}
 	
-	@Override
 	public Collection<Object> transitionsOut(Object state) 
 	{
 		Collection<Object> transitionsOut = new ArrayList<Object>();

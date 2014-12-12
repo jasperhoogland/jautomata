@@ -10,12 +10,12 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
  * 
- * Abstract class that implements some basic methods of the {@link Automaton} interface.
- * Most automaton types are a subclass of {@link AbstractAutomaton}, though this is not required. 
- * 
- * This class provides implementations of labelsOut(state), transitionsOut(state, label), and transitionsOut(state).
- * Subclasses of this class must override either (I) labelsOut(state) and transitionsOut(state, label) 
- * or (II) transitionsOut(state), because this class implements them in terms of each other.
+ * <p>Abstract class that implements the <code>semiring()</code> and
+ * <code>topologicalOrder()</code> methods of the {@link Automaton} interface.
+ * The semiring and topological order can be passed to instances of this class via
+ * the constructors.</p>
+ * <p>Most automaton types are a subclass of {@link AbstractAutomaton}, 
+ * though this is not required.</p>
  * 
  * @author Jasper Hoogland
  *
@@ -55,36 +55,7 @@ public abstract class AbstractAutomaton<L, K> implements Automaton<L, K>
 	{
 		this(semiring, null);
 	}
-
-	public Collection<L> labelsOut(Object state) 
-	{
-		Set<L> labelsOut = new HashSet<L>();
-		for (Object t : transitionsOut(state)) 
-			labelsOut.add(label(t));
-		return labelsOut;
-	}
-
-	public Collection<Object> transitionsOut(Object state, L label) 
-	{
-		Collection<Object> transitionsOut = new ArrayList<Object>();
-		for (Object t : transitionsOut(state))
-		{
-			L tLabel = label(t);
-			if (label == null && tLabel == null || label != null && tLabel != null && label.equals(tLabel))
-				transitionsOut.add(t);
-		}
-		return transitionsOut;
-	}
-
-	public Collection<Object> transitionsOut(Object state) 
-	{
-		Collection<Object> transitionsOut = new ArrayList<Object>();
-		for (L label : labelsOut(state))
-			for (Object t : transitionsOut(state, label))
-				transitionsOut.add(t);
-		return transitionsOut;
-	}
-
+	
 	public Semiring<K> semiring() 
 	{		
 		return semiring;
@@ -94,4 +65,33 @@ public abstract class AbstractAutomaton<L, K> implements Automaton<L, K>
 	{		
 		return topologicalOrder;
 	}
+
+//	public Collection<L> labelsOut(Object state) 
+//	{
+//		Set<L> labelsOut = new HashSet<L>();
+//		for (Object t : transitionsOut(state)) 
+//			labelsOut.add(label(t));
+//		return labelsOut;
+//	}
+//
+//	public Collection<Object> transitionsOut(Object state, L label) 
+//	{
+//		Collection<Object> transitionsOut = new ArrayList<Object>();
+//		for (Object t : transitionsOut(state))
+//		{
+//			L tLabel = label(t);
+//			if (label == null && tLabel == null || label != null && tLabel != null && label.equals(tLabel))
+//				transitionsOut.add(t);
+//		}
+//		return transitionsOut;
+//	}
+//
+//	public Collection<Object> transitionsOut(Object state) 
+//	{
+//		Collection<Object> transitionsOut = new ArrayList<Object>();
+//		for (L label : labelsOut(state))
+//			for (Object t : transitionsOut(state, label))
+//				transitionsOut.add(t);
+//		return transitionsOut;
+//	}
 }

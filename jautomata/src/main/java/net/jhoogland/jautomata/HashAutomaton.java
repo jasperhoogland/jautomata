@@ -19,12 +19,18 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * 
  * @param <K>
  * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K> 
 {
 	private Map<Object, BasicState<K>> states;
 	private Map<Object, BasicTransition<L, K>> transitions;
+	
+	/**
+	 * Constructs an instance of {@link HashAutomaton} from the specified states and
+	 * transition maps.
+	 */
 	
 	public HashAutomaton(Map<Object, BasicState<K>> states, Map<Object, BasicTransition<L, K>> transitions, Semiring<K> semiring) 
 	{
@@ -42,6 +48,11 @@ public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K>
 			if (! stateData.finalWeight().equals(zero)) finalStates.add(state);			
 		}
 	}
+	
+	/**
+	 * Constructs an instance of {@link HashAutomaton} that identical to the specified
+	 * source automaton.
+	 */
 	
 	public HashAutomaton(Automaton<L, K> src) 
 	{
@@ -86,5 +97,21 @@ public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K>
 	protected BasicTransition<L, K> getTransition(Object transition)
 	{
 		return transitions.get(transition);
+	}
+	
+	protected void addState(Object state, K initialWeight, K finalWeight)
+	{
+		states.put(state, new BasicState<K>(initialWeight, finalWeight));
+		if (Automata.isInitialState(this, state)) initialStates.add(state);
+		if (Automata.isFinalState(this, state)) finalStates.add(state);
+	}
+	
+	protected void addTransition(Object transition, Object from, Object to, L label, K weight)
+	{
+		if (! states.containsKey(from)) addState(from, semiring().zero(), semiring().zero());
+		if (! states.containsKey(to)) addState(to, semiring().zero(), semiring().zero());
+		transitions.put(transition, new BasicTransition<L, K>(from, label, weight, to));
+		getState(from).transitionsOut().add(transition);
+		getState(to).transitionsIn().add(transition);
 	}
 }

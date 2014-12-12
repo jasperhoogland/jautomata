@@ -8,13 +8,12 @@ import net.jhoogland.jautomata.semirings.Semiring;
 /**
  * 
  * All automata (acceptors, transducers, multi-tape automata, and their weighted variants) implement this interface.
- * The methods initialStates(), labelsOut(state), transitionsOut(state, label), transitionsOut(Object state),
- * initialWeight(state), finalWeight(state), previousState(transition), nextState(transition), label(transition), 
- * and transitionWeight(transition) define the automaton.
- * The method transitionsOut(Object state) can be defined in terms of labelsOut(state) and transitionsOut(state, label),
- * and vice versa, though for efficiency purposes it may be better to implement them independently.
- * The method semiring() returns the {@link Semiring} over which the automaton is defined.
- * The method topologicalOrder() makes it possible to specify a topological order on the automaton states, if it exists.
+ * The methods <code>initialStates()</code>, <code>transitionsOut(state)</code>,
+ * <code>initialWeight(state)</code>, <code>finalWeight(state)</code>, <code>previousState(transition)</code>, 
+ * <code>nextState(transition)</code>, <code>label(transition)</code>, 
+ * and <code>transitionWeight(transition)</code> define the automaton.
+ * The method <code>semiring()</code> returns the {@link Semiring} over which the automaton is defined.
+ * The method <code>topologicalOrder()</code> makes it possible to specify a topological order on the automaton states, if it exists.
  * Some algorithms are faster if a topological order is specified. 
  * 
  * @author Jasper Hoogland
@@ -40,24 +39,24 @@ public interface Automaton<L, K>
 	public Collection<Object> initialStates();
 	
 	
-	/**
-	 * 
-	 * @return
-	 * Collection of labels of outgoing transitions from the specified state
-	 * 
-	 */
-	
-	public Collection<L> labelsOut(Object state);
-	
-	
-	/**
-	 * 
-	 * @return
-	 * Collection of outgoing transitions with the specified label from the specified
-	 * 
-	 */
-	
-	public Collection<Object> transitionsOut(Object state, L label);
+//	/**
+//	 * 
+//	 * @return
+//	 * Collection of labels of outgoing transitions from the specified state
+//	 * 
+//	 */
+//	
+//	public Collection<L> labelsOut(Object state);
+//	
+//	
+//	/**
+//	 * 
+//	 * @return
+//	 * Collection of outgoing transitions with the specified label from the specified
+//	 * 
+//	 */
+//	
+//	public Collection<Object> transitionsOut(Object state, L label);
 	
 	
 	/**

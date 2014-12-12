@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * 
  * Instances of this class contain a path, its label and its weight. 
- * The path is stored as a list of transitions.
+ * The path is stored as a list of transitions,
+ * and the path label is stored as a list of transition labels.
  * 
  * @author Jasper Hoogland
  *
@@ -14,11 +15,8 @@ import java.util.List;
  * label type
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
- * 
- * @see
- * Automata#bestPaths(Automaton, int)
  * 
  */
 

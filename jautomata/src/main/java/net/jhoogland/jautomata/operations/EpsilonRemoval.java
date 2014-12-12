@@ -12,26 +12,22 @@ import net.jhoogland.jautomata.SingleSourceShortestDistancesInterface;
 import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
- * 
- * This is an implementation of the on-the-fly epsilon removal algorithm described in [1]. Instances of this class are equivalent
- * to their operands.   
- * 
+ * <p>
+ * This is an implementation of the on-the-fly epsilon removal algorithm described in [1].
+ * The result of determinization is an automaton without null-transitions that is equivalent to its operand.
+ * </p>   
+ * <p>
  * [1] M. Mohri, Generic Epsilon-Removal Algorithm for Weighted Automata. 2000.
-
+ * </p>
  * 
  * @author Jasper Hoogland
  *
- * @param <S>
- * state type
- * 
- * @param <T>
- * transition type
- * 
  * @param <L>
  * label type
  * 
  * @param <K>
- * the type over which the semiring is defined. 
+ * the type over which the semiring is defined.
+ * (Boolean for regular automata and Double for weighted automata) 
  */
 
 public class EpsilonRemoval<L, K> extends UnaryOperation<L, L, K, K> 
@@ -71,7 +67,7 @@ public class EpsilonRemoval<L, K> extends UnaryOperation<L, L, K, K>
 	
 	void computeProperties(Object state)
 	{
-		EpsilonAutomaton<L, K> epsilonAutomaton = new EpsilonAutomaton<L, K>(operand);		
+		EpsilonAutomaton epsilonAutomaton = new EpsilonAutomaton(operand);		
 		
 		Map<Object, K> shortestDistances = shortestDistanceAlgorithm.computeShortestDistances(epsilonAutomaton, state); 								
 		
@@ -119,6 +115,59 @@ public class EpsilonRemoval<L, K> extends UnaryOperation<L, L, K, K>
 	public Comparator<Object> topologicalOrder() 
 	{		
 		return operand.topologicalOrder();
+	}
+	
+	public class EpsilonAutomaton extends UnaryOperation<L, L, K, K>
+	{
+		public EpsilonAutomaton(Automaton<L, K> operand) 
+		{
+			super(operand, operand.semiring());		
+		}
+		
+		@Override
+		public Collection<Object> transitionsOut(Object state) 
+		{		
+			Collection<Object> transitionsOut = new ArrayList<Object>();
+			for (Object t : operand.transitionsOut(state))
+				if (operand.label(t) == null)
+					transitionsOut.add(t);
+			return transitionsOut;
+		}
+		
+//		@Override
+//		public Collection<Object> transitionsOut(Object state, L label) 
+//		{		
+//			if (label == null) return transitionsOut(state);
+//			else return Collections.emptyList();
+//		}
+	//	
+//		@Override
+//		public Collection<L> labelsOut(Object state) 
+//		{		
+//			for (L label : operand.labelsOut(state))
+//				if (label == null) return Arrays.asList(null);
+//			return Collections.emptyList();
+//		}
+
+		public K initialWeight(Object state) 
+		{		
+			return operand.initialWeight(state);
+		}
+
+		public K finalWeight(Object state) 
+		{		
+			return operand.finalWeight(state);
+		}
+
+		public L label(Object transition) 
+		{		
+			return operand.label(transition);
+		}
+
+		public K transitionWeight(Object transition) 
+		{		
+			return operand.transitionWeight(transition);
+		}
 	}
 	
 	public class EpsilonRemovalTransition

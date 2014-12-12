@@ -15,7 +15,7 @@ package net.jhoogland.jautomata.semirings;
  *
  */
 
-public class BooleanSemiring implements Semiring<Boolean> 
+public class BooleanSemiring implements Semifield<Boolean> 
 {
 	// Definition
 	
@@ -37,6 +37,11 @@ public class BooleanSemiring implements Semiring<Boolean>
 	public Boolean zero() 
 	{		
 		return false;
+	}
+	
+	public Boolean inverse(Boolean x) 
+	{		
+		return true;
 	}
 	
 	// Properties

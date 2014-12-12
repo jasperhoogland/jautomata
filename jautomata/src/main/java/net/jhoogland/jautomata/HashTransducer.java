@@ -21,6 +21,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * 
  * @param <K>
  * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class HashTransducer<I, O, K> extends HashAutomaton<TLabel<I, O>, K> implements Transducer<I, O, K>

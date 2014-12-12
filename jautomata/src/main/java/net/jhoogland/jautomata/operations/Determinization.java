@@ -14,20 +14,23 @@ import net.jhoogland.jautomata.semirings.Semifield;
 import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
- * 
- * This is an implementation of the on-the-fly determinization algorithm described in [1]. Instances of this class are equivalent
- * to their operands. The semiring of the automaton is required to be a semifield, i.e. it must have an inverse for multiplication.  
- * 
+ * <p>
+ * This is an implementation of the on-the-fly determinization algorithm described in [1]. 
+ * The result of determinization is an automaton that is equivalent to its operand,
+ * such that no two paths yield the same string.  
+ * The semiring of the automaton is required to be a semifield, i.e. it must have an inverse for multiplication.  
+ * </p>
+ * <p>
  * [1] M. Mohri, Finite-State Transducers in Language and Speech Processing. 1997
+ * </p>
  * 
  * @author Jasper Hoogland
- *
  * 
  * @param <L>
- * The label type
+ * label type
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  * 
  */

@@ -2,7 +2,7 @@ package net.jhoogland.jautomata;
 
 /**
  * 
- * This interface is optionally implemented by transducers.
+ * A convenience interface that is optionally implemented by transducers.
  * The only purpose of this interface is to make the type specification of transducers shorter, 
  * because it allows users to avoid the explicit use of {@link TLabel}.  
  * All operations in this library that return transducers implement this interface.
@@ -13,10 +13,10 @@ package net.jhoogland.jautomata;
  * @author Jasper Hoogland
  *
  * @param <I>
- * The output label type
+ * output label type
  * 
  * @param <O>
- * The input label type
+ * input label type
  * 
  * @param <K>
  * weight type 

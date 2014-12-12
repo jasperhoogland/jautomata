@@ -1,6 +1,10 @@
 package net.jhoogland.jautomata.semirings;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 
@@ -12,60 +16,67 @@ import java.util.Arrays;
  *
  */
 
-public class KTropicalSemiring implements Semiring<BestPathWeights> 
+public class KTropicalSemiring<K extends Comparable<K>> implements Semiring<List<PathWeight<K>>> 
 {
 	public int k;
 	public boolean storePath;
+	public Semiring<K> src;
 	
-	public KTropicalSemiring(int k)
+	public KTropicalSemiring(int k, Semiring<K> src)
 	{
-		this(k, true);
+		this(k, true, src);
 	}
 	
-	public KTropicalSemiring(int k, boolean storePath) 
+	public KTropicalSemiring(int k, boolean storePath, Semiring<K> src) 
 	{
 		this.k = k;
 		this.storePath = storePath;
+		this.src = src;
 	}
 
-	public BestPathWeights multiply(BestPathWeights x1, BestPathWeights x2) 
+	public List<PathWeight<K>> multiply(List<PathWeight<K>> x1, List<PathWeight<K>> x2) 
 	{
-		PathWeight[] x = new PathWeight[k * k];
-		int p = 0;
-		for (int i = 0; i < k; i++) for (int j = 0; j < k; j++, p++)
+		List<PathWeight<K>> sorted = new ArrayList<PathWeight<K>>();
+		for (PathWeight<K> pw1 : x1) for (PathWeight<K> pw2 : x2)
 		{
-			x[p] = new PathWeight(storePath ? x1.pathWeights[i] : null, x1.pathWeights[i].weight + x2.pathWeights[j].weight, storePath ? x2.pathWeights[j].transition : null);
+			if (storePath)
+			{
+				sorted.add(new PathWeight<K>(pw1, src.multiply(pw1.weight, pw2.weight), src, pw2.transition));
+			}
+			else
+			{
+				sorted.add(new PathWeight<K>(null, src.multiply(pw1.weight, pw2.weight), src, null));
+			}
 		}
-		Arrays.sort(x);
-		PathWeight[] y = new PathWeight[k];
-		System.arraycopy(x, 0, y, 0, k);
-		return new BestPathWeights(y);		
+		Collections.sort(sorted);
+		List<PathWeight<K>> sum = new ArrayList<PathWeight<K>>();
+		Iterator<PathWeight<K>> it = sorted.iterator();
+		while (sum.size() < k && it.hasNext())
+			sum.add(it.next());
+		return sum;	
 	}
 
-	public BestPathWeights add(BestPathWeights x1, BestPathWeights x2) 
+	public List<PathWeight<K>> add(List<PathWeight<K>> x1, List<PathWeight<K>> x2) 
 	{
-		PathWeight[] x = new PathWeight[2 * k];
-		System.arraycopy(x1.pathWeights, 0, x, 0, k);
-		System.arraycopy(x2.pathWeights, 0, x, k, k);
-		Arrays.sort(x);
-		PathWeight[] y = new PathWeight[k];
-		System.arraycopy(x, 0, y, 0, k);
-		return new BestPathWeights(y);
+		List<PathWeight<K>> sorted = new ArrayList<PathWeight<K>>(x1);
+		sorted.addAll(x2);
+		Collections.sort(sorted);
+		List<PathWeight<K>> sum = new ArrayList<PathWeight<K>>();
+		Iterator<PathWeight<K>> it = sorted.iterator();
+		while (sum.size() < k && it.hasNext())
+			sum.add(it.next());
+		return sum;
 	}
 
-	public BestPathWeights one() 
+	public List<PathWeight<K>> one() 
 	{
-		PathWeight[] mi = new PathWeight[k];
-		mi[0] = new PathWeight(null, 0.0);
-		for (int i = 1; i < k; i++) mi[i] = new PathWeight(null, Double.POSITIVE_INFINITY);
-		return new BestPathWeights(mi);
+		PathWeight<K> pw = new PathWeight<K>(null, src.one(), src);		
+		return Arrays.asList(pw);
 	}
 
-	public BestPathWeights zero() 
+	public List<PathWeight<K>> zero() 
 	{
-		PathWeight[] mi = new PathWeight[k];
-		for (int i = 0; i < k; i++) mi[i] = new PathWeight(null, Double.POSITIVE_INFINITY);
-		return new BestPathWeights(mi);
+		return Collections.emptyList();
 	}
 
 	public boolean isIdempotent() 

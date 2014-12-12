@@ -64,7 +64,7 @@ public class TransducerIO
 	 * An instance of {@link CharacterFormat} is used as input and output label formats.
 	 */
 	
-	public static Transducer<Character, Character, Boolean> readUnweighted(Reader reader, String format) throws IOException
+	public static Transducer<Character, Character, Boolean> readUnweighted(Reader reader) throws IOException
 	{
 		return readUnweighted(reader, new CharacterFormat(), new CharacterFormat());		
 	}
@@ -84,7 +84,7 @@ public class TransducerIO
 	 * An instance of {@link CharacterFormat} is used as input and output label formats.
 	 */
 	
-	public static Transducer<Character, Character, Double> readWeighted(Reader reader, String format) throws IOException
+	public static Transducer<Character, Character, Double> readWeighted(Reader reader) throws IOException
 	{
 		return readWeighted(reader, new CharacterFormat(), new CharacterFormat());		
 	}
