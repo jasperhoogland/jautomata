@@ -4,10 +4,10 @@ import java.util.Collection;
 
 /**
  * <p>
- * Automata classes that implement this interface provide methods to iterate over an automaton via incoming
- * transitions, starting from the final states.
+ * Automata classes that implement this interface provide methods to iterate over an automaton 
+ * in the reverse direction, starting at the final states via incoming transitions. 
  * Normal automata (that do not implement this interface) only provide methods to visit states and transitions
- * in the forward direction.
+ * in the forward direction, starting at the initial states via outgoing transitions.
  * In order to make an automaton reversely accessible, the methods finalStates() and transitionsIn(state) must
  * be implemented.
  * </p>
@@ -18,13 +18,13 @@ import java.util.Collection;
  * reversely accessible if the operand is reversely accessible as well.
  * </p> 
  * 
- * @author Jasper
+ * @author Jasper Hoogland
  *
  * @param <L>
  * label type
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  */
 
@@ -43,11 +43,16 @@ public interface ReverselyAccessibleAutomaton<L, K> extends Automaton<L, K>
 	/**
 	 * 
 	 * @return
-	 * Collection of incoming transitions from the specified
+	 * Collection of incoming transitions from the specified state
 	 * 
 	 */
 	
 	public Collection<Object> transitionsIn(Object state);
+	
+	/**
+	 * @return
+	 * <code>true</code> if the implementation is indeed reversely accessible, <code>false</code> otherwise
+	 */
 	
 	public boolean isReverselyAccessible();
 }
