@@ -19,12 +19,18 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * 
  * @param <K>
  * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K> 
 {
 	private Map<Object, BasicState<K>> states;
 	private Map<Object, BasicTransition<L, K>> transitions;
+	
+	/**
+	 * Constructs an instance of {@link HashAutomaton} from the specified states and
+	 * transition maps.
+	 */
 	
 	public HashAutomaton(Map<Object, BasicState<K>> states, Map<Object, BasicTransition<L, K>> transitions, Semiring<K> semiring) 
 	{
@@ -42,6 +48,11 @@ public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K>
 			if (! stateData.finalWeight().equals(zero)) finalStates.add(state);			
 		}
 	}
+	
+	/**
+	 * Constructs an instance of {@link HashAutomaton} that identical to the specified
+	 * source automaton.
+	 */
 	
 	public HashAutomaton(Automaton<L, K> src) 
 	{

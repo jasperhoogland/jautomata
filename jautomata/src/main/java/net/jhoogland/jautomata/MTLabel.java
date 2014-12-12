@@ -10,10 +10,10 @@ import java.util.Collection;
  * @author Jasper Hoogland
  *
  * @param <T>
- * Tape type
+ * tape type
  * 
  * @param <L>
- * Tape label type
+ * tape label type
  * 
  */
 

@@ -8,18 +8,23 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
  * 
+ * Abstract class for unary operations on automata.
+ * 
  * @author Jasper Hoogland
  *
  * @param <L1>
- * Label type of the operand
+ * operand label type
  * 
  * @param <L2>
- * Label type of the resulting automaton
+ * operation label type
  * 
  * @param <K1>
- * 
+ * operand weight type
+ * (Boolean for regular automata and Double for weighted automata)
  * 
  * @param <K2>
+ * operation weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public abstract class UnaryOperation<L1, L2, K1, K2> extends AbstractAutomaton<L2, K2> 

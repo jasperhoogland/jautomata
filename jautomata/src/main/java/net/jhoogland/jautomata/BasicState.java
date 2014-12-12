@@ -14,7 +14,7 @@ import java.util.Collection;
  *
  * @param <K>
  * weight type
- * 
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class BasicState<K> 

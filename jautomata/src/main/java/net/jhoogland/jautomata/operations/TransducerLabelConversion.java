@@ -5,7 +5,7 @@ import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 
 /**
- * Subclass of {@link LabelConversion} that implements the {@link Transducer} interface.
+ * Abstract class for label conversion operations for transducers.
  * 
  * @author Jasper Hoogland
  *
@@ -19,7 +19,7 @@ import net.jhoogland.jautomata.Transducer;
  * output label type of the resulting transducer
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  * 
  */

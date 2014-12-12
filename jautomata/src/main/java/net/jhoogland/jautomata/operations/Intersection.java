@@ -19,17 +19,17 @@ import net.jhoogland.jautomata.Automaton;
  * @author Jasper Hoogland
  *
  * @param <L1>
- * The label type of the first operand
+ * label type of the first operand
  * 
  * @param <L2>
- * The label type of the second operand
+ * label type of the second operand
  * 
  * @param <L3>
- * The label type of the intersection
+ * label type of the intersection
  * 
  * @param <K>
- * The type over which the semiring is defined (Boolean for regular automata and Double for weighted automata)
- * 
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, K>  

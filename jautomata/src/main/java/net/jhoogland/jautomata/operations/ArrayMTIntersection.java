@@ -7,6 +7,19 @@ import net.jhoogland.jautomata.ArrayMTLabel;
 import net.jhoogland.jautomata.MTAutomaton;
 import net.jhoogland.jautomata.MTLabel;
 
+/**
+ * Intersection of array-based multi-tape automata for a single intersection tape.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * tape label type
+ * 
+ * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
+ */
+
 public class ArrayMTIntersection<L, K> extends MTIntersection<Integer, L, K> 
 {
 	public ArrayMTIntersection(MTAutomaton<Integer, L, K> operand1, MTAutomaton<Integer, L, K> operand2, int intersectionTape1, int intersectionTape2) 

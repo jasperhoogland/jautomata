@@ -5,14 +5,25 @@ import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 
 /**
- * 
+ * Transducer composition of two transducers.
+ * The output of the first transducer is mapped to the input of the second transducer.
+ * The result is a transducer with the input of the first transducer mapped to the output of the second transducer.
+ * Transducer composition is a special case of intersection. 
  * 
  * @author Jasper Hoogland
  *
  * @param <I>
+ * input label type
+ * 
  * @param <L>
+ * intersection label type
+ * 
  * @param <O>
+ * output label type
+ * 
  * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class TransducerComposition<I, L, O, K> extends Intersection<TLabel<I, L>, TLabel<L, O>, TLabel<I, O>, K> implements Transducer<I, O, K>

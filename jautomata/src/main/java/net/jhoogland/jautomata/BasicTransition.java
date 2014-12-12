@@ -9,7 +9,11 @@ package net.jhoogland.jautomata;
  * @author Jasper Hoogland
  *
  * @param <L>
+ * label type
+ * 
  * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 public class BasicTransition<L, K>
 {

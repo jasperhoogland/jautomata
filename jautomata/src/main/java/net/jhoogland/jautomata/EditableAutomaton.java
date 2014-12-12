@@ -18,6 +18,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * 
  * @param <K>
  * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class EditableAutomaton<L, K> extends HashAutomaton<L, K> 

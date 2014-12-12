@@ -5,6 +5,21 @@ import java.util.HashSet;
 
 import net.jhoogland.jautomata.Automaton;
 
+/**
+ * Abstract class for label conversion operations.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L1>
+ * operand label type
+ * 
+ * @param <L2>
+ * operation label type
+ * 
+ * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
+ */
 public abstract class LabelConversion<L1, L2, K> extends UnaryOperation<L1, L2, K, K>  
 {
 	public LabelConversion(Automaton<L1, K> operand) 
@@ -33,6 +48,14 @@ public abstract class LabelConversion<L1, L2, K> extends UnaryOperation<L1, L2, 
 	{		
 		return super.transitionsOut(state);
 	}
+	
+	/**
+	 * @param label
+	 * label to be converted
+	 * 
+	 * @return
+	 * converted label
+	 */
 	
 	public abstract L2 newLabel(L1 label);
 	

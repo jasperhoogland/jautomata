@@ -36,8 +36,8 @@ public class Automata
 {
 	public static void main(String[] args) throws IOException 
 	{
-		SinglePathAutomaton<Character, Double> a1 = createSingleStringAutomaton(new RealSemiring(), "a");
-		SinglePathAutomaton<Character, Double> a2 = createSingleStringAutomaton(new RealSemiring(), "b");
+		SingleStringAutomaton<Character, Double> a1 = createSingleStringAutomaton(new RealSemiring(), "a");
+		SingleStringAutomaton<Character, Double> a2 = createSingleStringAutomaton(new RealSemiring(), "b");
 		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.singleInitialState(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6)));
 		List<Path<Character, Double>> ps = bestStrings(complex, 5);
 		for (Path<Character, Double> p : ps)
@@ -157,7 +157,7 @@ public class Automata
 	 * an automaton that only accepts the empty string
 	 */
 	
-	public static <L, K> SinglePathAutomaton<L, K> emptyStringAutomaton(Semiring<K> semiring)
+	public static <L, K> SingleStringAutomaton<L, K> emptyStringAutomaton(Semiring<K> semiring)
 	{
 		return createSingleStringAutomaton(semiring, new ArrayList<L>(0));
 	}
@@ -167,9 +167,9 @@ public class Automata
 	 * an automaton that only accepts the specified string 
 	 */
 	
-	public static <L, K> SinglePathAutomaton<L, K> createSingleStringAutomaton(Semiring<K> semiring, List<L> list)
+	public static <L, K> SingleStringAutomaton<L, K> createSingleStringAutomaton(Semiring<K> semiring, List<L> list)
 	{
-		return new SinglePathAutomaton<L, K>(semiring, list);
+		return new SingleStringAutomaton<L, K>(semiring, list);
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class Automata
 	 * an automaton that only accepts the specified string
 	 */
 	
-	public static <K> SinglePathAutomaton<Character, K> createSingleStringAutomaton(Semiring<K> semiring, String str)
+	public static <K> SingleStringAutomaton<Character, K> createSingleStringAutomaton(Semiring<K> semiring, String str)
 	{
 		return createSingleStringAutomaton(semiring, toCharacterList(str));
 	}
@@ -210,7 +210,7 @@ public class Automata
 	
 	public static <S, T, L, K> K stringWeight(Automaton<L, K> automaton, SingleSourceShortestDistances<K> sssd, List<L> string)
 	{
-		SinglePathAutomaton<L, K> stringAutomaton = new SinglePathAutomaton<L, K>(automaton.semiring(), string);
+		SingleStringAutomaton<L, K> stringAutomaton = new SingleStringAutomaton<L, K>(automaton.semiring(), string);
 		AcceptorIntersection<L, K> intersection = new AcceptorIntersection<L, K>(automaton, stringAutomaton);
 		return shortestCompleteDistances(intersection, sssd);
 	}

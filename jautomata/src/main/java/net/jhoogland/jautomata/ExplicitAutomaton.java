@@ -19,6 +19,7 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * 
  * @param <K>
  * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 public abstract class ExplicitAutomaton<L, K> extends AbstractAutomaton<L, K>  implements ReverselyAccessibleAutomaton<L, K>
 {

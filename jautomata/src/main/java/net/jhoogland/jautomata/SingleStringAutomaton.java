@@ -8,19 +8,22 @@ import java.util.List;
 import net.jhoogland.jautomata.semirings.Semiring;
 
 /**
- * 
+ * An automaton type that only accepts a single specified string.
  * 
  * @author Jasper Hoogland
  *
  * @param <L>
+ * label type
+ * 
  * @param <K>
+ * weight type
  */
 
-public class SinglePathAutomaton<L, K> extends AbstractAutomaton<L, K> implements ReverselyAccessibleAutomaton<L, K>  
+public class SingleStringAutomaton<L, K> extends AbstractAutomaton<L, K> implements ReverselyAccessibleAutomaton<L, K>  
 {
 	List<L> list;
 
-	public SinglePathAutomaton(Semiring<K> semiring, List<L> list) 
+	public SingleStringAutomaton(Semiring<K> semiring, List<L> list) 
 	{
 		super(semiring, new IntegerComparator());		
 		this.list = list;

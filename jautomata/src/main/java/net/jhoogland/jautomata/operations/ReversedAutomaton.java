@@ -7,8 +7,8 @@ import net.jhoogland.jautomata.ReverselyAccessibleAutomaton;
 /**
  * 
  * Implementation of automaton reversal. 
- * Instances of this class are the reverse automaton of an operand automaton.
- * 
+ * The operation reverses the direction of all transitions, and swaps the initial and final weights.
+ * The result is an automaton that accepts the reversed strings that are accepted by the operand. 
  * 
  * This operation requires the operand automaton to be reversely accessible, 
  * i.e. it must implement the {@link ReverselyAccessibleAutomaton} interface 
@@ -16,11 +16,14 @@ import net.jhoogland.jautomata.ReverselyAccessibleAutomaton;
  * 
  * @author Jasper Hoogland
  *
+ * @see
+ * ReverselyAccessibleAutomaton
+ * 
  * @param <L>
  * label type
  * 
  * @param <K>
- * The type of elements of the semiring over which the automaton is defined 
+ * weight type 
  * (Boolean for regular automata and Double for weighted automata)
  */
 

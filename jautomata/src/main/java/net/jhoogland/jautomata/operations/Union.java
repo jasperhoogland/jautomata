@@ -9,8 +9,8 @@ import net.jhoogland.jautomata.Automaton;
 
 /**
  * 
- * Implementation of the union of a set of automata (its operands). 
- * The set of strings accepted by the union is the union of the set of strings accepted by its operands.
+ * Implementation of the union of a set of automata (its operands).
+ * A string is accepted by the union if and only if it is accepted by one of its operands.
  * The weight of a string is the minimum string weight of its operands (in case of the tropical semiring)
  * or the sum of the string weights of its operands (in case of the probability semiring).
  * 
@@ -19,7 +19,11 @@ import net.jhoogland.jautomata.Automaton;
  * @author Jasper Hoogland
  *
  * @param <L>
+ * label type
+ * 
  * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public class Union<L, K> extends AbstractAutomaton<L, K> 

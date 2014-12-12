@@ -12,7 +12,7 @@ package net.jhoogland.jautomata;
  *
  * @param <K>
  * weight type
- * 
+ * (Boolean for regular automata and Double for weighted automata)
  */
 
 public interface WeightConvergenceCondition<K> 

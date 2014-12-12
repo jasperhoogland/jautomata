@@ -7,6 +7,19 @@ import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.semirings.KTropicalSemiring;
 import net.jhoogland.jautomata.semirings.PathWeight;
 
+/**
+ * Conversion of the Boolean, log, and tropical semiring to the k-tropical semiring.
+ * 
+ * @author Jasper Hoogland
+ *
+ * @param <L>
+ * label type
+ * 
+ * @param <K>
+ * weight type
+ * (Boolean for regular automata and Double for weighted automata)
+ */
+
 public class KTropicalSemiringConversion<K extends Comparable<K>, L> extends SemiringConversion<L, K, List<PathWeight<K>>>
 {
 	public KTropicalSemiringConversion(Automaton<L, K> operand, int k)
@@ -25,13 +38,7 @@ public class KTropicalSemiringConversion<K extends Comparable<K>, L> extends Sem
 	@Override
 	public List<PathWeight<K>> convertWeight(K weight)
 	{
-//		PathWeight<K>[] p = new PathWeight[((KTropicalSemiring<K>) semiring()).k];
-//		p[0] = new PathWeight<K>(null, weight, null);
-////		p[0] = new PathWeight<K>(null, convert(weight), null);
-//		for (int i = 1; i < p.length; i++) p[i] = new PathWeight<K>(null, operand.semiring().zero(), null);
 		return Arrays.asList(new PathWeight<K>(null, weight, null));
 		
 	}
-	
-//	public abstract K convert(K weight);
 }
