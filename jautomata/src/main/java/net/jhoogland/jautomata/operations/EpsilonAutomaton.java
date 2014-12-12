@@ -24,20 +24,20 @@ public class EpsilonAutomaton<L, K> extends UnaryOperation<L, L, K, K>
 		return transitionsOut;
 	}
 	
-	@Override
-	public Collection<Object> transitionsOut(Object state, L label) 
-	{		
-		if (label == null) return transitionsOut(state);
-		else return Collections.emptyList();
-	}
-	
-	@Override
-	public Collection<L> labelsOut(Object state) 
-	{		
-		for (L label : operand.labelsOut(state))
-			if (label == null) return Arrays.asList(null);
-		return Collections.emptyList();
-	}
+//	@Override
+//	public Collection<Object> transitionsOut(Object state, L label) 
+//	{		
+//		if (label == null) return transitionsOut(state);
+//		else return Collections.emptyList();
+//	}
+//	
+//	@Override
+//	public Collection<L> labelsOut(Object state) 
+//	{		
+//		for (L label : operand.labelsOut(state))
+//			if (label == null) return Arrays.asList(null);
+//		return Collections.emptyList();
+//	}
 
 	public K initialWeight(Object state) 
 	{		
