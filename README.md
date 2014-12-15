@@ -1,5 +1,7 @@
 JAutomata
 =========
+<a href="jasperhoogland.github.io/jautomata/" target="_blank">JAutomata Documentation</a>
+<a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target="_blank">Javadocs</a>
 
 This is a Java library for (weighted) finite state automata. 
 The automata are generic with respect to label type and semiring.
@@ -42,5 +44,8 @@ This library supports several algorithms on automaton.
 This includes the computation of weights of paths and strings, operations such as intersection, union, and conversion of labels and semirings.
 
 <h2>Links</h2>
+<ul>
+<li><a href="jasperhoogland.github.io/jautomata/" target="_blank">JAutomata Documentation</a></li>
+<li><a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target="_blank">Javadocs</a></li>
+</ul>
 
-<a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target="_blank">Javadocs</a>
