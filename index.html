@@ -1,20 +1,303 @@
 <html>
 <head>
 <title>JAutomata Documentation</title>
-<link rel="stylesheet" type="text/css" href="doc/style.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
 <h1>JAutomata Documentation</h1>
+
+Here you'll find a short tutorial on the <a href="https://github.com/jasperhoogland/jautomata" target="_blank">JAutomata API</a>.
+Detailed information on classes and methods can be found in the 
+<a href="http://jasperhoogland.github.io/jautomata/apidocs/index.html" target="_blank">Javadocs</a>.
+
+<h2>The Automaton Class</h2>
 <p>
-Soon you will find here the documentation of the JAutomata library.
-JAutomata is a Java library for finite state machines (automata).
-It supports various types of automata, such as (weighted) acceptors, transducers, and multi-tape automata.
-<ul>
-<li><a href="doc/gettingstarted.html">Getting Started</a></li>
-</ul>
+The most important class in the JAutomata API is the <span class="icode">Automaton&lt;L, K&gt;</span> interface
+Every automaton class implements this interface,
+and every automaton is an instance of such a such a class.
+The following methods of this class define an automaton:
+<table border>
+<tr>
+<td><span class="icode">Collection&lt;Object&gt; initialStates()</span></td>
+<td>the set of initial states</td>
+</tr>
+
+<tr>
+<td><span class="icode">Collection&lt;Object&gt; transitionsOut(Object state)</span></td>
+<td>the set of outgoing transition of the specified state</td>
+</tr>
+
+<tr>
+<td><span class="icode">K initialWeight(Object state)</span></td>
+<td>the initial weight of the specified state</td>
+</tr>
+
+<tr>
+<td><span class="icode">K initialWeight(Object state)</span></td>
+<td>the final weight of the specified state</td>
+</tr>
+
+<tr>
+<td><span class="icode">Object from(Object transition)</span></td>
+<td>the source state of the specified transition</td>
+</tr>
+
+<tr>
+<td><span class="icode">Object to(Object transition)</span></td>
+<td>the destination state of the specified transition</td>
+</tr>
+
+<tr>
+<td><span class="icode">L label(Object transition)</span></td>
+<td>the label of the specified transition</td>
+</tr>
+
+<tr>
+<td><span class="icode">K weight(Object transition)</span></td>
+<td>the weight of the specified transition</td>
+</tr>
+
+<tr>
+<td><span class="icode">Semiring<K> semiring()</span></td>
+<td>the semiring over which the automaton is defined</td>
+</tr>
+</table>
+
+States and transition can be any type of object, such as <span class="icode">Integer</span>, <span class="icode">String</span>, or other types.
+The only requirement is that the <span class="icode">equals(Object)</span> and <span class="icode">hashCode()</span> methods are properly implemented.
+<span class="icode">Automaton&lt;L, K&gt;</span> is generic, with type parameters <span class="icode">L</span> and <span class="icode">K</span>.
+</p>
+
+<h3>Label types, Acceptors, Transducers, and Multi-Tape Automata</h3>
+
+<p>
+Type parameter <span class="icode">L</span> indicates the label type.
+JAutomata supports acceptors, transducers, and multi-tape automata.
+The label type specifies to which of these types an automaton belongs.
+Also, the label type determines the alphabet(s) of the automaton.
+Acceptors are automata with a single tape.
+The label type specifies the type of the elements of the alphabet.
+This can be any type, such as <span class="icode">Character</span> or <span class="icode">String</span>.
 </p>
 <p>
-For detailed information on classes, methods, and other structures, check out the <a href="apidocs/index.html">Javadocs</a>, which is already largely finished.
+Transducers are automata with two tapes: an input tape and an output tape.
+In JAutomata, transducers have generic label type <span class="icode">TLabel&lt;I, O&gt;</span>, 
+where <span class="icode">I</span> is the type of the input alphabet and <span class="icode">O</span> is the type of the output alphabet.
+The type <span class="icode">TLabel&lt;I, O&gt;</span> has methods <span class="icode">I in()</span> and <span class="icode">O out()</span>, 
+which return the input label and the output label.
+Transducers optionally implement the convenience interface <span class="icode">Transducer&lt;I, O, K&gt;</span>, 
+which extends <span class="icode">Automaton&lt;TLabel&lt;I, O&gt;, K&gt;</span>.
+The <span class="icode">Transducer&lt;I, O, K&gt;</span> interface has no additional methods, but by using it instead of <span class="icode">Automaton&lt;TLabel&lt;I, O&gt;, K&gt;</span>
+limits the size of type specifications.
+
+
+</p>
+<p>
+Multi-tape automata are automata with an arbitrary number of tapes.
+In JAutomata, multi-tape automata have generic label type  <span class="icode">MTLabel&lt;T, L&gt;</span>,
+where <span class="icode">T</span> is the tape type and <span class="icode">L</span> is the tape label type.
+A multi-tape label assigns a tape label to every tape.
+The type <span class="icode">MTLabel&lt;T, L&gt;</span> has a method <span class="icode">Collection&lt;T&gt; tapes()</span>, 
+which returns the set of tapes of this label.
+The method <span class="icode">L tapeLabel(T tape)</span> returns the tape label of the specified tape.
+Multi-tape automata implement the interface <span class="icode">MTAutomaton&lt;T, L, K&gt;</span>, 
+which extends <span class="icode">Automaton&lt;MTLabel&lt;T, L&gt;, K&gt;</span>.
+This interface has the method <span class="icode">Collection&lt;T&lt; tapes()</span>, which returns the tapes of the automaton.
+Also, using it instead of <span class="icode">Automaton&lt;MTLabel&lt;T, L&gt;, K&gt;</span>
+limits the size of type specifications.
+
+
+
+
+
+
+
+</p>
+
+<h3>Unweighted and Weighted Automata and Semirings</h3>
+
+<p>
+JAutomata supports both weighted and unweighted automata.
+Whether an automaton is weighted depends on its weight type.
+The weight type an unweighted automaton is <span class="icode">Boolean</span>.
+An unweighted automaton defines a set of strings over an alphabet.
+Unweighted automata are equivalent to regular expressions, i.e. each set of strings defined by a regular expression can be defined a an unweighted automaton, and vice versa.
+The weight type of a weighted automaton is <span class="icode">Double</span>.
+A weighted automaton defines a function that maps strings to real number.
+A common application is to describe probability distributions over strings.
+In addition to a weight type, every automaton is defined over a semiring.
+In JAutomata, semirings are instances of classes that implement the <span class="icode">Semiring&lt;K&gt;</span> interface,
+where <span class="icode">K</span> is the weight type.
+The <span class="icode">semiring()</span> method returns the semiring of an automaton.
+Examples of semirings are the boolean semiring, the probabilistic semiring, and the tropical semiring.
+Unweighted automata are defined over the boolean semiring, which implements <span class="icode">Semiring&lt;Boolean&gt;</span>.
+Weighted automata are defined over semirings that implements <span class="icode">Semiring&lt;Double&gt;</span>, 
+such as the probabilistic semiring and the tropical semiring.
+The probabilistic semiring is used to compute string probabilities, and the tropical semiring is used to compute the shortest path over an automaton.
+</p>
+
+
+
+<h3>Topological Orders over States</h3>
+
+<p>
+An automaton can optionally provide a topological order on its states.
+The topological order is an implementation of <span class="icode">Comparator&lt;Object&gt;</span>.
+An automaton's topological order is returned by its <span class="icode">topologicalOrder()</span> method.
+Topological orders are used by certain algorithms to make them faster.
+If an automaton has no topological order or if its topological order is not known, then the <span class="icode">topologicalOrder()</span> method returns
+<span class="icode">null</span>.
+</p>
+
+
+
+
+
+
+
+
+<h2>Creating Automata</h2>
+
+<p>
+Automata can be created in a variety of ways. 
+They can be read from files, they can be created using Java code, or they can be created from existing automata, by performing operations on them.
+Here I briefly describe the first two methods.
+Operations are described below.
+</p>
+
+
+<h3>Reading Automata from Files</h3>
+<p>
+JAutomata supports file input for acceptors and transducers.
+Acceptors are read from files using the <span class="icode">AcceptorIO</span> class,
+and transducers are read from files using the <span class="icode">TransducerIO</span> class.
+Both classes contain static methods <span class="icode">readUnweighted</span>, <span class="icode">readWeighted</span> and <span class="icode">read</span>.
+<span class="icode">readUnweighted</span> is used for unweighted automata,
+and <span class="icode">readWeighted</span> is used for weighted automata over the probabilistic semiring.
+<span class="icode">read</span> is used for automata over arbitrary semirings, specified by an argument.
+</p>
+<p>
+In the following example, an unweighted acceptor is read from a file:
+<div class="code">
+<ol>
+<li>File file = new File("<i>filename</i>");</li>
+<li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
+<li>Automaton&lt;Character, Boolean&gt; acceptor = AcceptorIO.readUnweighted(isr);</li>
+</ol>
+</div>
+</p>
+<p>
+The first two lines create a Reader for a file.
+The third line loads an unweighted acceptor from the file.
+</p>
+<p>
+Similar to the previous example, a weighted transducer over the probabilistic semiring is read from a file in the following way:
+<div class="code">
+<ol>
+<li>File file = new File("<i>filename</i>");</li>
+<li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
+<li>Automaton&lt;Character, Double&gt; transducer = TransducerIO.readWeighted(isr);</li>
+</ol>
+</div>
+</p>
+<p>
+A weighted transducer over the tropical semiring is read from a file in the following way:
+<div class="code">
+<ol>
+<li>File file = new File("<i>filename</i>");</li>
+<li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
+<li>Automaton&lt;Character, Double&gt; transducer = TransducerIO.read(isr, new TropicalSemiring());</li>
+</ol>
+</div>
+</p>
+
+
+<h3>Creating Automata Using Java Code</h3>
+
+<p>
+One way of creating an automaton is by creating a class that implements <span class="icode">Automaton&lt;L, K&gt;</span> 
+and by creating an instance of that class.
+Though this is the most flexible way, it is also the most time consuming way.
+For many purposes, there are some predefined classes available.
+One of them is <span class="icode">EditableAutomaton&lt;L, K&gt;</span>, which allows automata to be defined using its 
+<span class="icode">addState</span> and <span class="icode">addTransition</span> methods.
+The states and transitions of this class are integers.
+The method <span class="icode">addState</span> creates a state with the specified initial and final weights, and 
+returns the <span class="icode">int</span> that identifies the newly created state.
+The method <span class="icode">addTransition</span> creates a transition with the specified source state, destination state, label and weight, and
+returns the <span class="icode">int</span> that identifies the newly created transition.
+In the following example, a weighted acceptor over the probabilistic semiring is created that accepts strings 
+that start with <span class="icode">"b"</span> followed by an arbitrary number of <span class="icode">"a"</span>s 
+(<span class="icode">"b"</span>, <span class="icode">"ba"</span>, <span class="icode">"baa"</span>, <span class="icode">"baaa"</span>, etc).
+The string weights of the automaton decrease exponentially, such that their total sum is one.
+<div class="code">
+<ol>
+<li>Automaton&lt;Character, Double&gt; a = new EditableAutomaton&lt;Character, Double&gt;(new RealSemiring()); // probabilistic semiring uses RealSemiring</li>
+<li>int s1`= a.addState(1.0, 0.0); // Create initial state (initial weight 1.0, final weight 0.0)</li>
+<li>int s2`= a.addState(0.0, 1.0); // Create final state (initial weight 0.0, final weight 1.0)</li>
+<li>a.addTransition(s1, s2, 'b', 0.4); // Create transition from s1 to s2</li>
+<li>a.addTransition(s2, s2, 'a', 0.6); // Create transition from s2 to s2</li>
+</ol>
+</div>
+</p>
+
+
+
+<h2>Weights, Shortest Paths, and Best Strings</h2>
+<p>
+JAutomata provides methods to compute the weights of strings, the <i>n</i> shortest paths, and the <i>n</i> best strings.
+Methods for these computations are provided by the <span class="icode">Automata</span> class 
+(not to be confused with the <span class="icode">Automaton&lt;L, K&gt;</span> interface).
+</p>
+<p>
+The weight of a string can be computed using the <span class="icode">Automata.stringWeight(Automaton&lt;L, K&gt; automaton, List&lt;L&gt; string)</span> method.
+Strings of elements are represented by <span class="icode">List</span>s.
+For automata with label type <span class="icode">Character</span>, there is also the convenience method <span class="icode">Automata.stringWeight(Automaton&lt;L, K&gt; automaton, String string)</span>,
+which allows strings of characters to be described by <span class="icode">String</span> objects.
+</p>
+<p>
+The <i>n</i> shortest paths of an automaton can be computed using the <span class="icode">Automata.shortestPaths(Automaton&lt;L, K&gt; automaton, int numPaths)</span> method.
+This method returns a list of up to <i>n</i> paths.
+A path has type <span class="icode">Path&gt;L, K&gt;</span> and contains the sequence of transitions that define the path, its concatenated label, and the weight of the path.
+In case of a probabilistic automaton, the method returns the paths with the highest probability, 
+and in case of an unweighted automaton, the method returns up to <i>n</i> accepted paths.
+</p>
+<p>
+The <i>n</i> best strings of an automaton can be computed using the <span class="icode">Automata.bestStrings(Automaton&lt;L, K&gt; automaton, int numStrings)</span> method.
+This method returns a list of up to <i>n</i> paths with unique strings.
+In case of an unweighted automaton, the method returns up to <i>n</i> accepted strings.
+</p>
+<h2>Operations</h2>
+<p>
+Operations take one or more automata as input, and produce a new automaton as output.
+JAutomata supports a number of operations on automata:
+<ul>
+<li>intersection</li>
+
+<li>transducer composition</li>
+
+<li>epsilon removal</li>
+
+<li>determinization</li>
+
+<li>concatenation</li>
+
+<li>union</li>
+
+<li>Kleene closure</li>
+
+<li>reversal</li>
+
+<li>conversion between acceptors, transducers, and multi-tape automata</li>
+
+<li>label conversion</li>
+
+<li>semiring conversion</li>
+
+</ul>
+Most operations are found as static methods in the <span class="icode">Operations</span> class.
+Transducer-specific operations are found in the <span class="icode">Transducers</span> class, 
+and operations specific to multi-taoe automata are found in the <span class="icode">MTAutomata</span> class.
 </p>
 </body>
 </html>
