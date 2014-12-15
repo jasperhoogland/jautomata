@@ -64,7 +64,7 @@ public class SingleStringAutomaton<L, K> extends AbstractAutomaton<L, K> impleme
 		return Collections.emptyList();
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{
 		if (transition instanceof Integer)
 		{
@@ -74,7 +74,7 @@ public class SingleStringAutomaton<L, K> extends AbstractAutomaton<L, K> impleme
 		return null;
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{
 		if (transition instanceof Integer)
 		{

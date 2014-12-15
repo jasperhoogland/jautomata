@@ -114,19 +114,19 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 		return semiring().multiply(operand1.finalWeight(s.operandState1), operand2.finalWeight(s.operandState2));
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{		
 		IntersectionTransition t = (IntersectionTransition) transition;
-		Object previousState1 = t.operandTransition1 == null ? t.operandState1 : operand1.previousState(t.operandTransition1);
-		Object previousState2 = t.operandTransition2 == null ? t.operandState2 : operand2.previousState(t.operandTransition2);
+		Object previousState1 = t.operandTransition1 == null ? t.operandState1 : operand1.from(t.operandTransition1);
+		Object previousState2 = t.operandTransition2 == null ? t.operandState2 : operand2.from(t.operandTransition2);
 		return new IntersectionState(previousState1, previousState2, t.fromFilterState);
 	}
 
-	public Object nextState(Object transition)
+	public Object to(Object transition)
 	{
 		IntersectionTransition t = (IntersectionTransition) transition;
-		Object nextState1 = t.operandTransition1 == null ? t.operandState1 : operand1.nextState(t.operandTransition1);
-		Object nextState2 = t.operandTransition2 == null ? t.operandState2 : operand2.nextState(t.operandTransition2);
+		Object nextState1 = t.operandTransition1 == null ? t.operandState1 : operand1.to(t.operandTransition1);
+		Object nextState2 = t.operandTransition2 == null ? t.operandState2 : operand2.to(t.operandTransition2);
 		int filterState = t.operandTransition1 == null ? 2 : (t.operandTransition2 == null ? 1 : 0);
 		return new IntersectionState(nextState1, nextState2, filterState);
 	}

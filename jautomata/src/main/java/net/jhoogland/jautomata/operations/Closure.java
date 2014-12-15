@@ -66,10 +66,10 @@ public class Closure<L, K> extends UnaryOperation<L, L, K, K>
 		return getOpState(state) == null ? semiring().one() : semiring().zero();
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{		
 		Transition t = (Transition) transition;
-		if (t.inOperand()) return new State(operand.previousState(t.opTransition));
+		if (t.inOperand()) return new State(operand.from(t.opTransition));
 		else if (t.fromInitialState) return initialState();
 		else return new State(t.opState);
 	}
@@ -79,10 +79,10 @@ public class Closure<L, K> extends UnaryOperation<L, L, K, K>
 		return new State(null);
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{
 		Transition t = (Transition) transition;
-		if (t.inOperand()) return new State(operand.nextState(t.opTransition));
+		if (t.inOperand()) return new State(operand.to(t.opTransition));
 		else if (t.fromInitialState) return new State(t.opState);
 		else return initialState();
 	}

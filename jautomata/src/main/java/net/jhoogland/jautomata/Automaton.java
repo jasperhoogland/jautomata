@@ -98,7 +98,7 @@ public interface Automaton<L, K>
 	 * 
 	 */
 	
-	public Object previousState(Object transition);
+	public Object from(Object transition);
 	
 	
 	/**
@@ -108,7 +108,7 @@ public interface Automaton<L, K>
 	 * 
 	 */
 	
-	public Object nextState(Object transition);
+	public Object to(Object transition);
 	
 	/**
 	 * 

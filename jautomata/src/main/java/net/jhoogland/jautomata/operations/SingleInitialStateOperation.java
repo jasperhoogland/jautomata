@@ -100,19 +100,19 @@ public class SingleInitialStateOperation<L, K> extends UnaryOperation<L, L, K, K
 	}
 
 	@Override
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{
 		SISTransition t = (SISTransition) transition;
 		if (t.fromInitialState) return initialState();
-		else return new SISState(operand.previousState(t.operandTransition));
+		else return new SISState(operand.from(t.operandTransition));
 	}
 
 	@Override
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{
 		SISTransition t = (SISTransition) transition;
 		if (t.fromInitialState) return new SISState(t.operandInitialState);
-		else return new SISState(operand.nextState(t.operandTransition));
+		else return new SISState(operand.to(t.operandTransition));
 	}
 
 	public L label(Object transition) 

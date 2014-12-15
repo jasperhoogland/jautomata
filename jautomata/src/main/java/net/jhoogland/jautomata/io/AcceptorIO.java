@@ -111,11 +111,11 @@ public class AcceptorIO
 		K one = automaton.semiring().one();
 		for (Object t : Automata.transitions(a))
 		{
-			String from = a.previousState(t).toString();
+			String from = a.from(t).toString();
 			String label = labelFormat.format(a.label(t));
 			K weight = a.transitionWeight(t);
 			String weightStr = weight.equals(one) ? "" : " " + weight;
-			String to = a.nextState(t).toString();
+			String to = a.to(t).toString();
 			pw.println(from + " " + to + " " + label + weightStr);
 		}
 		for (Object s : a.finalStates())
@@ -226,16 +226,16 @@ public class AcceptorIO
 			return w == null ? semiring().zero() : w;
 		}
 
-		public Object previousState(Object transition) 
+		public Object from(Object transition) 
 		{			
 			BasicTransition<L, K> t = (BasicTransition<L, K>) transition;
-			return t.previousState();
+			return t.from();
 		}
 
-		public Object nextState(Object transition) 
+		public Object to(Object transition) 
 		{
 			BasicTransition<L, K> t = (BasicTransition<L, K>) transition;
-			return t.nextState();
+			return t.to();
 		}
 
 		public L label(Object transition) 

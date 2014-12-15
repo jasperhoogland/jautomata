@@ -55,7 +55,7 @@ public class SingleSourceShortestDistances<K> implements SingleSourceShortestDis
 			K rQ = r.remove(q);			
 			for (Object e : automaton.transitionsOut(q))
 			{
-				Object ne = automaton.nextState(e);
+				Object ne = automaton.to(e);
 				K dne = distances.get(ne);
 				if (dne == null) dne = sr.zero();
 				K rwe = sr.multiply(rQ, automaton.transitionWeight(e));

@@ -51,14 +51,14 @@ public abstract class ExplicitAutomaton<L, K> extends AbstractAutomaton<L, K>  i
 		return getState(state).transitionsOut();
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{
-		return getTransition(transition).previousState();
+		return getTransition(transition).from();
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{		
-		return getTransition(transition).nextState();
+		return getTransition(transition).to();
 	}
 
 	public L label(Object transition) 

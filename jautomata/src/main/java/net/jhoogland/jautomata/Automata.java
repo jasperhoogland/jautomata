@@ -56,7 +56,7 @@ public class Automata
 			states.add(state);
 			for (Object transition : automaton.transitionsOut(state))
 			{
-				Object next = automaton.nextState(transition);
+				Object next = automaton.to(transition);
 				if (! processed.contains(next))
 				{
 					front.add(next);
@@ -89,7 +89,7 @@ public class Automata
 			for (Object transition : automaton.transitionsOut(state))
 			{
 				transitions.add(transition);
-				Object next = automaton.nextState(transition);
+				Object next = automaton.to(transition);
 				if (! processed.contains(next))
 				{
 					front.add(next);

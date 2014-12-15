@@ -47,13 +47,13 @@ public abstract class UnaryOperation<L1, L2, K1, K2> extends AbstractAutomaton<L
 		return operand.transitionsOut(state);
 	}
 	
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{		
-		return operand.previousState(transition);
+		return operand.from(transition);
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{		
-		return operand.nextState(transition);
+		return operand.to(transition);
 	}	
 }

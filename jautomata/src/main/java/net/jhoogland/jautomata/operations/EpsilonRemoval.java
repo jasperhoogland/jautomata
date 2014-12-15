@@ -60,7 +60,7 @@ public class EpsilonRemoval<L, K> extends UnaryOperation<L, L, K, K>
 	
 	public K transitionWeight(Object transition) 
 	{
-		Object previousState = previousState(transition);
+		Object previousState = from(transition);
 		if (! transitionsOut.containsKey(previousState)) computeProperties(previousState); 
 		return transitionsWeights.get(transition);
 	}
@@ -96,14 +96,14 @@ public class EpsilonRemoval<L, K> extends UnaryOperation<L, L, K, K>
 		return operand.initialWeight(state);
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{		
 		return ((EpsilonRemovalTransition) transition).previousState;
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{		
-		return operand.nextState(((EpsilonRemovalTransition) transition).operandTransition);
+		return operand.to(((EpsilonRemovalTransition) transition).operandTransition);
 	}
 
 	public L label(Object transition) 

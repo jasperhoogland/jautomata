@@ -55,15 +55,15 @@ public abstract class Reweight<L, K> extends UnaryOperation<L, L, K, K>
 	}
 
 	@Override
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{
-		return operand.previousState(transition);
+		return operand.from(transition);
 	}
 
 	@Override
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{
-		return operand.nextState(transition);
+		return operand.to(transition);
 	}
 
 	public L label(Object transition) 
@@ -74,8 +74,8 @@ public abstract class Reweight<L, K> extends UnaryOperation<L, L, K, K>
 	public K transitionWeight(Object transition) 
 	{
 		Semifield<K> sr = (Semifield<K>) semiring();
-		return sr.multiply(sr.inverse(potential(operand.previousState(transition))), 
-				sr.multiply(operand.transitionWeight(transition), potential(operand.nextState(transition))));
+		return sr.multiply(sr.inverse(potential(operand.from(transition))), 
+				sr.multiply(operand.transitionWeight(transition), potential(operand.to(transition))));
 	}
 
 	@Override

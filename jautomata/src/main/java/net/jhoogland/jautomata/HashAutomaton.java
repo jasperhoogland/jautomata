@@ -79,8 +79,8 @@ public class HashAutomaton<L, K> extends ExplicitAutomaton<L, K>
 		
 		for (Object transition : transitions)
 		{
-			Object prevSrcState = src.previousState(transition);
-			Object nextSrcState = src.nextState(transition);
+			Object prevSrcState = src.from(transition);
+			Object nextSrcState = src.to(transition);
 			L label = src.label(transition);
 			K weight = src.transitionWeight(transition);
 			this.states.get(prevSrcState).transitionsOut().add(transition);

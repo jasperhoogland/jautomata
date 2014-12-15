@@ -99,16 +99,16 @@ public class Union<L, K> extends AbstractAutomaton<L, K>
 		return operands[s.index].finalWeight(s.value);
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{		
 		UnionElement t = (UnionElement) transition; 
-		return new UnionElement(t.index, operands[t.index].previousState(t.value));
+		return new UnionElement(t.index, operands[t.index].from(t.value));
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{		
 		UnionElement t = (UnionElement) transition; 
-		return new UnionElement(t.index, operands[t.index].nextState(t.value));
+		return new UnionElement(t.index, operands[t.index].to(t.value));
 	}
 
 	public L label(Object transition) 
