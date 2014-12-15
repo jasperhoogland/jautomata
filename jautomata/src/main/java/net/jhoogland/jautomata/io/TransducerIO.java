@@ -101,12 +101,12 @@ public class TransducerIO
 		K one = transducer.semiring().one();
 		for (Object t : Automata.transitions(a))
 		{
-			String from = a.previousState(t).toString();
+			String from = a.from(t).toString();
 			String iLabel = inputLabelFormat.format(a.label(t).in());
 			String oLabel = outputLabelFormat.format(a.label(t).out());
 			K weight = a.transitionWeight(t);
 			String weightStr = weight.equals(one) ? "" : " " + weight;
-			String to = a.nextState(t).toString();
+			String to = a.to(t).toString();
 			pw.println(from + " " + to + " " + iLabel + " " + oLabel + weightStr);
 		}
 		for (Object s : a.finalStates())

@@ -34,16 +34,6 @@ import net.jhoogland.jautomata.semirings.Semiring;
 
 public class Automata 
 {
-	public static void main(String[] args) throws IOException 
-	{
-		SingleStringAutomaton<Character, Double> a1 = createSingleStringAutomaton(new RealSemiring(), "a");
-		SingleStringAutomaton<Character, Double> a2 = createSingleStringAutomaton(new RealSemiring(), "b");
-		Automaton<Character, Double> complex = Operations.epsilonRemoval(Operations.singleInitialState(Operations.weightedClosure(Operations.weightedUnion(a1, a2), 0.6)));
-		List<Path<Character, Double>> ps = bestStrings(complex, 5);
-		for (Path<Character, Double> p : ps)
-			System.out.println(p.weight + ": " + toString(p.label));
-	}
-
 	/**
 	 * 
 	 * @return
@@ -66,7 +56,7 @@ public class Automata
 			states.add(state);
 			for (Object transition : automaton.transitionsOut(state))
 			{
-				Object next = automaton.nextState(transition);
+				Object next = automaton.to(transition);
 				if (! processed.contains(next))
 				{
 					front.add(next);
@@ -99,7 +89,7 @@ public class Automata
 			for (Object transition : automaton.transitionsOut(state))
 			{
 				transitions.add(transition);
-				Object next = automaton.nextState(transition);
+				Object next = automaton.to(transition);
 				if (! processed.contains(next))
 				{
 					front.add(next);

@@ -90,11 +90,11 @@ public class Concatenation<L, K> extends AbstractAutomaton<L, K>
 				: semiring().zero();
 	}
 
-	public Object previousState(Object transition)
+	public Object from(Object transition)
 	{
 		ConcatenationElement t = (ConcatenationElement) transition;
 		if (t.type == TRANSITION_IN_OPERAND) 
-			return new ConcatenationElement(STATE_IN_OPERAND, t.index, operands[t.index].previousState(t.value));
+			return new ConcatenationElement(STATE_IN_OPERAND, t.index, operands[t.index].from(t.value));
 		else if (t.type == TRANSITION_TO_CONSTATE)
 			return new ConcatenationElement(STATE_IN_OPERAND, t.index, t.value);
 		else if (t.type == TRANSITION_FROM_CONSTATE)
@@ -102,11 +102,11 @@ public class Concatenation<L, K> extends AbstractAutomaton<L, K>
 		return null;
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{
 		ConcatenationElement t = (ConcatenationElement) transition;
 		if (t.type == TRANSITION_IN_OPERAND) 
-			return new ConcatenationElement(STATE_IN_OPERAND, t.index, operands[t.index].nextState(t.value));
+			return new ConcatenationElement(STATE_IN_OPERAND, t.index, operands[t.index].to(t.value));
 		else if (t.type == TRANSITION_TO_CONSTATE)
 			return new ConcatenationElement(STATE_CONNECTION, t.index, null);			
 		else if (t.type == TRANSITION_FROM_CONSTATE)

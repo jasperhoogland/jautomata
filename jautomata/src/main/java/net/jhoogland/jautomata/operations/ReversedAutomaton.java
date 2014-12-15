@@ -56,14 +56,14 @@ public class ReversedAutomaton<L, K> extends UnaryOperation<L, L, K, K> implemen
 		return operand().transitionsIn(state);
 	}
 	
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{		
-		return operand().nextState(transition);
+		return operand().to(transition);
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{		
-		return operand().previousState(transition);
+		return operand().from(transition);
 	}	
 
 	public K initialWeight(Object state) 

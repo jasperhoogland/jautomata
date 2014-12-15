@@ -94,8 +94,8 @@ public class Determinization<L, K> extends UnaryOperation<L, L, K, K>
 		Semifield<K> sf = (Semifield<K>) semiring();
 		for (Object operandTransition : operandTransitions)
 		{
-			Object nextOperandState = operand.nextState(operandTransition);
-			Object previousOperandState = operand.previousState(operandTransition);
+			Object nextOperandState = operand.to(operandTransition);
+			Object previousOperandState = operand.from(operandTransition);
 			
 			K toBeAdded = sf.multiply( 
 					sf.multiply(previousState.remainderWeights.get(previousOperandState), operand.transitionWeight(operandTransition)),
@@ -121,7 +121,7 @@ public class Determinization<L, K> extends UnaryOperation<L, L, K, K>
 		K weight = sr.zero();
 		for (Object operandTransition : operandTransitions)
 		{
-			weight = sr.add(weight, sr.multiply(ps.remainderWeights.get(operand.previousState(operandTransition)), operand.transitionWeight(operandTransition)));
+			weight = sr.add(weight, sr.multiply(ps.remainderWeights.get(operand.from(operandTransition)), operand.transitionWeight(operandTransition)));
 		}
 		return weight;
 	}
@@ -141,12 +141,12 @@ public class Determinization<L, K> extends UnaryOperation<L, L, K, K>
 		return finalWeight;
 	}
 
-	public Object previousState(Object transition) 
+	public Object from(Object transition) 
 	{
 		return ((DeterminizationTransition) transition).previousState;
 	}
 
-	public Object nextState(Object transition) 
+	public Object to(Object transition) 
 	{	
 		// debug:
 		DeterminizationTransition t = (DeterminizationTransition) transition;

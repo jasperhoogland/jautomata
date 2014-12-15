@@ -73,8 +73,8 @@ public class ArrayAutomaton<L, K> extends ExplicitAutomaton<L, K>
 		int t = 0;
 		for (Object transition : transitions)
 		{
-			Object prevSrcState = src.previousState(transition);
-			Object nextSrcState = src.nextState(transition);
+			Object prevSrcState = src.from(transition);
+			Object nextSrcState = src.to(transition);
 			int previousState = stateMap.get(prevSrcState);
 			int nextState = stateMap.get(nextSrcState);
 			L label = src.label(transition);

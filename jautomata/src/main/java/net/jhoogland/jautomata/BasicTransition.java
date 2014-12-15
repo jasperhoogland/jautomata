@@ -17,22 +17,22 @@ package net.jhoogland.jautomata;
  */
 public class BasicTransition<L, K>
 {
-	private Object previousState;
-	private Object nextState;
+	private Object from;
+	private Object to;
 	private L label;
 	private K weight;
 	
 	public BasicTransition(Object previousState, L label, K weight, Object nextState) 
 	{
-		this.previousState = previousState;
+		this.from = previousState;
 		this.label = label;
 		this.weight = weight;
-		this.nextState = nextState;
+		this.to = nextState;
 	}
 	
-	public Object previousState() 
+	public Object from() 
 	{
-		return previousState;
+		return from;
 	}
 	
 	public L label() 
@@ -45,8 +45,8 @@ public class BasicTransition<L, K>
 		return weight;
 	}
 	
-	public Object nextState() 
+	public Object to() 
 	{
-		return nextState;
+		return to;
 	}
 }
