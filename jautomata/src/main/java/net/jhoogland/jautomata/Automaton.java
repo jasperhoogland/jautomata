@@ -9,8 +9,8 @@ import net.jhoogland.jautomata.semirings.Semiring;
  * 
  * All automata (acceptors, transducers, multi-tape automata, and their weighted variants) implement this interface.
  * The methods <code>initialStates()</code>, <code>transitionsOut(state)</code>,
- * <code>initialWeight(state)</code>, <code>finalWeight(state)</code>, <code>previousState(transition)</code>, 
- * <code>nextState(transition)</code>, <code>label(transition)</code>, 
+ * <code>initialWeight(state)</code>, <code>finalWeight(state)</code>, <code>from(transition)</code>, 
+ * <code>to(transition)</code>, <code>label(transition)</code>, 
  * and <code>transitionWeight(transition)</code> define the automaton.
  * The method <code>semiring()</code> returns the {@link Semiring} over which the automaton is defined.
  * The method <code>topologicalOrder()</code> makes it possible to specify a topological order on the automaton states, if it exists.
@@ -94,7 +94,7 @@ public interface Automaton<L, K>
 	/**
 	 * 
 	 * @return
-	 * the state from which the specified transition is an outgoing transition 
+	 * the source state of the specified transition 
 	 * 
 	 */
 	
@@ -104,7 +104,7 @@ public interface Automaton<L, K>
 	/**
 	 * 
 	 * @return
-	 * the state to which the specified transition is an incoming transition 
+	 * the destination state of the specified transition 
 	 * 
 	 */
 	
