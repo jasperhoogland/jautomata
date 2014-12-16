@@ -3,9 +3,13 @@ package net.jhoogland.jautomata;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import net.jhoogland.jautomata.operations.HashMTIntersection;
 import net.jhoogland.jautomata.operations.LabelConversion;
 import net.jhoogland.jautomata.operations.TransducerLabelConversion;
 import net.jhoogland.jautomata.operations.MTLabelConversion;
@@ -176,5 +180,76 @@ public class MTAutomata
 				return new ArrayMTLabel<L>(labels);
 			}
 		}; 
+	}
+	
+	/**
+	 * @return
+	 * the intersection of {@link HashMap}-based multi-tape automata. 
+	 */
+	
+	public static <I, L, K> MTAutomaton<I, L, K> hashMTIntersection(MTAutomaton<I, L, K> mta1, MTAutomaton<I, L, K> mta2, I intersectionTape1, I intersectiontape2)
+	{
+		return new HashMTIntersection<I, L, K>(mta1, mta2, intersectionTape1, intersectiontape2);
+	}
+	
+	public static <I, L, K> MTAutomaton<I, L, K> hashMTIntersection(MTAutomaton<I, L, K> mta1, MTAutomaton<I, L, K> mta2, I intersectionTape)
+	{
+		return new HashMTIntersection<I, L, K>(mta1, mta2, intersectionTape, intersectionTape);
+	}
+	
+	public static <I, L, K> MTAutomaton<I, L, K> hashMTIntersection(MTAutomaton<I, L, K>... mtas)
+	{
+		if (mtas.length == 1) return mtas[0];
+		MTAutomaton<I, L, K> intsct = binaryHashMTIntersection(mtas[0], mtas[1]);
+		for (int i = 2; i < mtas.length; i++)
+		{
+			intsct = binaryHashMTIntersection(intsct, mtas[i]);
+		}
+		return intsct;
+	}
+	
+	public static <I, L, K> MTAutomaton<I, L, K> explicitHashMTIntersection(MTAutomaton<I, L, K>... mtas)
+	{
+		if (mtas.length == 1) return mtas[0];
+		MTAutomaton<I, L, K> intsct = new HashMTAutomaton<I, L, K>(binaryHashMTIntersection(mtas[0], mtas[1]));
+		for (int i = 2; i < mtas.length; i++)
+		{
+			intsct = new HashMTAutomaton<I, L, K>(binaryHashMTIntersection(intsct, mtas[i]));
+		}
+		return intsct;
+	}
+	
+	private static <I, L, K> MTAutomaton<I, L, K> binaryHashMTIntersection(MTAutomaton<I, L, K> mta1, MTAutomaton<I, L, K> mta2)
+	{
+		Set<I> tapes = new HashSet<I>(mta1.tapes());
+		tapes.retainAll(mta2.tapes());
+		if (tapes.size() == 1)
+		{
+			I intersectionTape = tapes.iterator().next();			
+			return new HashMTIntersection<I, L, K>(mta1, mta2, intersectionTape, intersectionTape);
+		}
+		else if (tapes.isEmpty()) throw new RuntimeException("Operands have no overlapping tapes.");		
+		else throw new RuntimeException("Operands have more than one overlapping tape.");
+	}
+	
+	public static <T, K> Map<T, String> toStrings(Path<MTLabel<T, Character>, K> path)
+	{
+		Map<T, String> strings = new HashMap<T, String>();
+		for (MTLabel<T, Character> label : path.label)
+			if (label != null)
+			{
+				for (T tape : label.tapes())
+				{
+					Character tapeLabel = label.tapeLabel(tape);
+					if (tapeLabel != null)
+					{
+						String pathTapeLabel = strings.get(tape);
+						if (pathTapeLabel == null) pathTapeLabel = "";
+						pathTapeLabel += tapeLabel;
+						strings.put(tape, pathTapeLabel);
+					}
+				}
+			}
+		return strings;
 	}
 }

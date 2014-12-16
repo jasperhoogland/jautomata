@@ -172,6 +172,23 @@ public class Automata
 		return createSingleStringAutomaton(semiring, toCharacterList(str));
 	}
 	
+	public static <L, K> Automaton<L, K> createMultipleStringsAutomaton(Semiring<K> semiring, Collection<List<L>> strings)
+	{
+		Collection<Automaton<L, K>> operands = new ArrayList<Automaton<L,K>>();
+		for (List<L> s : strings)
+			operands.add(createSingleStringAutomaton(semiring, s));
+		
+		return Operations.determinizeER(Operations.union(operands));
+	}
+	
+	public static <K> Automaton<Character, K> createMultipleStringsAutomaton(Semiring<K> semiring, String... strings)
+	{
+		Collection<List<Character>> charLists = new ArrayList<List<Character>>();
+		for (String s : strings)
+			charLists.add(toCharacterList(s));
+		return createMultipleStringsAutomaton(semiring, charLists);
+	}
+	
 	/**
 	 * @return
 	 * the weight of the specified string

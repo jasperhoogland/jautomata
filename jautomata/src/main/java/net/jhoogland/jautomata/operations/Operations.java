@@ -1,5 +1,6 @@
 package net.jhoogland.jautomata.operations;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,29 +66,6 @@ public class Operations
 		return new TransducerComposition<I, L, O, K>(a1, a2);
 	}
 	
-	public static <I, L, K> MTAutomaton<I, L, K> hashMTIntersection(MTAutomaton<I, L, K> mta1, MTAutomaton<I, L, K> mta2, I intersectionTape1, I intersectiontape2)
-	{
-		return new HashMTIntersection<I, L, K>(mta1, mta2, intersectionTape1, intersectiontape2);
-	}
-	
-	public static <I, L, K> MTAutomaton<I, L, K> hashMTIntersection(MTAutomaton<I, L, K> mta1, MTAutomaton<I, L, K> mta2, I intersectionTape)
-	{
-		return new HashMTIntersection<I, L, K>(mta1, mta2, intersectionTape, intersectionTape);
-	}
-	
-	public static <I, L, K> MTAutomaton<I, L, K> hashMTIntersection(MTAutomaton<I, L, K> mta1, MTAutomaton<I, L, K> mta2)
-	{
-		Set<I> tapes = new HashSet<I>(mta1.tapes());
-		tapes.retainAll(mta2.tapes());
-		if (tapes.size() == 1)
-		{
-			I intersectionTape = tapes.iterator().next();			
-			return new HashMTIntersection<I, L, K>(mta1, mta2, intersectionTape, intersectionTape);
-		}
-		else if (tapes.isEmpty()) throw new RuntimeException("Operands have no overlapping tapes.");		
-		else throw new RuntimeException("Operands have more than one overlapping tape.");
-	}
-	
 	public static <L, K> Automaton<L, K> epsilonRemoval(Automaton<L, K> operand)
 	{
 		return new EpsilonRemoval<L, K>(operand, new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>()));
@@ -130,6 +108,18 @@ public class Operations
 	public static <L, K> Automaton<L, K> union(Automaton<L, K>... operands)
 	{
 		return new Union<L, K>(operands);
+	}
+	
+	/**
+	 * Computes the union of the specified automata.
+	 * The automata must have the same label type.
+	 * The result in an instance of {@link Union}, which itself is an automata.
+	 * The states and transitions of the resulting union are created only when needed (on the fly).
+	 */
+	
+	public static <L, K> Automaton<L, K> union(Collection<Automaton<L, K>> operands)
+	{
+		return new Union<L, K>(operands.toArray(new Automaton[0]));
 	}
 	
 	public static <L> Automaton<L, Double> weightedUnion(Automaton<L, Double>[] operands, final double[] weights)
