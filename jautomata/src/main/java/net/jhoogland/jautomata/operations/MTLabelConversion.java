@@ -32,6 +32,7 @@ public abstract class MTLabelConversion<L1, I, L2, K> extends LabelConversion<L1
 	public MTLabelConversion(Automaton<L1, K> operand, Collection<I> tapes) 
 	{
 		super(operand);
+		this.tapes = tapes;
 	}
 	
 	public Collection<I> tapes() 
