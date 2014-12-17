@@ -2,9 +2,15 @@ p {
   font-family: sans-serif; 
 }
 
-li {
+ul.list {
   font-family: sans-serif; 
 }
+
+ol.code {
+  font-size:16px;
+  font-family:monospace; 
+}
+
 .code { 
   background-color: #E0E0E0;
   color: #000000; 

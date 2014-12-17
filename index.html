@@ -14,7 +14,7 @@ Detailed information on classes and methods can be found in the
 
 <h2>The Automaton Class</h2>
 <p>
-The most important class in the JAutomata API is the <span class="icode">Automaton&lt;L, K&gt;</span> interface
+The most important structure in the JAutomata API is the <span class="icode">Automaton&lt;L, K&gt;</span> interface.
 Every automaton class implements this interface,
 and every automaton is an instance of such a such a class.
 The following methods of this class define an automaton:
@@ -180,14 +180,14 @@ and <span class="icode">readWeighted</span> is used for weighted automata over t
 </p>
 <p>
 In the following example, an unweighted acceptor is read from a file:
+</p>
 <div class="code">
-<ol>
+<ol class="code">
 <li>File file = new File("<i>filename</i>");</li>
 <li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
 <li>Automaton&lt;Character, Boolean&gt; acceptor = AcceptorIO.readUnweighted(isr);</li>
 </ol>
 </div>
-</p>
 <p>
 The first two lines create a Reader for a file.
 The third line loads an unweighted acceptor from the file.
@@ -195,7 +195,7 @@ The third line loads an unweighted acceptor from the file.
 <p>
 Similar to the previous example, a weighted transducer over the probabilistic semiring is read from a file in the following way:
 <div class="code">
-<ol>
+<ol class="code">
 <li>File file = new File("<i>filename</i>");</li>
 <li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
 <li>Automaton&lt;Character, Double&gt; transducer = TransducerIO.readWeighted(isr);</li>
@@ -205,7 +205,7 @@ Similar to the previous example, a weighted transducer over the probabilistic se
 <p>
 A weighted transducer over the tropical semiring is read from a file in the following way:
 <div class="code">
-<ol>
+<ol class="code">
 <li>File file = new File("<i>filename</i>");</li>
 <li>InputStreamReader isr = new InputStreamReader(new FileInputStream(file, "UTF-8"));</li>
 <li>Automaton&lt;Character, Double&gt; transducer = TransducerIO.read(isr, new TropicalSemiring());</li>
@@ -233,10 +233,10 @@ that start with <span class="icode">"b"</span> followed by an arbitrary number o
 (<span class="icode">"b"</span>, <span class="icode">"ba"</span>, <span class="icode">"baa"</span>, <span class="icode">"baaa"</span>, etc).
 The string weights of the automaton decrease exponentially, such that their total sum is one.
 <div class="code">
-<ol>
+<ol class="code">
 <li>Automaton&lt;Character, Double&gt; a = new EditableAutomaton&lt;Character, Double&gt;(new RealSemiring()); // probabilistic semiring uses RealSemiring</li>
-<li>int s1`= a.addState(1.0, 0.0); // Create initial state (initial weight 1.0, final weight 0.0)</li>
-<li>int s2`= a.addState(0.0, 1.0); // Create final state (initial weight 0.0, final weight 1.0)</li>
+<li>int s1 = a.addState(1.0, 0.0); // Create initial state (initial weight 1.0, final weight 0.0)</li>
+<li>int s2 = a.addState(0.0, 1.0); // Create final state (initial weight 0.0, final weight 1.0)</li>
 <li>a.addTransition(s1, s2, 'b', 0.4); // Create transition from s1 to s2</li>
 <li>a.addTransition(s2, s2, 'a', 0.6); // Create transition from s2 to s2</li>
 </ol>
@@ -273,7 +273,7 @@ In case of an unweighted automaton, the method returns up to <i>n</i> accepted s
 <p>
 Operations take one or more automata as input, and produce a new automaton as output.
 JAutomata supports a number of operations on automata:
-<ul>
+<ul class="list">
 <li>intersection</li>
 <li>transducer composition</li>
 <li>epsilon removal</li>
