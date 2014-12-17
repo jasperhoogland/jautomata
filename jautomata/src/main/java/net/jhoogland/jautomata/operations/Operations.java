@@ -55,27 +55,29 @@ public class Operations
 	}
 
 	/**
-	 * Computes the composition of the specified transducers.
-	 * The output labels of the first transducer must have the same type as the input labels of the second transducer. 
-	 * The result in an instance of {@link Union}, which itself is an automata.
-	 * The states and transitions of the resulting union are created only when needed (on the fly).
+	 * @return
+	 * an automaton equivalent to the argument, but without epsilon transitions.  
 	 */
-	
-	public static <I, L, O, K> Transducer<I, O, K> transducerComposition(Automaton<TLabel<I, L>, K> a1, Automaton<TLabel<L, O>, K> a2)
-	{
-		return new TransducerComposition<I, L, O, K>(a1, a2);
-	}
 	
 	public static <L, K> Automaton<L, K> epsilonRemoval(Automaton<L, K> operand)
 	{
 		return new EpsilonRemoval<L, K>(operand, new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>()));
 	}
 	
+	/**
+	 * Computes and returns an automaton equivalent to the argument, such that each string with a non-zero weight
+	 * corresponds to exactly one path.
+	 */
+	
 	public static <L, K> Automaton<L, K> determinize(Automaton<L, K> operand)
 	{
 		return new Determinization<L, K>(operand);
 	}
 
+	/**
+	 * Applies epsilon removal and determinization to the specified automaton.
+	 * 
+	 */
 	public static <L, K> Automaton<L, K> determinizeER(Automaton<L, K> operand)
 	{
 		return determinize(epsilonRemoval(operand));
@@ -90,6 +92,11 @@ public class Operations
 	{
 		return push(operand, new SingleSourceShortestDistances<K>(new DefaultQueueFactory<K>(), new ExactConvergence<K>()));
 	}
+	
+	/**
+	 * Reverses the specified automaton.
+	 * The argument is required to implement {@link ReverselyAccessibleAutomaton}.
+	 */
 
 	public static <L, K> Automaton<L, K> reverse(ReverselyAccessibleAutomaton<L, K> operand)
 	{

@@ -5,7 +5,9 @@ import java.util.List;
 import net.jhoogland.jautomata.operations.Concatenation;
 import net.jhoogland.jautomata.operations.LabelConversion;
 import net.jhoogland.jautomata.operations.Operations;
+import net.jhoogland.jautomata.operations.TransducerComposition;
 import net.jhoogland.jautomata.operations.TransducerLabelConversion;
+import net.jhoogland.jautomata.operations.Union;
 
 /**
 *
@@ -25,7 +27,7 @@ public class Transducers
 	public static <I, O, K> Automaton<O, K> apply(Automaton<TLabel<I, O>, K> transducer, List<I> string)
 	{		
 		Automaton<TLabel<I, I>, K> t = identity(Automata.createSingleStringAutomaton(transducer.semiring(), string));
-		return outputAcceptor(Operations.transducerComposition(t, transducer));
+		return outputAcceptor(transducerComposition(t, transducer));
 	}
 	
 	/**
@@ -158,4 +160,16 @@ public class Transducers
 		}		
 		return new TransducerConcatenation();
 	}
+	
+	/**
+	 * Computes the composition of the specified transducers.
+	 * The output labels of the first transducer must have the same type as the input labels of the second transducer. 
+	 * The result in an instance of {@link Union}, which itself is an automata.
+	 * The states and transitions of the resulting union are created only when needed (on the fly).
+	 */
+	
+	public static <I, L, O, K> Transducer<I, O, K> transducerComposition(Automaton<TLabel<I, L>, K> a1, Automaton<TLabel<L, O>, K> a2)
+	{
+		return new TransducerComposition<I, L, O, K>(a1, a2);
+	}	
 }
