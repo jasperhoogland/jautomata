@@ -37,10 +37,6 @@ It also contains methods to manipulate automata, such as
 New automata can be created in a number of ways.
 They can be imported from files or they can be created in an application using Java code.
 
-<h2>Automaton Operations</h2>
-
-This library supports several algorithms on automaton.
-This includes the computation of weights of paths and strings, operations such as intersection, union, and conversion of labels and semirings.
 
 <h2>Links</h2>
 <ul>
