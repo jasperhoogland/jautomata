@@ -181,6 +181,12 @@ public class SingleInitialStateOperation<L, K> extends UnaryOperation<L, L, K, K
 		{		
 			return initialState ? 1 : 1 + operandState.hashCode();
 		}
+		
+		@Override
+		public String toString() 
+		{			
+			return "SISState(" + operandState + ", " + this.initialState + ")";
+		}
 	}
 	
 	public class SISTransition 
@@ -194,6 +200,12 @@ public class SingleInitialStateOperation<L, K> extends UnaryOperation<L, L, K, K
 			this.operandTransition = operandTransition;
 			this.operandInitialState = operandInitialState;
 			this.fromInitialState = fromInitialState;
+		}
+		
+		@Override
+		public String toString() 
+		{			
+			return "SISTransition(" + operandTransition + ", " + operandInitialState + ", " + fromInitialState + ")";
 		}
 	}
 }

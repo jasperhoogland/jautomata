@@ -223,7 +223,7 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 		@Override
 		public String toString() 
 		{
-			return "(" + operandState1 + ", " + operandState2 + ", " + filterState + ")";
+			return "IntersectionState(" + operandState1 + ", " + operandState2 + ", " + filterState + ")";
 		}
 	}
 
@@ -282,7 +282,7 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 		@Override
 		public String toString() 
 		{		
-			return "(" + operandTransition1 + ", " + operandState1 + ", " + operandTransition2 + ", " + operandState2 + ", " + fromFilterState + ")";
+			return "IntersectionTransition(" + operandTransition1 + ", " + operandState1 + ", " + operandTransition2 + ", " + operandState2 + ", " + fromFilterState + ")";
 		}
 	}
 

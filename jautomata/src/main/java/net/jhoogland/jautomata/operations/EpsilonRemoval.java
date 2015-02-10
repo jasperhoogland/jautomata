@@ -203,7 +203,7 @@ public class EpsilonRemoval<L, K> extends UnaryOperation<L, L, K, K>
 		@Override
 		public String toString() 
 		{
-			return "(" + operandTransition + ", " + previousState + ")";
+			return "EpsilonRemovalTransition(" + operandTransition + ", " + previousState + ")";
 		}
 	}
 }
