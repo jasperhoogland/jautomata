@@ -51,7 +51,6 @@ public class SingleSourceShortestDistances<K> implements SingleSourceShortestDis
 		while (! queue.isEmpty())
 		{
 			Object q = queue.poll();
-			
 			K rQ = r.remove(q);			
 			for (Object e : automaton.transitionsOut(q))
 			{

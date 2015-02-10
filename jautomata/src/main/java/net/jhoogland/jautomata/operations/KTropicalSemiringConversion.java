@@ -1,6 +1,7 @@
 package net.jhoogland.jautomata.operations;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.jhoogland.jautomata.Automaton;
@@ -38,7 +39,8 @@ public class KTropicalSemiringConversion<K extends Comparable<K>, L> extends Sem
 	@Override
 	public List<PathWeight<K>> convertWeight(K weight)
 	{
-		return Arrays.asList(new PathWeight<K>(null, weight, null));
-		
+//		return Arrays.asList(new PathWeight<K>(null, weight, null));
+		if (operand.semiring().zero().equals(weight)) return Collections.emptyList();
+		else return Arrays.asList(new PathWeight<K>(null, weight, null));
 	}
 }

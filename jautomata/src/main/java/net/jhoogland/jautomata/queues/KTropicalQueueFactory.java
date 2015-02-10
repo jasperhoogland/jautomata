@@ -59,7 +59,7 @@ public class KTropicalQueueFactory<K extends Comparable<K>> implements QueueFact
 					if (automaton.semiring() instanceof KTropicalSemiring)
 					{
 						KTropicalSemiring sr = (KTropicalSemiring) automaton.semiring();  
-						if (sr.k == 1 && Automata.isFinalState(automaton, s)) 
+						if (sr.k == n && Automata.isFinalState(automaton, s)) 
 						{
 //							System.out.println("queue clear " + size());
 							clear();
