@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.jhoogland.jautomata.AbstractAutomaton;
 import net.jhoogland.jautomata.Automaton;
+import net.jhoogland.jautomata.ExtendedAutomaton;
 
 /**
  * 
@@ -36,12 +37,14 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 {
 	Automaton<L1, K> operand1;
 	Automaton<L2, K> operand2;
+	private int extensionType;
 		
 	public Intersection(Automaton<L1, K> operand1, Automaton<L2, K> operand2) 
 	{
 		super(operand1.semiring());
 		this.operand1 = operand1;
 		this.operand2 = operand2;
+		this.extensionType = extensionType();
 	}
 	
 	public Collection<Object> initialStates() 
@@ -57,6 +60,75 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 		return initialStates;
 	}
 
+	public Collection<Object> transitionsOutNew(Object state) 
+	{
+		IntersectionState s = (IntersectionState) state;
+		Collection<Object> transitionsOut = new ArrayList<Object>();
+		Map<Object, Collection<Object>> transitionsAByLabel = new HashMap<Object, Collection<Object>>();
+		if (extensionType == NONE) for (Object transition1 : operand1.transitionsOut(s.operandState1))
+		{
+			L1 label = operand1.label(transition1);
+			Object labelValue = intersectionLabel1(label);
+			if (labelValue != null || s.filterState == 0)
+			{
+				Collection<Object> ts = transitionsAByLabel.get(labelValue);
+				if (ts == null)
+				{
+					ts = new ArrayList<Object>();
+					transitionsAByLabel.put(labelValue, ts);
+				}
+				ts.add(transition1);
+			}
+		}
+		for (Object transitionB : aIs1() ? operand2.transitionsOut(s.operandState2) : operand1.transitionsOut(s.operandState1))
+		{
+			Object transition1 = aIs1() ? null : transitionB;
+			Object transition2 = aIs1() ? transitionB : null;
+			
+//			L2 label = operand2.label(transitionB);
+			Object labelValue = aIs1() ? 
+					intersectionLabel2(operand2.label(transition2)) :
+					intersectionLabel1(operand1.label(transition1));
+					
+			if (labelValue != null || s.filterState == 0)
+			{
+				Collection<Object> transitionsA = null;
+				if (extensionType == NONE) transitionsA = transitionsAByLabel.get(labelValue);
+				else if (aIs1()) transitionsA = transitionsOut1(s.operandState1, labelValue);
+				else transitionsA = transitionsOut2(s.operandState2, labelValue);
+						
+				if (transitionsA != null) for (Object transitionA : transitionsA)
+				{
+					if (aIs1()) transition1 = transitionA;
+					else transition2 = transitionA;
+					transitionsOut.add(new IntersectionTransition(transition1, transition2, null, null, s.filterState));
+				}				
+			}
+		}
+		if (s.filterState == 0 || s.filterState == 1) 
+		{
+			if (ext1())
+				for (Object transition1 : transitionsOut1(s.operandState1, null))
+					transitionsOut.add(new IntersectionTransition(transition1, null, null, s.operandState2, s.filterState));
+			else
+				for (Object transition1 : operand1.transitionsOut(s.operandState1))
+					if (intersectionLabel1(operand1.label(transition1)) == null)
+						transitionsOut.add(new IntersectionTransition(transition1, null, null, s.operandState2, s.filterState));
+		}
+		if (s.filterState == 0 || s.filterState == 2) 
+		{
+			if (ext2())
+				for (Object transition2 : transitionsOut2(s.operandState2, null))
+			transitionsOut.add(new IntersectionTransition(null, transition2, s.operandState1, null, s.filterState));				
+			else 
+				for (Object transition2 : operand2.transitionsOut(s.operandState2))
+					if (intersectionLabel2(operand2.label(transition2)) == null)
+						transitionsOut.add(new IntersectionTransition(null, transition2, s.operandState1, null, s.filterState));
+		}
+		return transitionsOut;
+	}
+	
+//	Old:
 	public Collection<Object> transitionsOut(Object state) 
 	{
 		IntersectionState s = (IntersectionState) state;
@@ -96,6 +168,42 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 			if (intersectionLabel2(operand2.label(transition2)) == null) transitionsOut.add(new IntersectionTransition(null, transition2, s.operandState1, null, s.filterState));
 		}
 		return transitionsOut;
+	}
+	
+	protected static final int NONE = 0;
+	protected static final int EXT1 = 1;
+	protected static final int EXT2 = 2;
+	protected static final int BOTH1 = 3;
+	protected static final int BOTH2 = 4;
+	
+	private boolean aIs1()
+	{
+		return ! (extensionType == EXT2 || extensionType == BOTH2);
+	}
+	
+	private boolean ext1()
+	{
+		return extensionType == EXT1 || extensionType >= BOTH1;
+	}
+	
+	private boolean ext2()
+	{
+		return extensionType == EXT2 || extensionType >= BOTH1;
+	}
+	
+	protected int extensionType()
+	{
+		return 0;
+	}
+	
+	protected Collection<Object> transitionsOut1(Object state, Object label)
+	{
+		return null;
+	}
+	
+	protected Collection<Object> transitionsOut2(Object state, Object label)
+	{
+		return null;
 	}
 	
 	protected abstract Object intersectionLabel1(L1 label);

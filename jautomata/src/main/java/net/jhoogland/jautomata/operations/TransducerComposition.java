@@ -1,6 +1,9 @@
 package net.jhoogland.jautomata.operations;
 
+import java.util.Collection;
+
 import net.jhoogland.jautomata.Automaton;
+import net.jhoogland.jautomata.ExtendedTransducer;
 import net.jhoogland.jautomata.TLabel;
 import net.jhoogland.jautomata.Transducer;
 
@@ -59,5 +62,38 @@ public class TransducerComposition<I, L, O, K> extends Intersection<TLabel<I, L>
 	private <I1, O1> O1 out(TLabel<I1, O1> label)
 	{
 		return label == null ? null : label.out();
+	}
+	
+	@Override
+	protected int extensionType() 
+	{		
+		if (operand1 instanceof ExtendedTransducer)
+		{
+			if (operand2 instanceof ExtendedTransducer)
+				return BOTH1;
+			else 
+				return EXT1;
+		}
+		else
+		{
+			if (operand2 instanceof ExtendedTransducer)
+				return EXT2;
+			else 
+				return NONE;
+		}		
+	}
+	
+	@Override
+	protected Collection<Object> transitionsOut1(Object state, Object label) 
+	{		
+		ExtendedTransducer<I, L, K> o1 = (ExtendedTransducer<I, L, K>) operand1;
+		return o1.transitionsOutI(state, (I) label);
+	}
+	
+	@Override
+	protected Collection<Object> transitionsOut2(Object state, Object label) 
+	{		
+		ExtendedTransducer<L, O, K> o2 = (ExtendedTransducer<L, O, K>) operand2;
+		return o2.transitionsOutO(state, (O) label);
 	}
 }
