@@ -60,7 +60,7 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 		return initialStates;
 	}
 
-	public Collection<Object> transitionsOutNew(Object state) 
+	public Collection<Object> transitionsOut(Object state) 
 	{
 		IntersectionState s = (IntersectionState) state;
 		Collection<Object> transitionsOut = new ArrayList<Object>();
@@ -129,7 +129,7 @@ public abstract class Intersection<L1, L2, L3, K> extends AbstractAutomaton<L3, 
 	}
 	
 //	Old:
-	public Collection<Object> transitionsOut(Object state) 
+	public Collection<Object> transitionsOutOld(Object state) 
 	{
 		IntersectionState s = (IntersectionState) state;
 		Collection<Object> transitionsOut = new ArrayList<Object>();

@@ -87,13 +87,13 @@ public class TransducerComposition<I, L, O, K> extends Intersection<TLabel<I, L>
 	protected Collection<Object> transitionsOut1(Object state, Object label) 
 	{		
 		ExtendedTransducer<I, L, K> o1 = (ExtendedTransducer<I, L, K>) operand1;
-		return o1.transitionsOutI(state, (I) label);
+		return o1.transitionsOutO(state, (L) label);
 	}
 	
 	@Override
 	protected Collection<Object> transitionsOut2(Object state, Object label) 
 	{		
 		ExtendedTransducer<L, O, K> o2 = (ExtendedTransducer<L, O, K>) operand2;
-		return o2.transitionsOutO(state, (O) label);
+		return o2.transitionsOutI(state, (L) label);
 	}
 }
