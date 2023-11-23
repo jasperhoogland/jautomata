@@ -21,7 +21,7 @@ public class StringFormat implements Format<String>
 	}	
 	
 	/**
-	 * Creates a {@link StringFormat} instance with null string <tt>-</tt>.
+	 * Creates a {@link StringFormat} instance with null string <code>-</code>.
 	 */
 
 	public StringFormat() 

@@ -22,7 +22,7 @@ public class CharacterFormat implements Format<Character>
 	}
 	
 	/**
-	 * Creates a {@link CharacterFormat} instance with null string <tt>--</tt>.
+	 * Creates a {@link CharacterFormat} instance with null string <code>--</code>.
 	 */
 	
 	public CharacterFormat()
