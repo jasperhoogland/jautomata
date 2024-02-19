@@ -42,11 +42,6 @@ public class RealSemiring implements Semifield<Double>
 		return 1 / x;
 	}
 	
-	public boolean equals(Object arg0) 
-	{
-		return arg0 instanceof RealSemiring;
-	}
-
 	/**
 	 * @return
 	 * <code>false</code>
@@ -76,10 +71,5 @@ public class RealSemiring implements Semifield<Double>
 	public boolean isKClosed(int k) 
 	{
 		return false;
-	}
-
-	public Double multiplicativeInverse(Double x) 
-	{
-		return 1.0 / x;
 	}
 }
