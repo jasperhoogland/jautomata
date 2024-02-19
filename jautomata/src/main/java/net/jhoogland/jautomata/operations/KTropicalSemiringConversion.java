@@ -32,7 +32,10 @@ public class KTropicalSemiringConversion<K extends Comparable<K>, L> extends Sem
 	public List<PathWeight<K>> transitionWeight(Object transition) 
 	{
 		List<PathWeight<K>> weight = convertWeight(operand.transitionWeight(transition));
-		weight.get(0).transition = transition;
+		if(!weight.isEmpty())
+		{
+			weight.get(0).transition = transition;
+		}
 		return weight;
 	}
 	
