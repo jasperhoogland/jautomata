@@ -71,8 +71,8 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 	}
 	
 	@Override
-	public String toString() 
-	{		
-		return getClass().getSimpleName() + "(" + transition + ", " + weight + ")";
+	public String toString()
+	{
+		return getClass().getSimpleName() + "[transition=" + transition + ", weight=" + weight + ", previous=" + previous + "]";
 	}
 }
