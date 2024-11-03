@@ -1,7 +1,6 @@
 package net.jhoogland.jautomata.semirings;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import net.jhoogland.jautomata.Automaton;
 import net.jhoogland.jautomata.Path;
@@ -57,26 +56,23 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 	@Override
 	public boolean equals(Object obj) 
 	{
-//		PathWeight other = (PathWeight) obj;
-//		return this.previous == other.previous && Math.abs(this.weight - other.weight) < 0.001;
-		
-//		throw new RuntimeException();
-		
-		PathWeight<K> other = (PathWeight<K>) obj;
-		return this.previous == other.previous && this.weight.equals(other.weight);
-		
-	}
-	
-	boolean equals(Object o1, Object o2)
-	{
-		if (o1 == null) return o2 == null;
-		else if (o2 == null) return false;
-		else return o1.equals(o2);
+		if (obj == this)
+			return true;
+		if (!(obj instanceof PathWeight))
+			return false;
+		PathWeight<?> other = (PathWeight<?>) obj;
+		return Objects.equals(this.previous, other.previous) && this.weight.equals(other.weight);
 	}
 	
 	@Override
-	public String toString() 
-	{		
-		return getClass().getSimpleName() + "(" + transition + ", " + weight + ")";
+	public int hashCode()
+	{
+		return Objects.hash(previous, weight);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getClass().getSimpleName() + "[transition=" + transition + ", weight=" + weight + ", previous=" + previous + "]";
 	}
 }

@@ -42,12 +42,6 @@ public class TropicalSemiring implements Semifield<Double>
 	{		
 		return -x;
 	}
-	
-	@Override
-	public boolean equals(Object obj) 
-	{
-		return obj instanceof TropicalSemiring;
-	}
 
 	public boolean isIdempotent() 
 	{

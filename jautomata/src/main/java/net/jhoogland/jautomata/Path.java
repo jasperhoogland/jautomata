@@ -37,4 +37,9 @@ public class Path<L, K> implements Iterable<Object>
 	{
 		return transitions.iterator();
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[transitions=" + transitions + ", weight=" + weight + ", label=" + label + "]";
+	}
 }
