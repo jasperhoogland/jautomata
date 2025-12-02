@@ -54,22 +54,55 @@ public class PathWeight<K extends Comparable<K>> implements Comparable<PathWeigh
 	}
 	
 	@Override
-	public boolean equals(Object obj) 
+	public boolean equals(Object obj)
 	{
 		if (obj == this)
+		{
 			return true;
+		}
 		if (!(obj instanceof PathWeight))
+		{
 			return false;
+		}
 		PathWeight<?> other = (PathWeight<?>) obj;
-		return Objects.equals(this.previous, other.previous) && this.weight.equals(other.weight);
+		if (!this.weight.equals(other.weight))
+		{
+			return false;
+		}
+		PathWeight<?> thisPrevious = this.previous;
+		PathWeight<?> otherPrevious = other.previous;
+		while (true)
+		{
+			if (thisPrevious == otherPrevious)
+			{
+				return true;
+			}
+			if (thisPrevious == null || otherPrevious == null)
+			{
+				return false;
+			}
+			if (!thisPrevious.weight.equals(otherPrevious.weight))
+			{
+				return false;
+			}
+			thisPrevious = thisPrevious.previous;
+			otherPrevious = otherPrevious.previous;
+		}
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(previous, weight);
+		int hash = weight.hashCode();
+		PathWeight<?> checkPrevious = previous;
+		while (checkPrevious != null)
+		{
+			hash = 31 * hash + previous.weight.hashCode();
+			checkPrevious = checkPrevious.previous;
+		}
+		return hash;
 	}
-	
+
 	@Override
 	public String toString()
 	{
