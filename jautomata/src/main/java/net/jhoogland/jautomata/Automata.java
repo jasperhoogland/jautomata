@@ -388,11 +388,12 @@ public class Automata
 	
 	public static String toString(List<Character> characterList)
 	{
-		String str = "";
-		for (Character c : characterList)
-			if (c != null)
-				str += c;
-		return str;
+		StringBuilder stringBuilder = new StringBuilder();
+		for (char c : characterList)
+		{
+			stringBuilder.append(c);
+		}
+		return stringBuilder.toString();
 	}
 	
 	
